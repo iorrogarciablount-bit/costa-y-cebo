@@ -112,6 +112,15 @@ input[type=date]{background:var(--panel);border:1px solid var(--line);border-rad
 @media (max-width:560px){.cols{grid-template-columns:1fr}}
 .blk h3{font-size:22px;font-weight:300;color:var(--brand);margin:0 0 10px;padding-bottom:6px;border-bottom:1px solid var(--line);display:block}
 .baitmain{font-weight:600;font-size:21px;line-height:1.2;margin-bottom:6px;color:var(--brand)}
+.baitbtn{all:unset;cursor:pointer;color:var(--brand);border-bottom:1px dashed currentColor}
+.baitbtn:hover{border-bottom-style:solid}
+.baitbtn:focus-visible{outline:2px solid var(--buoy);outline-offset:2px}
+.baitbtn::after{content:" ›";font-weight:400}
+.baitbtn[aria-expanded="true"]::after{content:" ⌄"}
+.howto{background:var(--soft);border-left:4px solid var(--brand);padding:10px 14px;margin-top:10px}
+.howto h4{margin:0 0 6px;font-size:17px;font-weight:600;color:var(--brand)}
+.howto ol{margin:0 0 6px;padding-left:20px;display:grid;gap:4px}
+.howto p{margin:0;font-size:14px;color:var(--muted)}
 .blk ul{margin:0;padding-left:18px}
 .rig{font-size:14px;background:var(--panel);border-left:3px solid var(--tide);padding:7px 10px;border-radius:0 6px 6px 0;margin-top:8px}
 dl.facts{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-variant-numeric:tabular-nums}
@@ -265,6 +274,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
           <h3>Cebo</h3>
           <div class="baitmain" id="baitMain"></div>
           <ul id="baitAlt"></ul>
+          <div class="howto" id="baitHow" hidden aria-live="polite"></div>
           <div class="rig" id="rig"></div>
         </div>
         <div class="blk">
@@ -549,19 +559,92 @@ const LIC=[
  ["Ceuta y Melilla","Ciudad Autónoma correspondiente",null]
 ];
 const BAITS=[
- {n:"Sardina",for:"Congrio, lubina, corvina, calamar (en potera)",how:"Entera o en filete gordo; átala con hilo elástico porque se ablanda con el lance.",keep:"Fresca, en nevera y sin mojar con agua dulce. La de verano es más firme que la de invierno."},
- {n:"Caballa y jurel",for:"Congrio, corvina, lubina grande",how:"En filete, con la piel hacia fuera para que aguante. La cabeza es buen cebo para congrio.",keep:"Aguanta mejor que la sardina; se puede salar ligeramente la víspera."},
- {n:"Navaja",for:"Lubina, dorada, sargo",how:"Saca la carne, enhebra el pie primero y deja colgando lo blando. Cebo de invierno y mar movida.",keep:"Viva en su concha, en frío y húmedo. Congelada pierde mucho."},
- {n:"Gusana americana",for:"Lubina, dorada, herrera, sargo",how:"Enhebrada por la boca subiendo por el anzuelo; un trozo grande para lubina.",keep:"En su alga y en la parte baja de la nevera, entre 5 y 10 °C."},
- {n:"Gusana coreana",for:"Herrera, dorada, sargo, bailas",how:"Enhebrada entera; aguanta bien el lance y suelta jugo.",keep:"En su caja con alga húmeda y en fresco; dura varios días."},
- {n:"Tita",for:"Herrera, dorada, sargo (Mediterráneo)",how:"Enhebrada entera o en trozos, sujeta con hilo si el lance es largo.",keep:"En fresco y húmeda; muy delicada."},
- {n:"Cangrejo",for:"Dorada, sargo, vieja, lubina, corvina",how:"Entero por el costado, o pelado en época de muda, atado con hilo elástico.",keep:"Vivo, con alga húmeda en un cubo ventilado."},
- {n:"Mejillón",for:"Sargo, dorada, chopa",how:"Abierto y atado con hilo elástico; con la concha machacada sirve de engodo.",keep:"Cerrado, en frío; descarta los que no cierran."},
- {n:"Choco, pota y calamar",for:"Congrio, corvina, lubina",how:"En tiras largas que se muevan con la corriente; aguanta mucho en el anzuelo.",keep:"Congelado funciona casi igual que fresco."},
- {n:"Gamba",for:"Sargo, dorada, vieja, lubina",how:"Pelada o entera, por la cola; la viva es muy buen cebo para lubina.",keep:"Viva en agua de mar oxigenada, o congelada para pelada."},
- {n:"Vivo",for:"Lubina, corvina",how:"Pancho, boga, lisa pequeña o sardina, enganchado por el lomo o los labios para que nade.",keep:"En cubo con aireador y agua de mar renovada."},
- {n:"Lapa y burgado",for:"Vieja, sargo (Canarias)",how:"Sin concha, por la parte dura del pie.",keep:"Se cogen en el momento; respeta las vedas y tallas de marisqueo de Canarias."}
+ {id:"sardina",n:"Sardina",m:/sardina/i,for:"Congrio, lubina, corvina, calamar (en potera)",how:"Entera o en filete gordo; átala con hilo elástico porque se ablanda con el lance.",keep:"Fresca, en nevera y sin mojar con agua dulce. La de verano es más firme que la de invierno.",
+  steps:["Elige sardina firme y de ojo brillante. Para congrio también vale congelada de buena calidad.",
+   "Para congrio, entera o media: atraviésala por los ojos o por la cola y saca la punta por el lomo, que quede libre.",
+   "En filete: corta detrás de la cabeza, abre por la tripa y tira de la espina central desde la cabeza. Deja la piel.",
+   "Da 8–10 vueltas de hilo elástico de punta a cola para que aguante el lance.",
+   "Si está muy blanda, sálala en seco con sal gorda una o dos horas antes: la carne se endurece."]},
+ {id:"caballa",n:"Caballa y jurel",m:/caballa|jurel/i,for:"Congrio, corvina, lubina grande",how:"En filete, con la piel hacia fuera para que aguante. La cabeza es buen cebo para congrio.",keep:"Aguanta mejor que la sardina; se puede salar ligeramente la víspera.",
+  steps:["Corta detrás de la cabeza hasta la espina y desliza el cuchillo pegado a ella hasta la cola: salen dos filetes.",
+   "Corta tiras de 2–3 cm de ancho y 8–12 cm de largo; para congrio, el filete entero o media caballa.",
+   "Pincha dos veces por la piel, de forma que la punta del anzuelo quede fuera.",
+   "Para congrio, la cabeza entera es de lo mejor: atraviésala por los ojos o entra por la boca y sal por la parte alta.",
+   "Unas vueltas de hilo elástico si el lance es largo."]},
+ {id:"navaja",n:"Navaja",m:/navaja/i,for:"Lubina, dorada, sargo",how:"Saca la carne, enhebra el pie primero y deja colgando lo blando. Cebo de invierno y mar movida.",keep:"Viva en su concha, en frío y húmedo. Congelada pierde mucho.",
+  steps:["Abre la concha pasando un cuchillo fino por el borde de las dos valvas y saca la carne entera.",
+   "Localiza el pie: la parte blanca y dura del extremo.",
+   "Enhebra empezando por el pie y sube la carne por el anzuelo hasta el bajo; deja lo blando colgando, que es lo que atrae.",
+   "Sujétala con 5–6 vueltas de hilo elástico.",
+   "Para lubina, una o dos navajas por anzuelo; para sargo y dorada, trozos más pequeños."]},
+ {id:"coreana",n:"Gusana coreana",m:/coreana/i,for:"Herrera, dorada, sargo, bailas",how:"Enhebrada entera; aguanta bien el lance y suelta jugo.",keep:"En su caja con alga húmeda y en fresco; dura varios días.",
+  steps:["Sécate los dedos o pásalos por arena o serrín: la gusana resbala menos.",
+   "Mete la punta del anzuelo por la boca y enhebra la gusana deslizándola hasta cubrir el anzuelo y subir un poco por el bajo.",
+   "Deja asomar solo la punta del anzuelo.",
+   "Para herrera, media gusana; para dorada, entera o dos.",
+   "Cámbiala cuando quede blanca o sin jugo."]},
+ {id:"tita",n:"Tita",m:/tita/i,for:"Herrera, dorada, sargo (Mediterráneo)",how:"Enhebrada entera o en trozos, sujeta con hilo si el lance es largo.",keep:"En fresco y húmeda; muy delicada.",
+  steps:["Trabaja con cuidado: es muy blanda y se rompe con facilidad.",
+   "Enhebra un trozo de 3–4 cm o la tita entera desde la cabeza.",
+   "Sujétala con 3–4 vueltas de hilo elástico para que no salga en el lance.",
+   "Renuévala a menudo: pierde el jugo en pocos minutos."]},
+ {id:"gusana",n:"Gusana americana",m:/americana|rosca|lombriz|^gusana$/i,for:"Lubina, dorada, herrera, sargo",how:"Enhebrada por la boca subiendo por el anzuelo; un trozo grande para lubina.",keep:"En su alga y en la parte baja de la nevera, entre 5 y 10 °C.",
+  steps:["Para lubina, gusana entera o un trozo grande de 8–10 cm; para sargo y herrera, trozos de 4–5 cm.",
+   "Enhebra por la boca (o por el corte del trozo) y desliza hasta cubrir el anzuelo y subir por el bajo.",
+   "Deja asomar la punta; no la aprietes o revienta y se queda vacía.",
+   "Cámbiala cada 20–30 minutos o cuando haya soltado el jugo.",
+   "Cuidado con la americana: muerde con sus pinzas. Cógela por detrás de la cabeza."]},
+ {id:"cangrejo",n:"Cangrejo",m:/cangrejo/i,for:"Dorada, sargo, vieja, lubina, corvina",how:"Entero por el costado, o pelado en época de muda, atado con hilo elástico.",keep:"Vivo, con alga húmeda en un cubo ventilado.",
+  steps:["Usa cangrejo verde vivo de 2–4 cm; para dorada grande, algo mayor.",
+   "Entero: mete el anzuelo por la base de una pata trasera y saca la punta por el costado del caparazón, sin atravesar el centro, para que siga vivo.",
+   "Asegúralo con dos vueltas de hilo elástico.",
+   "Pelado (cangrejo en muda): quita caparazón y patas, pártelo en dos y átalo con hilo elástico. Es el mejor cebo de primavera para lubina y sargo."]},
+ {id:"mejillon",n:"Mejillón",m:/mejill/i,for:"Sargo, dorada, chopa",how:"Abierto y atado con hilo elástico; con la concha machacada sirve de engodo.",keep:"Cerrado, en frío; descarta los que no cierran.",
+  steps:["Abre el mejillón metiendo el cuchillo por el lado recto y corta el músculo que une las valvas.",
+   "Saca la carne entera, con el borde naranja.",
+   "Pasa el anzuelo dos veces por la parte más dura del borde.",
+   "Átalo con 6–8 vueltas de hilo elástico: sin hilo no aguanta ni un lance.",
+   "Para engodo, machaca mejillones con concha y échalos en la zona. Comprueba antes la norma: en algunas reservas, como Cedeira, el engodo está prohibido."]},
+ {id:"cefalopodo",n:"Choco, pota y calamar",m:/choco|pota|chipir|calamar en tira/i,for:"Congrio, corvina, lubina",how:"En tiras largas que se muevan con la corriente; aguanta mucho en el anzuelo.",keep:"Congelado funciona casi igual que fresco.",
+  steps:["Limpia el tubo, ábrelo y quítale la piel.",
+   "Corta tiras largas en forma de lanceta: 2–3 cm de ancho y 10–15 cm de largo.",
+   "Pincha una sola vez por el extremo ancho para que la tira ondule con la corriente.",
+   "Para congrio y corvina, el chipirón entero también funciona: atraviésalo por la cabeza.",
+   "Aguanta mucho y no lo comen los peces pequeños, así que dura más en el agua que la sardina."]},
+ {id:"gamba",n:"Gamba",m:/gamba/i,for:"Sargo, dorada, vieja, lubina",how:"Pelada o entera, por la cola; la viva es muy buen cebo para lubina.",keep:"Viva en agua de mar oxigenada, o congelada para pelada.",
+  steps:["Pelada: quítale la cabeza y la cáscara, entra por la cola y recorre el cuerpo hasta cubrir el anzuelo.",
+   "Viva, para lubina: engánchala por la cola o por debajo del cuerno de la cabeza, evitando la mancha oscura, para que siga moviéndose.",
+   "Usa anzuelo fino para no matarla.",
+   "Lanza suave: se suelta con facilidad."]},
+ {id:"vivo",n:"Vivo",m:/vivo|pancho|boga|lisa/i,for:"Lubina, corvina",how:"Pancho, boga, lisa pequeña o sardina, enganchado por el lomo o los labios para que nade.",keep:"En cubo con aireador y agua de mar renovada.",
+  steps:["Pesca el vivo en el momento con un aparejo de plumillas (sabiki): pancho, jurel, boga o caramel.",
+   "Guárdalo en un cubo con aireador y renueva el agua de mar a menudo.",
+   "Para lances suaves, engánchalo por los labios, de abajo arriba.",
+   "Para dejarlo nadar a la deriva, engánchalo por el lomo, bajo la aleta dorsal, sin tocar la espina.",
+   "Anzuelo fino del 1/0–2/0. Respeta la talla mínima del pez que uses de vivo."]},
+ {id:"lapa",n:"Lapa y burgado",m:/lapa|burgado/i,for:"Vieja, sargo (Canarias)",how:"Sin concha, por la parte dura del pie.",keep:"Se cogen en el momento; respeta las vedas y tallas de marisqueo de Canarias.",
+  steps:["Despega la lapa de un golpe seco con el cuchillo, antes de que se agarre a la roca.",
+   "Saca la carne de la concha.",
+   "Pasa el anzuelo por el pie, la parte muscular dura, y deja las vísceras.",
+   "Burgado: rompe la concha con una piedra, saca el animal y engánchalo por la parte dura.",
+   "Coge solo lo que vayas a usar y respeta las vedas y tallas de marisqueo de Canarias."]},
+ {id:"potera",n:"Potera con cebo natural",m:/potera|jibionera natural/i,for:"Calamar, choco",how:"Una sardina o un jurel atado a la potera o jibionera de cebo.",keep:"Sardina o jurel frescos o congelados.",
+  steps:["Usa una potera o jibionera de cebo, la que lleva una aguja o un alambre para el pez.",
+   "Atraviesa la sardina o el jurel con la aguja y átalo con hilo elástico, con las coronas de pinchos hacia la cola.",
+   "Déjala a la deriva o recoge muy despacio, con pausas.",
+   "Al notar peso, recoge sin tirones y sin parar: el calamar no está clavado, solo enganchado."]},
+ {id:"egi",n:"Jibionera (egi)",m:/egi|jibionera/i,for:"Calamar, choco",how:"Señuelo con forma de gamba; tirones suaves y pausas largas.",keep:"Enjuágala con agua dulce después de pescar para que no se oxiden los pinchos.",
+  steps:["Talla 2,5 para calamar desde costa y 3,0–3,5 para choco o fondos con más profundidad.",
+   "Color: natural con agua clara y de día; naranja, rosa o con fondo luminoso con agua turbia o poca luz.",
+   "Lanza y deja que se hunda hasta cerca del fondo, contando para saber la profundidad.",
+   "Da dos o tres tirones suaves hacia arriba con la caña y deja caer con pausas largas: casi siempre atacan en la caída.",
+   "Para choco, recógela muy despacio arrastrándola por el fondo.",
+   "Bajo de fluorocarbono del 0,25 y freno suave: los brazos del calamar se rompen si tiras fuerte."]}
 ];
+const BAIT_PRI=["vivo","potera","egi","coreana","tita","gusana","lapa","cangrejo","mejillon","navaja","gamba","cefalopodo","sardina","caballa"];
+/* El cebo es la palabra clave que aparece antes en el texto ("Vivo: pancho o sardina" es vivo, no sardina). */
+function baitFor(t){let best=null;for(const b of BAITS){const m=b.m.exec(t);if(!m)continue;const k=[m.index,BAIT_PRI.indexOf(b.id)];
+  if(!best||k[0]<best.k[0]||(k[0]===best.k[0]&&k[1]<best.k[1]))best={b,k};}return best?best.b:null;}
 
 /* ===== reservas marinas y zonas protegidas (posición aproximada) ===== */
 const MAPA_RM="https://www.mapa.gob.es/es/pesca/temas/proteccion-recursos-pesqueros/reservas-marinas-de-espana/";
@@ -783,7 +866,7 @@ function renderPlan(){
   if(r.second)parts.push(`También aprovechable: ${hm(r.second.a)} – ${hm(r.second.b)}${nx(r.second.a)}.`);
   $("alt").textContent=parts.join(" ");
   const b=sp.bait(P.zone,r.month);
-  $("baitMain").textContent=b.main;$("baitAlt").innerHTML=b.alt.map(x=>`<li>${x}</li>`).join("");$("rig").textContent=b.rig;
+  renderBait(b);
   const dayEx=r.ex.filter(e=>e.t>=r.mid&&e.t<r.mid+24*H);
   const list=hi=>dayEx.filter(e=>e.hi===hi).map(e=>`${hm(e.t)} (${e.h.toFixed(1)} m)`).join(" · ")||"–";
   const solTxt=r.mev.filter(e=>e.t>=r.start&&e.t<=r.end).sort((a,b)=>a.t-b.t).map(e=>(e.k==="major"?"May ":"Men ")+hm(e.t)).join(" · ");
@@ -902,6 +985,20 @@ function setCalendar(r,sp,P,b,hm){
 function downloadIcs(){if(!lastIcs)return;
   const blob=new Blob([lastIcs.body],{type:"text/calendar;charset=utf-8"}),u=URL.createObjectURL(blob),a=document.createElement("a");
   a.href=u;a.download=lastIcs.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);}
+let openBait=null;
+function baitBtn(text,i){const k=baitFor(text);return k?`<button type="button" class="baitbtn" data-b="${k.id}" id="bb-${i}" aria-expanded="${openBait===k.id}" aria-controls="baitHow" title="Cómo preparar: ${k.n}">${text}</button>`:text;}
+function renderBait(b){
+  const ids=[b.main,...b.alt].map(t=>(baitFor(t)||{}).id);
+  if(openBait&&!ids.includes(openBait))openBait=null;
+  $("baitMain").innerHTML=baitBtn(b.main,0);
+  $("baitAlt").innerHTML=b.alt.map((x,i)=>`<li>${baitBtn(x,i+1)}</li>`).join("");
+  $("rig").textContent=b.rig;
+  document.querySelectorAll(".baitbtn").forEach(el=>el.onclick=()=>{openBait=openBait===el.dataset.b?null:el.dataset.b;renderBait(b);});
+  const box=$("baitHow"), k=BAITS.find(x=>x.id===openBait);
+  if(!k){box.hidden=true;box.innerHTML="";return;}
+  box.hidden=false;
+  box.innerHTML=`<h4>Cómo preparar: ${k.n}</h4><ol>${k.steps.map(x=>`<li>${x}</li>`).join("")}</ol><p><b>Conservar:</b> ${k.keep}</p><p><a href="#cebos">Ver todos los cebos</a></p>`;
+}
 function fmtDur(h){const mm=Math.round(h*60);return mm<60?`${mm} min`:`${Math.floor(mm/60)} h ${String(mm%60).padStart(2,"0")}`;}
 function drawChart(r,hm){
   const Wd=760,Ht=240,pl=34,pr=10,pt=26,pb=26,span=r.end-r.start;
@@ -947,7 +1044,7 @@ function renderStatic(){
     const b=s.bait(s.zones[0],11);
     return `<article class="card"><div><h3>${s.name}</h3><div class="sci">${s.sci}</div></div><div class="tags">${zs}</div>
       <div class="kv"><span>Época</span><span>${s.when}</span><span>Dónde</span><span>${s.where}</span><span>Hora</span><span>${bestLight(s)}</span><span>Cebo</span><span>${b.main}; también ${b.alt.slice(0,2).join(", ").toLowerCase()}</span><span>Talla</span><span>${tall||"Sin talla mínima estatal"}</span></div></article>`;}).join("");
-  $("baitCards").innerHTML=BAITS.map(b=>`<article class="card"><h3>${b.n}</h3><div class="kv"><span>Para</span><span>${b.for}</span><span>Cómo</span><span>${b.how}</span><span>Conservar</span><span>${b.keep}</span></div></article>`).join("");
+  $("baitCards").innerHTML=BAITS.map(b=>`<article class="card" id="cebo-${b.id}"><h3>${b.n}</h3><div class="kv"><span>Para</span><span>${b.for}</span><span>Conservar</span><span>${b.keep}</span></div><div><b style="font-size:14px;color:var(--muted)">Cómo prepararlo</b><ol style="margin:4px 0 0;padding-left:20px;display:grid;gap:4px;font-size:15px">${b.steps.map(x=>`<li>${x}</li>`).join("")}</ol></div></article>`).join("");
   $("tallaTable").innerHTML=`<thead><tr><th>Especie</th>${Object.values(CALS).map(c=>`<th>${c}</th>`).join("")}</tr></thead><tbody>`+
     TALLAS.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(v=>`<td class="n">${v==="–"?v:(/kg/.test(v)?v:v.replace("*","")+" cm"+(v.includes("*")?"*":""))}</td>`).join("")}</tr>`).join("")+`</tbody>`;
   $("resList").innerHTML=RES.map(z=>`<div><b>${z.n}</b><span>${z.t}${z.mapped?" · límites oficiales en el mapa":""}</span>${z.u?`<a href="${z.u}" target="_blank" rel="noopener">Ficha y normativa (MAPA)</a>`:`<span>Normativa: Xunta, Govern o parque correspondiente</span>`}</div>`).join("");
@@ -984,6 +1081,6 @@ $("fecha").addEventListener("change",()=>{if($("fecha").value){state.ymd=$("fech
 let pl=null;try{pl=JSON.parse(store.get("place")||"null");}catch(e){}
 if(pl&&typeof pl.lat==="number")setPlace(pl.lat,pl.lon,pl.label);else setPlace(43.353,-8.205,"Miño (ría de Betanzos)");
 window.addEventListener("hashchange",route);route();
-window.__t={zoneInfo,LM:()=>LM,compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
+window.__t={baitFor,BAITS,zoneInfo,LM:()=>LM,compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
 })();
 </script>
