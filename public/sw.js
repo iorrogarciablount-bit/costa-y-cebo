@@ -1,6 +1,6 @@
 /* Service worker de Costa y Cebo: permite usar la web sin conexión.
    La versión la pone build.py; al cambiar, se descarta la caché antigua de la página. */
-const VERSION = "96ecdbe11b0d";
+const VERSION = "7f1c7bc63e34";
 const CORE = "core-" + VERSION;
 const TILES = "tiles-v1";
 const FONTS = "fonts-v1";
@@ -51,5 +51,6 @@ self.addEventListener("fetch", e => {
   if (url.hostname === "cdnjs.cloudflare.com") { e.respondWith(cacheFirst(req, CORE)); return; }
   if (url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com") { e.respondWith(cacheFirst(req, FONTS, 40)); return; }
   if (url.hostname.endsWith("ign.es") && url.pathname.includes("/wmts/")) { e.respondWith(cacheFirst(req, TILES, MAX_TILES)); return; }
+  if (url.hostname === "ows.emodnet-bathymetry.eu") { e.respondWith(cacheFirst(req, TILES, MAX_TILES)); return; }
   /* Open-Meteo y el resto van directos a la red; la página guarda el último parte por su cuenta. */
 });

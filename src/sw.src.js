@@ -51,5 +51,6 @@ self.addEventListener("fetch", e => {
   if (url.hostname === "cdnjs.cloudflare.com") { e.respondWith(cacheFirst(req, CORE)); return; }
   if (url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com") { e.respondWith(cacheFirst(req, FONTS, 40)); return; }
   if (url.hostname.endsWith("ign.es") && url.pathname.includes("/wmts/")) { e.respondWith(cacheFirst(req, TILES, MAX_TILES)); return; }
+  if (url.hostname === "ows.emodnet-bathymetry.eu") { e.respondWith(cacheFirst(req, TILES, MAX_TILES)); return; }
   /* Open-Meteo y el resto van directos a la red; la página guarda el último parte por su cuenta. */
 });

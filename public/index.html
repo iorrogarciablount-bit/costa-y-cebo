@@ -219,7 +219,7 @@ dl.facts dd{margin:0;font-size:14.5px;font-weight:600}
 .tool{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);color:var(--brand);border-radius:2px;padding:6px 10px;font-size:14px;cursor:pointer;min-height:36px}
 .tool svg{width:16px;height:16px}
 .tool[aria-pressed="true"]{background:var(--brand);color:var(--bg);border-color:var(--brand)}
-@media (max-width:760px){.tools{margin-left:auto}}
+@media (max-width:760px){.tools{margin-left:auto}.top{position:static}}
 .offline{background:var(--caution-soft);border-bottom:1px solid var(--caution);color:var(--ink);font-size:14px;padding:6px 0}
 .blk ul.check{list-style:none;margin:0;padding:0;display:grid;gap:4px}
 .check li label{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;background:var(--soft);cursor:pointer;font-size:15px}
@@ -227,6 +227,15 @@ dl.facts dd{margin:0;font-size:14.5px;font-weight:600}
 .check li input:checked+span{text-decoration:line-through;color:var(--muted)}
 .check .grp{font-size:13px;font-weight:600;color:var(--muted);margin:8px 0 2px;padding:0;background:none;text-transform:uppercase;letter-spacing:.05em}
 .checkbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
+.alpha{display:inline-block;margin-left:8px;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--brand);border:1px solid var(--brand);border-radius:2px;padding:1px 5px;vertical-align:middle}
+.rigcard{display:grid;grid-template-columns:minmax(0,300px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:640px){.rigcard{grid-template-columns:1fr}}
+.rigsvg{width:100%;max-width:300px;height:auto;display:block;color:var(--ink)}
+.rigsvg text{font:13px var(--f-body);fill:var(--ink)}
+.rigsvg .lbl{fill:var(--muted);font-size:12px}
+.rigcard ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.riglink{all:unset;cursor:pointer;color:var(--brand);font-size:14px;text-decoration:underline;margin-top:6px;display:inline-block}
+.card.hl{box-shadow:0 0 0 2px var(--brand)}
 .note{font-size:14.5px;background:var(--chip);border-left:4px solid var(--brand);border-radius:2px;padding:9px 12px;margin:0}
 
 /* semana */
@@ -277,7 +286,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
   <div class="in">
     <a class="brand" href="#planificador" aria-label="Costa y Cebo, inicio">
       <svg viewBox="0 0 54 40" aria-hidden="true"><path d="M4 23c6-9 17-14 27-11 7 2 12 6 15 11-3 5-8 9-15 11-10 3-21-2-27-11z" fill="none" stroke="var(--brand)" stroke-width="2.2" stroke-linejoin="round"/><path d="M8 25c9 4 22 5 34-2" fill="none" stroke="var(--brand)" stroke-width="1.6" opacity=".6"/><path d="M46 23l7-7v14z" fill="none" stroke="var(--brand)" stroke-width="2.2" stroke-linejoin="round"/><path d="M22 3c3 4 3 8 0 11" fill="none" stroke="var(--brand)" stroke-width="1.6" stroke-linecap="round"/><circle cx="14" cy="21" r="1.6" fill="var(--brand)"/></svg>
-      <span class="wm">costa<i>y</i>cebo</span>
+      <span class="wm">costa<i>y</i>cebo</span><span class="alpha" title="Versión en pruebas">alfa</span>
     </a>
     <div class="tools">
       <button type="button" class="tool" id="installBtn" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0l-3-3m3 3l3-3M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Instalar</button>
@@ -287,6 +296,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
       <a href="#planificador" data-v="planificador">Planificador</a>
       <a href="#puestos" data-v="puestos">Mis puestos</a>
       <a href="#especies" data-v="especies">Especies</a>
+      <a href="#montajes" data-v="montajes">Montajes</a>
       <a href="#cebos" data-v="cebos">Cebos</a>
       <a href="#normativa" data-v="normativa">Tallas y licencias</a>
       <a href="#mareas" data-v="mareas">Mareas y solunar</a>
@@ -312,7 +322,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
   <div class="plan">
     <div class="mapcard">
       <div class="maphead"><h2>Elige tu zona</h2>
-        <div class="mapbtns"><button type="button" id="vPen">Península y Baleares</button><button type="button" id="vCan">Canarias</button><button type="button" id="vOrto" aria-pressed="false">Ortofoto</button></div>
+        <div class="mapbtns"><button type="button" id="vPen">Península y Baleares</button><button type="button" id="vCan">Canarias</button><button type="button" id="vOrto" aria-pressed="false">Ortofoto</button><button type="button" id="vFondo" aria-pressed="false">Fondos</button></div>
       </div>
       <div id="map" role="application" aria-label="Mapa de la costa. Haz zoom y toca el punto donde vas a pescar."></div>
       <div class="mapfoot">
@@ -373,6 +383,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
           <ul id="baitAlt"></ul>
           <div class="howto" id="baitHow" hidden aria-live="polite"></div>
           <div class="rig" id="rig"></div>
+          <button type="button" class="riglink" id="rigLink">Ver el esquema del montaje</button>
         </div>
         <div class="blk">
           <h3>El día</h3>
@@ -430,6 +441,15 @@ footer .in{display:grid;gap:6px;max-width:1180px}
     <div class="actions"><button type="button" class="btn" id="spExport">Descargar copia</button><label class="btn" for="spImport" style="cursor:pointer">Cargar copia<input type="file" id="spImport" accept=".json,application/json" hidden></label></div>
     <p class="small" id="spMsg" style="margin-top:6px" aria-live="polite"></p>
   </div>
+</section>
+
+<!-- MONTAJES -->
+<section class="view read" id="v-montajes" hidden>
+  <div class="eyebrow">Aparejos</div>
+  <h1 class="ptitle">Montajes</h1>
+  <p class="lead">Los montajes que recomienda el planificador, dibujados de arriba (caña) a abajo, con medidas orientativas y los nudos para atarlos. Ajusta grosores y plomos al fondo y a la mar del día.</p>
+  <div class="cards sect" id="rigCards" style="grid-template-columns:1fr"></div>
+  <div class="sect"><h2>Nudos básicos</h2><div class="cards" id="knotCards"></div></div>
 </section>
 
 <!-- ESPECIES -->
@@ -504,8 +524,10 @@ footer .in{display:grid;gap:6px;max-width:1180px}
 </div>
 </main>
 <footer class="gut"><div class="in">
+  <div><b>Costa y Cebo · versión 0.1 alfa.</b> Herramienta en pruebas: revisa siempre las tablas oficiales, el parte de AEMET y la normativa antes de pescar.</div>
   <div id="iosHint" hidden>En iPhone: pulsa Compartir y luego «Añadir a pantalla de inicio» para usarla como app, también sin conexión.</div>
   <div>Mareas astronómicas orientativas. No usar para navegación. Consulta las tablas oficiales de Puertos del Estado y el parte de AEMET.</div>
+  <div>Fondos: <a href="https://emodnet.ec.europa.eu/en/bathymetry" target="_blank" rel="noopener" style="color:inherit">EMODnet Bathymetry</a>, propiedad de la UE, licencia CC BY 4.0.</div>
   <div>Parte de mar y viento: <a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:inherit">Open-Meteo</a>, datos con licencia <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color:inherit">CC BY 4.0</a>, uso no comercial.</div>
   <div>Constantes de marea: TICON-4 (Hart-Davis, Dettmering y Seitz, 2025, <a href="https://doi.org/10.17882/109129" target="_blank" rel="noopener" style="color:inherit">doi:10.17882/109129</a>), a través de la <a href="https://github.com/openwatersio/tide-database" target="_blank" rel="noopener" style="color:inherit">base de datos Neaps</a>, con licencia <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener" style="color:inherit">CC BY-NC 4.0</a>. Costa: Natural Earth.</div>
 </div></footer>
@@ -811,6 +833,20 @@ const RES=[
 ];
 function nearReserve(lat,lon){let best=null;for(const z of RES){if(z.mapped)continue;const d=km(lat,lon,z.lat,z.lon);if(d<=z.r+3&&(!best||d-z.r<best.d-best.z.r))best={z,d};}return best;}
 
+/* ===== profundidad aproximada (EMODnet, malla de ~115 m) ===== */
+const DEPTH={};
+function showDepth(P){
+  const k=P.lat.toFixed(4)+","+P.lon.toFixed(4),put=t=>{const el=$("depthDd");if(el&&state.place===P)el.textContent=t;};
+  if(DEPTH[k]!==undefined){put(DEPTH[k]);return;}
+  fetch(`https://rest.emodnet-bathymetry.eu/depth_sample?geom=POINT(${P.lon.toFixed(5)}%20${P.lat.toFixed(5)})`).then(r=>r.ok?r.json():Promise.reject())
+    .then(j=>{const v=j&&(j.avg??j.smoothed??j.mean);let t;
+      if(typeof v!=="number")t="sin dato";
+      else if(v>=0)t="tierra o muy somero en el modelo: lanza mar adentro";
+      else t=`${Math.round(-v)} m (dato del modelo en una malla de ~100–250 m; en la orilla será menos)`;
+      DEPTH[k]=t;put(t);})
+    .catch(()=>{put("activa «Fondos» en el mapa para verlo");});
+}
+
 /* ===== zonas con límites oficiales ===== */
 function mxy(lat0,lon,lat){return [(lon)*111320*Math.cos(lat0*R),lat*110574];}
 function inRing(pt,ring){let c=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const [xi,yi]=ring[i],[xj,yj]=ring[j];
@@ -1102,6 +1138,11 @@ function buildMap(){
   LM.on("click",e=>{setPlace(+e.latlng.lat.toFixed(5),+e.latlng.lng.toFixed(5));$("stSel").value="";});
   $("vPen").onclick=()=>LM.fitBounds(VIEW_PEN);
   $("vCan").onclick=()=>LM.fitBounds(VIEW_CAN);
+  const EMOD="https://ows.emodnet-bathymetry.eu/wms",EATTR='Fondos: <a href="https://emodnet.ec.europa.eu/en/bathymetry" target="_blank" rel="noopener">EMODnet Bathymetry</a> (CC BY 4.0)';
+  const fondo=L.layerGroup([
+    L.tileLayer.wms(EMOD,{layers:"emodnet:mean_multicolour",format:"image/png",transparent:true,opacity:.55,attribution:EATTR,maxZoom:19}),
+    L.tileLayer.wms(EMOD,{layers:"emodnet:contours",format:"image/png",transparent:true,opacity:.9,maxZoom:19})]);
+  $("vFondo").onclick=()=>{const on=$("vFondo").getAttribute("aria-pressed")!=="true";$("vFondo").setAttribute("aria-pressed",on);if(on)fondo.addTo(LM);else LM.removeLayer(fondo);};
   $("vOrto").onclick=()=>{const on=$("vOrto").getAttribute("aria-pressed")!=="true";$("vOrto").setAttribute("aria-pressed",on);
     if(on){LM.removeLayer(baseMap);baseOrto.addTo(LM);}else{LM.removeLayer(baseOrto);baseMap.addTo(LM);}};
 }
@@ -1147,7 +1188,9 @@ function renderPlan(){
     <dt>Coeficiente</dt><dd>${r.coef} · ${r.coef>=90?"vivas":r.coef<=50?"muertas":"medias"}${r.w<.25?" (aquí la marea apenas se nota)":""}</dd>
     <dt>Sol</dt><dd>${hm(r.sun.rise)} – ${hm(r.sun.set)}</dd>
     <dt>Luna</dt><dd>${r.ph} · ${Math.round(r.ilNoon*100)} %</dd>
-    <dt>Solunar</dt><dd>${solTxt||"–"}</dd>`;
+    <dt>Solunar</dt><dd>${solTxt||"–"}</dd>
+    <dt>Fondo aprox.</dt><dd id="depthDd">…</dd>`;
+  showDepth(P);
   const m=r.best.mid, why=[];
   const lt={noche:"Es de noche",atardecer:"Coincide con el anochecer",amanecer:"Coincide con el amanecer","día":"Es de día"}[m.L];
   let tt;
@@ -1198,6 +1241,61 @@ function wxTable(r,hm){
   for(let t=r.start;t<=r.end-H;t+=3*H){const x=wxAt(r.wx,t);if(!x)continue;const inW=t+90*MIN>=r.best.a&&t-90*MIN<=r.best.b;const c=inW?' class="win"':"";
     rows+=`<tr><td${c}>${hm(t)}</td><td${c}>${nf(x.hs)} m ${card(x.dir)}</td><td${c}>${nf(x.per,0)} s</td><td${c}>${nf(x.ws,0)} (${nf(x.wg,0)}) ${card(x.wd)}</td><td${c}>${x.pp==null?"–":x.pp+" %"}</td></tr>`;}
   return rows?`<div class="wxt"><table><thead><tr><th>Hora</th><th>Ola</th><th>Periodo</th><th>Viento km/h (rachas)</th><th>Lluvia</th></tr></thead><tbody>${rows}</tbody></table></div>`:"";
+}
+
+/* ===== montajes ===== */
+const RIGS=[
+ {id:"fondo-piedra",n:"Bajo de fondo para piedra",for:"Congrio y corvina",items:[["line","Línea madre 0,40–0,50 (o trenzado con líder 0,60)",44],["swivel","Emerillón de tres vías"],["branch","Bajo corto 0,70–0,80 o acero, 30–50 cm","Anzuelo 4/0–6/0"],["line","Hilo de sacrificio 0,30, 30–40 cm",44],["lead","Plomo de 120–200 g"]],
+  tips:["El hilo de sacrificio es más fino que el resto: si el plomo se engancha en la piedra rompe ahí y recuperas el bajo y el pez.","Bajo corto para que el congrio no se enrede en la piedra; con congrios grandes, acero fino.","Freno firme: hay que sacarlo del fondo en los primeros segundos o se mete en la piedra."],knots:"Palomar al emerillón y al anzuelo; el plomo, atado con nudo simple al hilo de sacrificio."},
+ {id:"paternoster",n:"Paternóster de dos anzuelos",for:"Sargo, dorada, herrera y vieja",items:[["line","Línea madre 0,30–0,35",40],["swivel","Emerillón con grapa"],["line","Cuerpo 0,40",22],["branch","Brazolada 0,25–0,30, 20–30 cm","Anzuelo nº 2–4"],["line","",34],["branch","Brazolada 0,25–0,30","Anzuelo nº 2–4"],["line","",28],["lead","Plomo de 80–150 g (de garras en arena con corriente)"]],
+  tips:["Separa las brazoladas lo bastante para que no se crucen: más largas que la distancia entre ellas, no.","En arena para herrera, anzuelo de pala larga y fino; en piedra para sargo, de alambre grueso.","Con mar movida, más plomo y brazoladas más cortas."],knots:"Brazoladas con emerillón de tres vías o perlas y topes; anzuelos con palomar."},
+ {id:"bajo-largo",n:"Bajo largo con plomo corredizo",for:"Lubina con cebo natural",items:[["line","Línea madre 0,30–0,35",40],["slide","Plomo corredizo (de bolsa u oliva), 60–120 g"],["bead","Perla protectora"],["swivel","Emerillón"],["line","Bajo 0,30–0,35 de 1–1,5 m",86],["hook","Anzuelo 1/0–2/0"]],
+  tips:["El plomo corre por la línea: la lubina coge el cebo sin notar peso.","Bajo largo para que el cebo se mueva en la espuma.","Deja el freno algo suelto o la caña en el soporte con la carraca puesta."],knots:"Palomar al emerillón y al anzuelo."},
+ {id:"vivo-boya",n:"Vivo con boya",for:"Lubina y corvina con vivo",items:[["line","Línea madre 0,30–0,35",30],["stop","Tope (nudo de stop) a la profundidad deseada"],["line","",14],["float","Boya corrediza"],["bead","Perla"],["slide","Plomo oliva pequeño, 5–15 g"],["swivel","Emerillón"],["line","Bajo 0,35, cerca de 1 m",64],["hook","Anzuelo fino 1/0–2/0 por los labios del vivo"]],
+  tips:["Gradúa el tope para que el vivo nade a media agua o cerca del fondo sin enganchar.","Boya que aguante el vivo sin hundirse sola.","Cuando la boya se hunda del todo, da unos segundos antes de clavar."],knots:"Nudo de stop de hilo sobre la madre; palomar al emerillón y al anzuelo."},
+ {id:"egi",n:"Jibionera (egi)",for:"Calamar y choco",items:[["line","Trenzado PE 0,6–0,8",44],["knot","Unión FG o doble uni"],["line","Bajo de fluorocarbono 0,25, 1,5–2 m",70],["snap","Grapa sin emerillón"],["egi","Jibionera 2,5–3,5"]],
+  tips:["Grapa sola, sin emerillón: el emerillón quita naturalidad a la caída.","Tirones suaves y pausas largas; casi todas las tomas son en la caída.","Freno suave: los brazos del calamar se rompen."],knots:"FG o doble uni para unir trenzado y bajo; nudo de lazo o clinch mejorado a la grapa."},
+ {id:"potera",n:"Potera con cebo natural",for:"Calamar y choco",items:[["line","Línea madre 0,30",40],["swivel","Emerillón"],["line","Bajo 0,30, cerca de 1 m",60],["potera","Potera de cebo con sardina o jurel atado"]],
+  tips:["Ata el pez a la aguja de la potera con hilo elástico, con las coronas hacia la cola.","Recoge muy despacio o déjala a la deriva; al notar peso, recoge sin tirones y sin parar."],knots:"Palomar al emerillón y a la potera."}
+];
+const RIG_FOR={congrio:"fondo-piedra",corvina:"fondo-piedra",sargo:"paternoster",dorada:"paternoster",herrera:"paternoster",vieja:"paternoster",lubina:"bajo-largo",calamar:"egi",choco:"egi"};
+function rigFor(sp,b){if(b&&/^vivo/i.test(b.main)&&(sp.id==="lubina"||sp.id==="corvina"))return "vivo-boya";return RIG_FOR[sp.id];}
+const KNOTS=[
+ {n:"Palomar",t:"El más fiable para anzuelos y emerillones. Dobla 15 cm de línea, pasa el doble por el ojo, haz un nudo simple con el doble, pasa el lazo por todo el anzuelo, moja y tensa."},
+ {n:"Clinch mejorado",t:"Para anzuelos pequeños y grapas. Pasa la línea por el ojo, da 5–7 vueltas sobre sí misma, vuelve por el primer lazo junto al ojo y luego por el lazo grande; moja y tensa."},
+ {n:"Doble uni",t:"Para unir dos hilos, como la línea madre con el bajo. Un nudo uni de 4–6 vueltas en cada hilo sobre el otro, moja y júntalos tirando de los dos extremos."},
+ {n:"FG",t:"Para unir trenzado y fluorocarbono con un nudo fino que pasa por las anillas. Entrecruza el trenzado sobre el líder 15–20 veces con tensión y remata con medios nudos."}
+];
+function rigSvg(items){
+  const W=300,cx=70,lx=100;let y=10,g="";const T=(x,yy,t,c="")=>t?`<text x="${x}" y="${yy}"${c?` class="${c}"`:""}>${esc(t)}</text>`:"";
+  const wrap=(t,n=30)=>{const w=t.split(" "),L=[];let cur="";for(const x of w){if((cur+" "+x).trim().length>n){L.push(cur);cur=x;}else cur=(cur+" "+x).trim();}if(cur)L.push(cur);return L;};
+  const label=(t,yy,c)=>wrap(t).map((l,i)=>T(lx,yy+i*15,l,c)).join("");
+  const ln=(a,b)=>`<line x1="${cx}" y1="${a}" x2="${cx}" y2="${b}" stroke="currentColor" stroke-width="1.6"/>`;
+  const hookAt=(x,yy)=>`<path d="M${x} ${yy}v14a7 7 0 0 0 14 0v-4" fill="none" stroke="var(--brand)" stroke-width="2.2" stroke-linecap="round"/>`;
+  const need=(t,h)=>Math.max(h,t?wrap(t).length*15+6:0);
+  for(const [k,t,a,b2] of items){const y0=y;
+    if(k==="line"){const h=a||40;g+=ln(y,y+h);if(t)g+=label(t,y+h/2+4,"lbl");y+=h;}
+    else if(k==="swivel"){g+=`<circle cx="${cx}" cy="${y+5}" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="${cx}" cy="${y+15}" r="4.5" fill="none" stroke="currentColor" stroke-width="1.6"/>`+label(t,y+14);y+=20;}
+    else if(k==="lead"){g+=`<path d="M${cx} ${y}c9 8 12 18 12 26a12 12 0 0 1-24 0c0-8 3-18 12-26z" fill="var(--ink)"/>`+label(t,y+22);y+=40;}
+    else if(k==="slide"){g+=ln(y,y+30)+`<ellipse cx="${cx}" cy="${y+15}" rx="9" ry="13" fill="var(--ink)" opacity=".85"/>`+label(t,y+19);y+=30;}
+    else if(k==="bead"){g+=`<circle cx="${cx}" cy="${y+6}" r="5" fill="var(--brand)"/>`+label(t,y+10);y+=14;}
+    else if(k==="stop"){g+=ln(y,y+10)+`<rect x="${cx-6}" y="${y+2}" width="12" height="5" rx="2" fill="var(--mark)"/>`+label(t,y+9);y+=12;}
+    else if(k==="float"){g+=`<path d="M${cx} ${y}c11 10 11 34 0 48c-11-14-11-38 0-48z" fill="var(--mark)" opacity=".85"/><line x1="${cx-11}" y1="${y+20}" x2="${cx+11}" y2="${y+20}" stroke="var(--panel)" stroke-width="2"/>`+label(t,y+28);y+=50;}
+    else if(k==="knot"){g+=`<path d="M${cx-6} ${y+2}l12 10M${cx+6} ${y+2}l-12 10" stroke="currentColor" stroke-width="2"/>`+label(t,y+12);y+=16;}
+    else if(k==="snap"){g+=`<path d="M${cx} ${y}v4m-4 0h8v12h-8z" fill="none" stroke="currentColor" stroke-width="1.6"/>`+label(t,y+14);y+=18;}
+    else if(k==="hook"){g+=hookAt(cx,y)+label(t,y+14);y+=26;}
+    else if(k==="branch"){g+=ln(y,y+44)+`<path d="M${cx} ${y+8}L${cx-44} ${y+18}" stroke="currentColor" stroke-width="1.4" fill="none"/>`+hookAt(cx-44,y+18)+label(t,y+16,"lbl")+label(a,y+48);y+=60;}
+    else if(k==="egi"){g+=`<path d="M${cx-10} ${y}h20l-4 44h-12z" fill="var(--mark)" opacity=".85"/><path d="M${cx-10} ${y+44}h20" stroke="var(--brand)" stroke-width="2"/>${[-8,-4,0,4,8].map(d=>`<path d="M${cx+d} ${y+44}v6" stroke="var(--brand)" stroke-width="1.4"/>`).join("")}`+label(t,y+24);y+=56;}
+    else if(k==="potera"){g+=ln(y,y+4)+`<path d="M${cx-5} ${y+4}h10v40h-10z" fill="var(--ink)" opacity=".75"/><path d="M${cx+6} ${y+8}c14 6 14 26 0 32" fill="var(--sea-line)" opacity=".7"/>${[-8,-4,0,4,8].map(d=>`<path d="M${cx+d} ${y+44}v7" stroke="var(--brand)" stroke-width="1.4"/>`).join("")}`+label(t,y+24);y+=56;}
+    const minH=need(t,0)+(k==="branch"?need(a,0):0);if(y-y0<minH){if(!["hook","lead","egi","potera"].includes(k))g+=ln(y,y0+minH);y=y0+minH;}
+  }
+  return `<svg class="rigsvg" viewBox="0 0 ${W} ${y+10}" role="img" aria-label="Esquema del montaje"><circle cx="${cx}" cy="4" r="3" fill="currentColor"/>${g}</svg>`;
+}
+let rigTarget=null;
+function renderRigs(){
+  $("rigCards").innerHTML=RIGS.map(r=>`<article class="card" id="rig-${r.id}"><div><h3>${r.n}</h3><div class="sci" style="font-style:normal">${r.for}</div></div>
+    <div class="rigcard">${rigSvg(r.items)}<div><ul>${r.tips.map(t=>`<li>${t}</li>`).join("")}</ul><p class="small" style="margin-top:8px"><b>Nudos:</b> ${r.knots}</p></div></div></article>`).join("");
+  $("knotCards").innerHTML=KNOTS.map(k=>`<article class="card"><h3>${k.n}</h3><p>${k.t}</p></article>`).join("");
 }
 
 /* ===== qué llevar ===== */
@@ -1317,6 +1415,8 @@ function renderBait(b){
   $("baitMain").innerHTML=baitBtn(b.main,0);
   $("baitAlt").innerHTML=b.alt.map((x,i)=>`<li>${baitBtn(x,i+1)}</li>`).join("");
   $("rig").textContent=b.rig;
+  {const sp=SP.find(s=>s.id===state.sp),rid=sp?rigFor(sp,b):null,rg=RIGS.find(x=>x.id===rid);
+   $("rigLink").hidden=!rg;if(rg){$("rigLink").textContent=`Ver el esquema: ${rg.n.toLowerCase()}`;$("rigLink").onclick=()=>{rigTarget=rg.id;location.hash="#montajes";};}}
   document.querySelectorAll(".baitbtn").forEach(el=>el.onclick=()=>{openBait=openBait===el.dataset.b?null:el.dataset.b;renderBait(b);});
   const box=$("baitHow"), k=BAITS.find(x=>x.id===openBait);
   if(!k){box.hidden=true;box.innerHTML="";return;}
@@ -1377,11 +1477,12 @@ function renderStatic(){
 function bestLight(s){const e=Object.entries(s.light).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>=.85).map(x=>x[0]);return e.join(", ").replace(/^./,c=>c.toUpperCase());}
 
 /* ===== rutas ===== */
-const VIEWS=["planificador","puestos","especies","cebos","normativa","mareas"];
+const VIEWS=["planificador","puestos","especies","montajes","cebos","normativa","mareas"];
 function route(){const h=location.hash.slice(1);const v=VIEWS.includes(h)?h:"planificador";
   VIEWS.forEach(x=>{$("v-"+x).hidden=x!==v;});
   document.querySelectorAll("nav a").forEach(a=>{if(a.dataset.v===v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
   if(v==="puestos")renderCompare();
+  if(v==="montajes"&&rigTarget){const el=$("rig-"+rigTarget);rigTarget=null;if(el){document.querySelectorAll("#rigCards .card").forEach(c=>c.classList.toggle("hl",c===el));setTimeout(()=>el.scrollIntoView({block:"start"}),0);return;}}
   if(v==="planificador"&&LM)setTimeout(()=>LM.invalidateSize(),0);
   if(v!=="planificador")window.scrollTo(0,0);}
 
@@ -1399,7 +1500,7 @@ function initSelect(){
     s+=`<path d="${d}" fill="none" stroke="#bfe6f2" stroke-opacity="${(.08+rnd()*.22).toFixed(2)}" stroke-width="${(1+row*.09).toFixed(2)}" stroke-linecap="round"/>`;}
   for(let i=0;i<70;i++){const x=rnd()*600,y=rnd()*360,w=6+rnd()*22;s+=`<path d="M${x.toFixed(0)},${y.toFixed(0)}q${(w/2).toFixed(0)},-3 ${w.toFixed(0)},0" fill="none" stroke="#fff" stroke-opacity="${(.15+rnd()*.35).toFixed(2)}" stroke-width="1.4" stroke-linecap="round"/>`;}
   svg.innerHTML=s;})();
-buildMap();initSelect();renderStatic();
+buildMap();initSelect();renderStatic();renderRigs();
 $("icsBtn").addEventListener("click",downloadIcs);
 function setNight(on){document.documentElement.toggleAttribute("data-night",false);if(on)document.documentElement.setAttribute("data-night","1");
   $("nightBtn").setAttribute("aria-pressed",on);store.set("night",on?"1":"0");
@@ -1430,7 +1531,7 @@ $("fecha").addEventListener("change",()=>{if($("fecha").value){state.ymd=$("fech
 let pl=null;try{pl=JSON.parse(store.get("place")||"null");}catch(e){}
 if(pl&&typeof pl.lat==="number")setPlace(pl.lat,pl.lon,pl.label);else setPlace(43.353,-8.205,"Miño (ría de Betanzos)");
 window.addEventListener("hashchange",route);route();
-window.__t={setNight,checklistItems,SPOTS:()=>SPOTS,runNow,renderCompare,bestFromNow,baitFor,BAITS,zoneInfo,LM:()=>LM,compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
+window.__t={RIGS,rigFor,setNight,checklistItems,SPOTS:()=>SPOTS,runNow,renderCompare,bestFromNow,baitFor,BAITS,zoneInfo,LM:()=>LM,compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
 })();
 </script>
 
