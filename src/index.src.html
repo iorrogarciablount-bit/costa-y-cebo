@@ -71,7 +71,16 @@ h1,h2,h3{text-wrap:balance}
 .mapcard{background:var(--panel);border:1px solid var(--line);border-radius:4px;overflow:hidden}
 .maphead{display:flex;justify-content:space-between;gap:10px;align-items:baseline;padding:12px 14px 6px;flex-wrap:wrap}
 .maphead h2{margin:0;font-size:22px;font-weight:300;color:var(--brand)}
-#map{display:block;width:100%;height:auto;cursor:crosshair;touch-action:manipulation}
+/* Leaflet 1.9.4 (BSD-2-Clause) */
+.leaflet-pane, .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-tile-container, .leaflet-pane > svg, .leaflet-pane > canvas, .leaflet-zoom-box, .leaflet-image-layer, .leaflet-layer { position: absolute; left: 0; top: 0; } .leaflet-container { overflow: hidden; } .leaflet-tile, .leaflet-marker-icon, .leaflet-marker-shadow { -webkit-user-select: none; -moz-user-select: none; user-select: none; -webkit-user-drag: none; } .leaflet-tile::selection { background: transparent; } .leaflet-safari .leaflet-tile { image-rendering: -webkit-optimize-contrast; } .leaflet-safari .leaflet-tile-container { width: 1600px; height: 1600px; -webkit-transform-origin: 0 0; } .leaflet-marker-icon, .leaflet-marker-shadow { display: block; } .leaflet-container .leaflet-overlay-pane svg { max-width: none !important; max-height: none !important; } .leaflet-container .leaflet-marker-pane img, .leaflet-container .leaflet-shadow-pane img, .leaflet-container .leaflet-tile-pane img, .leaflet-container img.leaflet-image-layer, .leaflet-container .leaflet-tile { max-width: none !important; max-height: none !important; width: auto; padding: 0; } .leaflet-container img.leaflet-tile { mix-blend-mode: plus-lighter; } .leaflet-container.leaflet-touch-zoom { -ms-touch-action: pan-x pan-y; touch-action: pan-x pan-y; } .leaflet-container.leaflet-touch-drag { -ms-touch-action: pinch-zoom; touch-action: none; touch-action: pinch-zoom; } .leaflet-container.leaflet-touch-drag.leaflet-touch-zoom { -ms-touch-action: none; touch-action: none; } .leaflet-container { -webkit-tap-highlight-color: transparent; } .leaflet-container a { -webkit-tap-highlight-color: rgba(51, 181, 229, 0.4); } .leaflet-tile { filter: inherit; visibility: hidden; } .leaflet-tile-loaded { visibility: inherit; } .leaflet-zoom-box { width: 0; height: 0; -moz-box-sizing: border-box; box-sizing: border-box; z-index: 800; } .leaflet-overlay-pane svg { -moz-user-select: none; } .leaflet-pane { z-index: 400; } .leaflet-tile-pane { z-index: 200; } .leaflet-overlay-pane { z-index: 400; } .leaflet-shadow-pane { z-index: 500; } .leaflet-marker-pane { z-index: 600; } .leaflet-tooltip-pane { z-index: 650; } .leaflet-popup-pane { z-index: 700; } .leaflet-map-pane canvas { z-index: 100; } .leaflet-map-pane svg { z-index: 200; } .leaflet-vml-shape { width: 1px; height: 1px; } .lvml { behavior: url(#default#VML); display: inline-block; position: absolute; } .leaflet-control { position: relative; z-index: 800; pointer-events: visiblePainted; pointer-events: auto; } .leaflet-top, .leaflet-bottom { position: absolute; z-index: 1000; pointer-events: none; } .leaflet-top { top: 0; } .leaflet-right { right: 0; } .leaflet-bottom { bottom: 0; } .leaflet-left { left: 0; } .leaflet-control { float: left; clear: both; } .leaflet-right .leaflet-control { float: right; } .leaflet-top .leaflet-control { margin-top: 10px; } .leaflet-bottom .leaflet-control { margin-bottom: 10px; } .leaflet-left .leaflet-control { margin-left: 10px; } .leaflet-right .leaflet-control { margin-right: 10px; } .leaflet-fade-anim .leaflet-popup { opacity: 0; -webkit-transition: opacity 0.2s linear; -moz-transition: opacity 0.2s linear; transition: opacity 0.2s linear; } .leaflet-fade-anim .leaflet-map-pane .leaflet-popup { opacity: 1; } .leaflet-zoom-animated { -webkit-transform-origin: 0 0; -ms-transform-origin: 0 0; transform-origin: 0 0; } svg.leaflet-zoom-animated { will-change: transform; } .leaflet-zoom-anim .leaflet-zoom-animated { -webkit-transition: -webkit-transform 0.25s cubic-bezier(0,0,0.25,1); -moz-transition: -moz-transform 0.25s cubic-bezier(0,0,0.25,1); transition: transform 0.25s cubic-bezier(0,0,0.25,1); } .leaflet-zoom-anim .leaflet-tile, .leaflet-pan-anim .leaflet-tile { -webkit-transition: none; -moz-transition: none; transition: none; } .leaflet-zoom-anim .leaflet-zoom-hide { visibility: hidden; } .leaflet-interactive { cursor: pointer; } .leaflet-grab { cursor: -webkit-grab; cursor: -moz-grab; cursor: grab; } .leaflet-crosshair, .leaflet-crosshair .leaflet-interactive { cursor: crosshair; } .leaflet-popup-pane, .leaflet-control { cursor: auto; } .leaflet-dragging .leaflet-grab, .leaflet-dragging .leaflet-grab .leaflet-interactive, .leaflet-dragging .leaflet-marker-draggable { cursor: move; cursor: -webkit-grabbing; cursor: -moz-grabbing; cursor: grabbing; } .leaflet-marker-icon, .leaflet-marker-shadow, .leaflet-image-layer, .leaflet-pane > svg path, .leaflet-tile-container { pointer-events: none; } .leaflet-marker-icon.leaflet-interactive, .leaflet-image-layer.leaflet-interactive, .leaflet-pane > svg path.leaflet-interactive, svg.leaflet-image-layer.leaflet-interactive path { pointer-events: visiblePainted; pointer-events: auto; } .leaflet-container { background: #ddd; outline-offset: 1px; } .leaflet-container a { color: #0078A8; } .leaflet-zoom-box { border: 2px dotted #38f; background: rgba(255,255,255,0.5); } .leaflet-container { font-family: "Helvetica Neue", Arial, Helvetica, sans-serif; font-size: 12px; font-size: 0.75rem; line-height: 1.5; } .leaflet-bar { box-shadow: 0 1px 5px rgba(0,0,0,0.65); border-radius: 4px; } .leaflet-bar a { background-color: #fff; border-bottom: 1px solid #ccc; width: 26px; height: 26px; line-height: 26px; display: block; text-align: center; text-decoration: none; color: black; } .leaflet-bar a, .leaflet-control-layers-toggle { background-position: 50% 50%; background-repeat: no-repeat; display: block; } .leaflet-bar a:hover, .leaflet-bar a:focus { background-color: #f4f4f4; } .leaflet-bar a:first-child { border-top-left-radius: 4px; border-top-right-radius: 4px; } .leaflet-bar a:last-child { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; border-bottom: none; } .leaflet-bar a.leaflet-disabled { cursor: default; background-color: #f4f4f4; color: #bbb; } .leaflet-touch .leaflet-bar a { width: 30px; height: 30px; line-height: 30px; } .leaflet-touch .leaflet-bar a:first-child { border-top-left-radius: 2px; border-top-right-radius: 2px; } .leaflet-touch .leaflet-bar a:last-child { border-bottom-left-radius: 2px; border-bottom-right-radius: 2px; } .leaflet-control-zoom-in, .leaflet-control-zoom-out { font: bold 18px 'Lucida Console', Monaco, monospace; text-indent: 1px; } .leaflet-touch .leaflet-control-zoom-in, .leaflet-touch .leaflet-control-zoom-out { font-size: 22px; } .leaflet-control-layers { box-shadow: 0 1px 5px rgba(0,0,0,0.4); background: #fff; border-radius: 5px; } .leaflet-control-layers-toggle { background-image: url(images/layers.png); width: 36px; height: 36px; } .leaflet-retina .leaflet-control-layers-toggle { background-image: url(images/layers-2x.png); background-size: 26px 26px; } .leaflet-touch .leaflet-control-layers-toggle { width: 44px; height: 44px; } .leaflet-control-layers .leaflet-control-layers-list, .leaflet-control-layers-expanded .leaflet-control-layers-toggle { display: none; } .leaflet-control-layers-expanded .leaflet-control-layers-list { display: block; position: relative; } .leaflet-control-layers-expanded { padding: 6px 10px 6px 6px; color: #333; background: #fff; } .leaflet-control-layers-scrollbar { overflow-y: scroll; overflow-x: hidden; padding-right: 5px; } .leaflet-control-layers-selector { margin-top: 2px; position: relative; top: 1px; } .leaflet-control-layers label { display: block; font-size: 13px; font-size: 1.08333em; } .leaflet-control-layers-separator { height: 0; border-top: 1px solid #ddd; margin: 5px -10px 5px -6px; } .leaflet-default-icon-path { background-image: url(images/marker-icon.png); } .leaflet-container .leaflet-control-attribution { background: #fff; background: rgba(255, 255, 255, 0.8); margin: 0; } .leaflet-control-attribution, .leaflet-control-scale-line { padding: 0 5px; color: #333; line-height: 1.4; } .leaflet-control-attribution a { text-decoration: none; } .leaflet-control-attribution a:hover, .leaflet-control-attribution a:focus { text-decoration: underline; } .leaflet-attribution-flag { display: inline !important; vertical-align: baseline !important; width: 1em; height: 0.6669em; } .leaflet-left .leaflet-control-scale { margin-left: 5px; } .leaflet-bottom .leaflet-control-scale { margin-bottom: 5px; } .leaflet-control-scale-line { border: 2px solid #777; border-top: none; line-height: 1.1; padding: 2px 5px 1px; white-space: nowrap; -moz-box-sizing: border-box; box-sizing: border-box; background: rgba(255, 255, 255, 0.8); text-shadow: 1px 1px #fff; } .leaflet-control-scale-line:not(:first-child) { border-top: 2px solid #777; border-bottom: none; margin-top: -2px; } .leaflet-control-scale-line:not(:first-child):not(:last-child) { border-bottom: 2px solid #777; } .leaflet-touch .leaflet-control-attribution, .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar { box-shadow: none; } .leaflet-touch .leaflet-control-layers, .leaflet-touch .leaflet-bar { border: 2px solid rgba(0,0,0,0.2); background-clip: padding-box; } .leaflet-popup { position: absolute; text-align: center; margin-bottom: 20px; } .leaflet-popup-content-wrapper { padding: 1px; text-align: left; border-radius: 12px; } .leaflet-popup-content { margin: 13px 24px 13px 20px; line-height: 1.3; font-size: 13px; font-size: 1.08333em; min-height: 1px; } .leaflet-popup-content p { margin: 17px 0; margin: 1.3em 0; } .leaflet-popup-tip-container { width: 40px; height: 20px; position: absolute; left: 50%; margin-top: -1px; margin-left: -20px; overflow: hidden; pointer-events: none; } .leaflet-popup-tip { width: 17px; height: 17px; padding: 1px; margin: -10px auto 0; pointer-events: auto; -webkit-transform: rotate(45deg); -moz-transform: rotate(45deg); -ms-transform: rotate(45deg); transform: rotate(45deg); } .leaflet-popup-content-wrapper, .leaflet-popup-tip { background: white; color: #333; box-shadow: 0 3px 14px rgba(0,0,0,0.4); } .leaflet-container a.leaflet-popup-close-button { position: absolute; top: 0; right: 0; border: none; text-align: center; width: 24px; height: 24px; font: 16px/24px Tahoma, Verdana, sans-serif; color: #757575; text-decoration: none; background: transparent; } .leaflet-container a.leaflet-popup-close-button:hover, .leaflet-container a.leaflet-popup-close-button:focus { color: #585858; } .leaflet-popup-scrolled { overflow: auto; } .leaflet-oldie .leaflet-popup-content-wrapper { -ms-zoom: 1; } .leaflet-oldie .leaflet-popup-tip { width: 24px; margin: 0 auto; -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678)"; filter: progid:DXImageTransform.Microsoft.Matrix(M11=0.70710678, M12=0.70710678, M21=-0.70710678, M22=0.70710678); } .leaflet-oldie .leaflet-control-zoom, .leaflet-oldie .leaflet-control-layers, .leaflet-oldie .leaflet-popup-content-wrapper, .leaflet-oldie .leaflet-popup-tip { border: 1px solid #999; } .leaflet-div-icon { background: #fff; border: 1px solid #666; } .leaflet-tooltip { position: absolute; padding: 6px; background-color: #fff; border: 1px solid #fff; border-radius: 3px; color: #222; white-space: nowrap; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; pointer-events: none; box-shadow: 0 1px 3px rgba(0,0,0,0.4); } .leaflet-tooltip.leaflet-interactive { cursor: pointer; pointer-events: auto; } .leaflet-tooltip-top:before, .leaflet-tooltip-bottom:before, .leaflet-tooltip-left:before, .leaflet-tooltip-right:before { position: absolute; pointer-events: none; border: 6px solid transparent; background: transparent; content: ""; } .leaflet-tooltip-bottom { margin-top: 6px; } .leaflet-tooltip-top { margin-top: -6px; } .leaflet-tooltip-bottom:before, .leaflet-tooltip-top:before { left: 50%; margin-left: -6px; } .leaflet-tooltip-top:before { bottom: 0; margin-bottom: -12px; border-top-color: #fff; } .leaflet-tooltip-bottom:before { top: 0; margin-top: -12px; margin-left: -6px; border-bottom-color: #fff; } .leaflet-tooltip-left { margin-left: -6px; } .leaflet-tooltip-right { margin-left: 6px; } .leaflet-tooltip-left:before, .leaflet-tooltip-right:before { top: 50%; margin-top: -6px; } .leaflet-tooltip-left:before { right: 0; margin-right: -12px; border-left-color: #fff; } .leaflet-tooltip-right:before { left: 0; margin-left: -12px; border-right-color: #fff; } @media print { .leaflet-control { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+#map{height:460px;width:100%;background:var(--sea);cursor:crosshair}
+@media (max-width:640px){#map{height:380px}}
+.leaflet-container{font-family:var(--f-body);background:var(--sea)}
+.leaflet-popup-content{font-size:14px;line-height:1.45;margin:12px 14px}
+.leaflet-popup-content b{color:var(--brand)}
+.mapbtns{display:flex;gap:6px;flex-wrap:wrap}
+.mapbtns button{background:var(--panel);border:1px solid var(--line);color:var(--brand);border-radius:2px;padding:6px 10px;font-size:14px;cursor:pointer;min-height:36px}
+.mapbtns button[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
 .mapfoot{display:grid;gap:8px;padding:10px 14px 14px;border-top:1px solid var(--line)}
 .place{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap}
 .place b{font-size:16px}
@@ -131,7 +140,7 @@ dl.facts dd{margin:0;font-size:14.5px;font-weight:600}
 .alerts li.res{border-left-color:var(--res);background:var(--res-soft)}
 .alerts b{display:block;font-weight:600}
 .maplegend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
-.maplegend i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-2px;margin-right:5px}
+.maplegend i{display:inline-block;width:14px;height:12px;border-radius:2px;vertical-align:-2px;margin-right:5px}
 .note{font-size:14.5px;background:var(--chip);border-left:4px solid var(--brand);border-radius:2px;padding:9px 12px;margin:0}
 
 /* semana */
@@ -207,10 +216,13 @@ footer .in{display:grid;gap:6px;max-width:1180px}
 
   <div class="plan">
     <div class="mapcard">
-      <div class="maphead"><h2>Elige tu zona</h2><span class="small">Toca cerca de la costa</span></div>
-      <svg id="map" role="img" aria-label="Mapa de la costa española"></svg>
+      <div class="maphead"><h2>Elige tu zona</h2>
+        <div class="mapbtns"><button type="button" id="vPen">Península y Baleares</button><button type="button" id="vCan">Canarias</button><button type="button" id="vOrto" aria-pressed="false">Ortofoto</button></div>
+      </div>
+      <div id="map" role="application" aria-label="Mapa de la costa. Haz zoom y toca el punto donde vas a pescar."></div>
       <div class="mapfoot">
-        <div class="maplegend"><span><i style="background:var(--sea-line)"></i>Mareógrafo</span><span><i style="border:2px dashed var(--res)"></i>Reserva marina o zona protegida (posición aproximada)</span></div>
+        <div class="maplegend"><span><i style="background:var(--sea-line);border-radius:50%;width:10px;height:10px"></i>Mareógrafo</span><span><i style="background:var(--res-soft);border:2px solid var(--res)"></i>Reserva: pesca regulada</span><span><i style="background:var(--danger-soft);border:2px solid var(--danger)"></i>Prohibido pescar</span><span><i style="border:2px dashed var(--res);border-radius:50%;width:10px;height:10px"></i>Reserva sin límites dibujados</span></div>
+        <p class="small" style="margin:0">Límites oficiales dibujados en Galicia: Os Miñarzos, Ría de Cedeira e Illas Atlánticas. Toca una zona para ver sus normas.</p>
         <div class="place"><b id="placeName">–</b><span class="zone" id="zoneTag">–</span></div>
         <div class="place"><span id="placeRef">–</span></div>
         <label class="f" for="stSel">O elige un puerto
@@ -318,7 +330,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
 
   <div class="sect">
     <h2>Reservas marinas y zonas protegidas</h2>
-    <p class="small" style="margin:0 0 10px">En estas zonas la pesca recreativa está prohibida en parte de su superficie y regulada en el resto (zonas, artes, épocas o autorización previa). Los círculos del mapa marcan la posición aproximada, no los límites legales. Antes de pescar cerca, consulta la normativa y la cartografía oficial de cada una.</p>
+    <p class="small" style="margin:0 0 10px">En estas zonas la pesca recreativa está prohibida en parte de su superficie y regulada en el resto (zonas, artes, épocas o autorización previa). En el mapa ya están dibujados los límites oficiales de Os Miñarzos, la Ría de Cedeira y las Illas Atlánticas; el resto aparece como un punto hasta que se añadan sus límites. Antes de pescar cerca, consulta la normativa y la cartografía oficial de cada una.</p>
     <div class="lic" id="resList"></div>
   </div>
 
@@ -356,12 +368,14 @@ footer .in{display:grid;gap:6px;max-width:1180px}
   <div>Constantes de marea: TICON-4 (Hart-Davis, Dettmering y Seitz, 2025, <a href="https://doi.org/10.17882/109129" target="_blank" rel="noopener" style="color:inherit">doi:10.17882/109129</a>), a través de la <a href="https://github.com/openwatersio/tide-database" target="_blank" rel="noopener" style="color:inherit">base de datos Neaps</a>, con licencia <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener" style="color:inherit">CC BY-NC 4.0</a>. Costa: Natural Earth.</div>
 </div></footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"></script>
 <script>/*TP*/</script>
 <script>
 (function(){
 "use strict";
 const STATIONS=/*STATIONS*/;
-const MAP=/*MAP*/;
+const ZONES_GJ=/*ZONES*/;
+const COAST=/*COAST*/;
 const R=Math.PI/180, H=3600000, MIN=60000;
 const $=id=>document.getElementById(id);
 const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
@@ -564,17 +578,38 @@ const RES=[
  {n:"Isla Graciosa e islotes del norte de Lanzarote",t:"Reserva marina (Estado y Canarias)",lat:29.26,lon:-13.50,r:10,u:MAPA_RM+"isla-graciosa"},
  {n:"Isla de La Palma",t:"Reserva marina (Estado y Canarias)",lat:28.53,lon:-17.90,r:5,u:MAPA_RM+"isla-de-la-palma"},
  {n:"La Restinga-Mar de las Calmas",t:"Reserva marina (Estado y Canarias)",lat:27.66,lon:-17.99,r:5,u:MAPA_RM+"la-restinga"},
- {n:"Os Miñarzos (Lira)",t:"Reserva marina de interés pesquero (Galicia)",lat:42.80,lon:-9.13,r:5,u:null},
- {n:"Ría de Cedeira",t:"Reserva marina de interés pesquero (Galicia)",lat:43.66,lon:-8.06,r:3,u:null},
- {n:"Islas Cíes",t:"Parque Nacional Illas Atlánticas",lat:42.22,lon:-8.905,r:4,u:null},
- {n:"Isla de Ons",t:"Parque Nacional Illas Atlánticas",lat:42.38,lon:-8.935,r:4,u:null},
- {n:"Isla de Sálvora",t:"Parque Nacional Illas Atlánticas",lat:42.47,lon:-9.01,r:3,u:null},
- {n:"Isla de Cortegada",t:"Parque Nacional Illas Atlánticas",lat:42.625,lon:-8.785,r:1.5,u:null},
+ {n:"Os Miñarzos (Lira)",mapped:true,t:"Reserva marina de interés pesquero (Galicia)",lat:42.80,lon:-9.13,r:5,u:null},
+ {n:"Ría de Cedeira",mapped:true,t:"Reserva marina de interés pesquero (Galicia)",lat:43.66,lon:-8.06,r:3,u:null},
+ {n:"Islas Cíes",mapped:true,t:"Parque Nacional Illas Atlánticas",lat:42.22,lon:-8.905,r:4,u:null},
+ {n:"Isla de Ons",mapped:true,t:"Parque Nacional Illas Atlánticas",lat:42.38,lon:-8.935,r:4,u:null},
+ {n:"Isla de Sálvora",mapped:true,t:"Parque Nacional Illas Atlánticas",lat:42.47,lon:-9.01,r:3,u:null},
+ {n:"Isla de Cortegada",mapped:true,t:"Parque Nacional Illas Atlánticas",lat:42.625,lon:-8.785,r:1.5,u:null},
  {n:"Archipiélago de Cabrera",t:"Parque Nacional",lat:39.15,lon:2.94,r:8,u:null},
  {n:"Illes Medes",t:"Parque Natural del Montgrí, les Medes i el Baix Ter",lat:42.047,lon:3.222,r:1.5,u:null},
  {n:"Cap de Creus",t:"Parque Natural (zona marina)",lat:42.32,lon:3.31,r:6,u:null}
 ];
-function nearReserve(lat,lon){let best=null;for(const z of RES){const d=km(lat,lon,z.lat,z.lon);if(d<=z.r+3&&(!best||d-z.r<best.d-best.z.r))best={z,d};}return best;}
+function nearReserve(lat,lon){let best=null;for(const z of RES){if(z.mapped)continue;const d=km(lat,lon,z.lat,z.lon);if(d<=z.r+3&&(!best||d-z.r<best.d-best.z.r))best={z,d};}return best;}
+
+/* ===== zonas con límites oficiales ===== */
+function mxy(lat0,lon,lat){return [(lon)*111320*Math.cos(lat0*R),lat*110574];}
+function inRing(pt,ring){let c=false;for(let i=0,j=ring.length-1;i<ring.length;j=i++){const [xi,yi]=ring[i],[xj,yj]=ring[j];
+  if(((yi>pt[1])!==(yj>pt[1]))&&(pt[0]<(xj-xi)*(pt[1]-yi)/(yj-yi)+xi))c=!c;}return c;}
+function segDist(p,a,b){const dx=b[0]-a[0],dy=b[1]-a[1],l=dx*dx+dy*dy;let t=l?((p[0]-a[0])*dx+(p[1]-a[1])*dy)/l:0;t=Math.max(0,Math.min(1,t));return Math.hypot(p[0]-a[0]-t*dx,p[1]-a[1]-t*dy);}
+function edgeDist(lat,lon,coords){const P=mxy(lat,lon,lat);let d=1e12;for(let i=0;i+1<coords.length;i++){d=Math.min(d,segDist(P,mxy(lat,coords[i][0],coords[i][1]),mxy(lat,coords[i+1][0],coords[i+1][1])));}return d;}
+/* Ría de Cedeira: reserva = aguas interiores hacia dentro de la línea O Ensebadoiro – A Chirlateira */
+function inCedeira(lat,lon){const f=ZONES_GJ.features.find(x=>x.properties.kind==="boca");if(!f)return false;
+  const [a,b]=f.geometry.coordinates,cross=(b[0]-a[0])*(lat-a[1])-(b[1]-a[1])*(lon-a[0]);
+  return cross<0&&lon>-8.095&&lon<-8.02&&lat>43.62&&km(lat,lon,(a[1]+b[1])/2,(a[0]+b[0])/2)<7;}
+const KIND_PRI={integral:3,zep:3,parque:3,reserva:1};
+function zoneInfo(lat,lon){
+  const inside=[],near=[];
+  for(const f of ZONES_GJ.features){const g=f.geometry;if(g.type!=="Polygon")continue;const ring=g.coordinates[0];
+    if(inRing([lon,lat],ring))inside.push(f);else{const d=edgeDist(lat,lon,ring);if(d<1200)near.push({f,d});}}
+  if(inCedeira(lat,lon)&&!inside.some(f=>f.properties.reserve==="Ría de Cedeira"))inside.push(ZONES_GJ.features.find(x=>x.properties.kind==="boca"));
+  inside.sort((a,b)=>(KIND_PRI[b.properties.kind]||1)-(KIND_PRI[a.properties.kind]||1));
+  near.sort((a,b)=>a.d-b.d);
+  return {inside,near:near.filter(n=>KIND_PRI[n.f.properties.kind]===3&&!inside.includes(n.f))};
+}
 
 /* ===== parte de mar y viento (Open-Meteo) ===== */
 const WX={};
@@ -674,47 +709,53 @@ const fishSvg=on=>`<svg viewBox="0 0 22 13" aria-hidden="true"><path d="M1 6.5C4
 const state={place:null,sp:"congrio",ymd:null};
 function km(a,b,c,d){const dl=(c-a)*R,dn=(d-b)*R;return 2*6371*Math.asin(Math.sqrt(Math.sin(dl/2)**2+Math.cos(a*R)*Math.cos(c*R)*Math.sin(dn/2)**2));}
 function nearestStation(lat,lon){let b=null,bd=1e9;for(const s of STATIONS){const d=km(lat,lon,s.lat,s.lon);if(d<bd){bd=d;b=s;}}return [b,bd];}
-function setPlace(lat,lon,label){
+function setPlace(lat,lon,label,focus){
   const [st,d]=nearestStation(lat,lon), zone=zoneOf(lat,lon);
   state.place={lat,lon,label:label||`Punto ${lat.toFixed(2)}, ${lon.toFixed(2)}`,st,dist:d,zone};
   store.set("place",JSON.stringify({lat,lon,label:state.place.label}));
   const avail=SP.filter(s=>s.zones.includes(zone));
   if(!avail.some(s=>s.id===state.sp))state.sp=avail[0].id;
-  drawChips();renderPlan();drawMarker();
+  drawChips();renderPlan();drawMarker(focus);
 }
 
-/* ===== mapa ===== */
-const NS="http://www.w3.org/2000/svg";
+/* ===== mapa (Leaflet + IGN) ===== */
+const IGN_BASE="https://www.ign.es/wmts/ign-base?service=WMTS&request=GetTile&version=1.0.0&Format=image/png&layer=IGNBaseTodo&style=default&tilematrixset=GoogleMapsCompatible&TileMatrix={z}&TileRow={y}&TileCol={x}";
+const IGN_ORTO="https://www.ign.es/wmts/pnoa-ma?service=WMTS&request=GetTile&version=1.0.0&Format=image/png&layer=OI.OrthoimageCoverage&style=default&tilematrixset=GoogleMapsCompatible&TileMatrix={z}&TileRow={y}&TileCol={x}";
+const IGN_ATTR='<a href="https://www.scne.es/" target="_blank" rel="noopener">CC BY 4.0 scne.es</a> · Sistema Geográfico Nacional (IGN)';
+const VIEW_PEN=[[35.9,-9.5],[43.9,4.4]], VIEW_CAN=[[27.55,-18.25],[29.45,-13.35]];
+let LM=null,baseMap=null,baseOrto=null,placeLayer=null;
+const cssVar=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function zoneStyle(f){const k=f.properties.kind;
+  if(k==="boca")return {color:cssVar("--res"),weight:4,dashArray:"8 6",opacity:.95};
+  if(k==="reserva")return {color:cssVar("--res"),weight:2,fillColor:cssVar("--res"),fillOpacity:.12};
+  return {color:cssVar("--danger"),weight:2,fillColor:cssVar("--danger"),fillOpacity:.25,dashArray:f.properties.approx?"5 4":null};}
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function zonePopup(p){return `<b>${esc(p.zone)}</b><br>${esc(p.reserve)}<br><span>${esc(p.rule)}</span><br><small>Fuente: ${esc(p.src)}${p.url?` · <a href="${p.url}" target="_blank" rel="noopener">documento</a>`:""}</small>`;}
 function buildMap(){
-  const m=MAP, svg=$("map"), cw=(m.CAN.lon1-m.CAN.lon0)*m.C*m.CAN.K, ch=(m.CAN.lat1-m.CAN.lat0)*m.CAN.K;
-  svg.setAttribute("viewBox",`0 0 ${m.W} ${m.H}`);
-  let s=`<rect width="${m.W}" height="${m.H}" fill="var(--sea)"/>`;
-  s+=`<svg width="${m.W}" height="${m.Hm}" overflow="hidden"><path d="${m.main.o}" fill="var(--land-other)" stroke="var(--land-stroke)" stroke-width=".4" stroke-opacity=".5"/><path d="${m.main.es}" fill="var(--land)" stroke="var(--land-stroke)" stroke-width=".9"/></svg>`;
-  s+=`<rect x="${m.CAN.ox-6}" y="${m.CAN.oy-6}" width="${cw+12}" height="${ch+12}" fill="none" stroke="var(--land-stroke)" stroke-width=".8" stroke-dasharray="4 3"/>`;
-  s+=`<text x="${m.CAN.ox}" y="${m.CAN.oy+ch+2}" font-size="12" fill="var(--muted)" font-family="Open Sans,Segoe UI,Arial,sans-serif">CANARIAS</text>`;
-  s+=`<path d="${m.can}" fill="var(--land)" stroke="var(--land-stroke)" stroke-width=".9"/>`;
-  const labels=[["CANTÁBRICO",-5.6,43.83],["ATLÁNTICO",-10.1,41.2],["MEDITERRÁNEO",1.5,37.6],["GOLFO DE CÁDIZ",-8.6,36.45]];
-  for(const [t,lo,la] of labels){const [x,y]=proj(lo,la);s+=`<text x="${x}" y="${y}" font-size="11" letter-spacing="2" fill="var(--sea-line)" opacity=".75" font-family="Open Sans,Segoe UI,Arial,sans-serif">${t}</text>`;}
-  for(const st of STATIONS){const [x,y]=proj(st.lat<30?st.lon:st.lon,st.lat,true);s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="var(--sea-line)" opacity=".8"><title>${st.name}</title></circle>`;}
-  for(const z of RES){const [x,y]=proj(z.lon,z.lat);const rp=Math.max(3.5,z.r*(z.lat<30?MAP.CAN.K:MAP.K)/111);
-    s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rp.toFixed(1)}" fill="var(--res-soft)" stroke="var(--res)" stroke-width="1.3" stroke-dasharray="3 2"><title>${z.n} · ${z.t}</title></circle>`;}
-  s+=`<g id="marker"></g>`;
-  svg.innerHTML=s;
-  svg.addEventListener("click",ev=>{
-    const pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;
-    const p=pt.matrixTransform(svg.getScreenCTM().inverse());const ll=unproj(p.x,p.y);if(!ll)return;
-    setPlace(ll[0],ll[1]);$("stSel").value="";
-  });
+  if(!window.L){$("map").innerHTML=`<p class="wx-msg" style="padding:16px">No se ha podido cargar el mapa. Elige un puerto en la lista de abajo.</p>`;return;}
+  LM=L.map("map",{minZoom:4,maxZoom:19,zoomSnap:.5}).fitBounds(VIEW_PEN);
+  LM.createPane("coast").style.zIndex=150;
+  L.geoJSON(COAST,{pane:"coast",interactive:false,style:f=>({color:cssVar("--land-stroke"),weight:.8,fillColor:f.properties.es?cssVar("--land"):cssVar("--land-other"),fillOpacity:1})}).addTo(LM);
+  baseMap=L.tileLayer(IGN_BASE,{maxZoom:19,attribution:IGN_ATTR}).addTo(LM);
+  baseOrto=L.tileLayer(IGN_ORTO,{maxZoom:19,attribution:"PNOA "+IGN_ATTR});
+  const sl=L.layerGroup();for(const st of STATIONS){L.circleMarker([st.lat,st.lon],{radius:4,color:"#fff",weight:1,fillColor:cssVar("--sea-line"),fillOpacity:1,bubblingMouseEvents:true}).bindTooltip("Mareógrafo · "+st.name).addTo(sl);}
+  sl.addTo(LM);
+  L.geoJSON(ZONES_GJ,{style:zoneStyle,onEachFeature:(f,l)=>l.bindPopup(zonePopup(f.properties),{maxWidth:300})}).addTo(LM);
+  for(const z of RES){if(z.mapped)continue;L.circleMarker([z.lat,z.lon],{radius:7,color:cssVar("--res"),weight:2,dashArray:"3 3",fillColor:cssVar("--res"),fillOpacity:.15})
+    .bindPopup(`<b>${esc(z.n)}</b><br>${esc(z.t)}<br>Límites aún no dibujados en este mapa. Pesca prohibida o regulada en parte de la zona.${z.u?`<br><a href="${z.u}" target="_blank" rel="noopener">Ficha y normativa</a>`:""}`).addTo(LM);}
+  LM.on("click",e=>{setPlace(+e.latlng.lat.toFixed(5),+e.latlng.lng.toFixed(5));$("stSel").value="";});
+  $("vPen").onclick=()=>LM.fitBounds(VIEW_PEN);
+  $("vCan").onclick=()=>LM.fitBounds(VIEW_CAN);
+  $("vOrto").onclick=()=>{const on=$("vOrto").getAttribute("aria-pressed")!=="true";$("vOrto").setAttribute("aria-pressed",on);
+    if(on){LM.removeLayer(baseMap);baseOrto.addTo(LM);}else{LM.removeLayer(baseOrto);baseMap.addTo(LM);}};
 }
-function proj(lon,lat){const m=MAP;
-  if(lat<30)return [m.CAN.ox+(lon-m.CAN.lon0)*m.C*m.CAN.K,m.CAN.oy+(m.CAN.lat1-lat)*m.CAN.K];
-  return [(lon-m.MAIN.lon0)*m.C*m.K,(m.MAIN.lat1-lat)*m.K];}
-function unproj(x,y){const m=MAP,cw=(m.CAN.lon1-m.CAN.lon0)*m.C*m.CAN.K,ch=(m.CAN.lat1-m.CAN.lat0)*m.CAN.K;
-  if(y<=m.Hm)return [m.MAIN.lat1-y/m.K, x/(m.C*m.K)+m.MAIN.lon0];
-  if(x>=m.CAN.ox-6&&x<=m.CAN.ox+cw+6&&y>=m.CAN.oy-6&&y<=m.CAN.oy+ch+6)return [m.CAN.lat1-(y-m.CAN.oy)/m.CAN.K,(x-m.CAN.ox)/(m.C*m.CAN.K)+m.CAN.lon0];
-  return null;}
-function drawMarker(){const p=state.place;if(!p)return;const [x,y]=proj(p.lon,p.lat);const [sx,sy]=proj(p.st.lon,p.st.lat);
-  $("marker").innerHTML=`<line x1="${x}" y1="${y}" x2="${sx}" y2="${sy}" stroke="var(--mark)" stroke-width="1.2" stroke-dasharray="3 2"/><circle cx="${x}" cy="${y}" r="9" fill="none" stroke="var(--mark)" stroke-width="2.2"/><circle cx="${x}" cy="${y}" r="3.2" fill="var(--mark)"/>`;}
+function drawMarker(focus){const p=state.place;if(!p||!LM)return;
+  if(placeLayer)LM.removeLayer(placeLayer);
+  placeLayer=L.layerGroup([
+    L.polyline([[p.lat,p.lon],[p.st.lat,p.st.lon]],{color:cssVar("--mark"),weight:1.5,dashArray:"4 4",interactive:false}),
+    L.circleMarker([p.lat,p.lon],{radius:9,color:cssVar("--mark"),weight:3,fillColor:cssVar("--mark"),fillOpacity:.35,interactive:false})]).addTo(LM);
+  if(focus)LM.setView([p.lat,p.lon],Math.max(LM.getZoom(),12));
+}
 
 /* ===== render planificador ===== */
 function drawChips(){
@@ -828,8 +869,15 @@ function renderAlerts(r,sp,P,hm){
     }
   }
   if(b>r.sun.set+30*MIN||a<r.sun.rise)A.push(["info","Parte de la jornada es de noche","Frontal con pilas de repuesto, ropa visible y el camino de vuelta visto de día. Avisa a alguien de dónde vas y a qué hora vuelves."]);
+  const zi=zoneInfo(P.lat,P.lon);
+  for(const f of zi.inside){const q=f.properties,lvl=KIND_PRI[q.kind]===3?"alto":"res";
+    A.push([lvl,lvl==="alto"?`Prohibido pescar aquí: ${q.zone} · ${q.reserve}`:`Dentro de la reserva marina ${q.reserve}`,q.rule,q.url]);}
+  if(zi.inside.some(f=>f.properties.reserve==="Ría de Cedeira")){
+    const lows=r.ex.filter(e=>!e.hi&&e.t+2*H>=a&&e.t-2*H<=b);
+    for(const lo of lows)A.push(["alto",`Veda de caña por bajamar: ${hm(lo.t-2*H)}–${hm(lo.t+2*H)}`,"Entre el límite sur de la ZEP I (Vilarrube) y la reserva integral de Esteiro, y en la ensenada de Pantín, está prohibido pescar con caña desde 2 h antes hasta 2 h después de la bajamar.",null]);}
+  if(!zi.inside.length&&zi.near.length){const n=zi.near[0];A.push(["res",`A ${Math.round(n.d/10)*10} m de ${n.f.properties.zone}`,`${n.f.properties.reserve}. ${n.f.properties.rule} Mira el límite en el mapa antes de colocarte.`,n.f.properties.url]);}
   const nr=nearReserve(P.lat,P.lon);
-  if(nr)A.push(["res",`${nr.d<=nr.z.r?"Dentro o junto a":"Cerca de"}: ${nr.z.n}`,`${nr.z.t}. La pesca recreativa está prohibida o regulada en parte de la zona. Comprueba límites y normas antes de pescar.`,nr.z.u]);
+  if(nr)A.push(["res",`Cerca de: ${nr.z.n}`,`${nr.z.t}. Sus límites aún no están dibujados en el mapa. La pesca recreativa está prohibida o regulada en parte de la zona: compruébalo antes de pescar.`,nr.z.u]);
   if(!A.length)A.push(["info","Sin avisos especiales","Aun así, revisa el parte oficial antes de salir y no pesques solo en piedra de noche."]);
   $("alerts").innerHTML=A.map(([l,t,d,u])=>`<li class="${l}"><b>${t}</b>${d}${u?` <a href="${u}" target="_blank" rel="noopener">Ver normativa</a>`:""}</li>`).join("");
 }
@@ -902,7 +950,7 @@ function renderStatic(){
   $("baitCards").innerHTML=BAITS.map(b=>`<article class="card"><h3>${b.n}</h3><div class="kv"><span>Para</span><span>${b.for}</span><span>Cómo</span><span>${b.how}</span><span>Conservar</span><span>${b.keep}</span></div></article>`).join("");
   $("tallaTable").innerHTML=`<thead><tr><th>Especie</th>${Object.values(CALS).map(c=>`<th>${c}</th>`).join("")}</tr></thead><tbody>`+
     TALLAS.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(v=>`<td class="n">${v==="–"?v:(/kg/.test(v)?v:v.replace("*","")+" cm"+(v.includes("*")?"*":""))}</td>`).join("")}</tr>`).join("")+`</tbody>`;
-  $("resList").innerHTML=RES.map(z=>`<div><b>${z.n}</b><span>${z.t}</span>${z.u?`<a href="${z.u}" target="_blank" rel="noopener">Ficha y normativa (MAPA)</a>`:`<span>Normativa: Xunta, Govern o parque correspondiente</span>`}</div>`).join("");
+  $("resList").innerHTML=RES.map(z=>`<div><b>${z.n}</b><span>${z.t}${z.mapped?" · límites oficiales en el mapa":""}</span>${z.u?`<a href="${z.u}" target="_blank" rel="noopener">Ficha y normativa (MAPA)</a>`:`<span>Normativa: Xunta, Govern o parque correspondiente</span>`}</div>`).join("");
   $("licList").innerHTML=LIC.map(([n,w,u])=>`<div><b>${n}</b>${u?`<a href="${u}" target="_blank" rel="noopener">${w}</a>`:`<span>${w}</span>`}</div>`).join("");
 }
 function bestLight(s){const e=Object.entries(s.light).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>=.85).map(x=>x[0]);return e.join(", ").replace(/^./,c=>c.toUpperCase());}
@@ -919,7 +967,7 @@ function initSelect(){
   const sel=$("stSel");const groups={};
   STATIONS.forEach((s,i)=>{const z=ZONES[zoneOf(s.lat,s.lon)].name;(groups[z]=groups[z]||[]).push([s,i]);});
   sel.innerHTML=`<option value="">Punto del mapa</option>`+Object.entries(groups).map(([z,arr])=>`<optgroup label="${z}">${arr.sort((a,b)=>a[0].name.localeCompare(b[0].name,"es")).map(([s,i])=>`<option value="${i}">${s.name}</option>`).join("")}</optgroup>`).join("");
-  sel.onchange=()=>{if(sel.value==="")return;const s=STATIONS[+sel.value];setPlace(s.lat,s.lon,s.name);};
+  sel.onchange=()=>{if(sel.value==="")return;const s=STATIONS[+sel.value];setPlace(s.lat,s.lon,s.name,true);};
 }
 (function seaArt(){const svg=$("seaArt");let s=`<defs><linearGradient id="sg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#14627a"/><stop offset="1" stop-color="#08303d"/></linearGradient></defs><rect width="600" height="360" fill="url(#sg)"/>`;
   let seed=7;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647;};
@@ -936,6 +984,6 @@ $("fecha").addEventListener("change",()=>{if($("fecha").value){state.ymd=$("fech
 let pl=null;try{pl=JSON.parse(store.get("place")||"null");}catch(e){}
 if(pl&&typeof pl.lat==="number")setPlace(pl.lat,pl.lon,pl.label);else setPlace(43.353,-8.205,"Miño (ría de Betanzos)");
 window.addEventListener("hashchange",route);route();
-window.__t={compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
+window.__t={zoneInfo,LM:()=>LM,compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
 })();
 </script>

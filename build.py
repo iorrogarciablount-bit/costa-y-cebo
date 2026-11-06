@@ -16,7 +16,8 @@ def read(*p):
 page = (read(src, "index.src.html")
         .replace("/*TP*/", read(data, "tp.js"))
         .replace("/*STATIONS*/", read(data, "stations.json"))
-        .replace("/*MAP*/", read(data, "map.json")))
+        .replace("/*ZONES*/", read(data, "zones.json"))
+        .replace("/*COAST*/", read(data, "coast.json")))
 
 # La fuente no lleva <head>: se separa en el primer </style> y se envuelve en un documento completo.
 i = page.index("</style>") + len("</style>")
