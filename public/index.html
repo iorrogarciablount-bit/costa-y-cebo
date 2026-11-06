@@ -1,5 +1,16 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Planificador de pesca desde costa en España: mejor hora, cebo, mareas, solunar, tallas y licencias.">
+<style>
+:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+body{margin:0}
+img{max-width:100%}
+[hidden]{display:none!important}
+</style>
 <title>Costa y Cebo</title>
-<meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap">
 <style>
@@ -47,7 +58,7 @@ nav{display:flex;overflow-x:auto;scrollbar-width:none;margin-left:auto}
 nav a{color:var(--brand);text-decoration:none;font-size:15px;font-weight:400;padding:10px 12px;white-space:nowrap;border-bottom:3px solid transparent}
 nav a:hover{border-bottom-color:var(--line)}
 nav a[aria-current="page"]{border-bottom-color:var(--brand);font-weight:600}
-@media (max-width:760px){nav{margin-left:0;width:100%}.brand .wm{font-size:26px}}
+@media (max-width:760px){nav{margin-left:0;width:100%;flex-wrap:wrap;overflow:visible}nav a{padding:8px 10px}.brand .wm{font-size:26px}}
 
 /* portada */
 .hero{display:grid;grid-template-columns:1fr 1fr;min-height:300px;margin-bottom:28px}
@@ -150,6 +161,9 @@ tr:last-child td{border-bottom:0}
 footer{background:var(--panelblue);color:#ffffffd9;border-top:0;padding-block:16px 30px;font-size:12.5px;color:var(--muted)}
 footer .in{display:grid;gap:6px;max-width:1180px}
 </style>
+</head>
+<body>
+
 
 <header class="top gut">
   <div class="in">
@@ -721,3 +735,6 @@ window.addEventListener("hashchange",route);route();
 window.__t={compute,SP,STATIONS,setPlace,zoneOf};
 })();
 </script>
+
+</body>
+</html>
