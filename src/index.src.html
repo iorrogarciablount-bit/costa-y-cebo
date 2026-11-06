@@ -150,6 +150,41 @@ dl.facts dd{margin:0;font-size:14.5px;font-weight:600}
 .alerts b{display:block;font-weight:600}
 .maplegend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
 .maplegend i{display:inline-block;width:14px;height:12px;border-radius:2px;vertical-align:-2px;margin-right:5px}
+.btn.primary{background:var(--brand);color:#fff;border-color:var(--brand);font-weight:600}
+.btn.primary:hover{background:var(--brand-dark)}
+.btn.sm{min-height:34px;padding:5px 11px;font-size:14px}
+.btn.danger{border-color:var(--danger);color:var(--danger)}
+.spotbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.spotchips{display:flex;flex-wrap:wrap;gap:6px}
+.spotchips button{background:var(--chip);border:1px solid transparent;color:var(--brand);border-radius:2px;padding:5px 10px;font-size:14px;cursor:pointer;min-height:34px}
+.spotchips button[aria-pressed="true"]{border-color:var(--brand);font-weight:600}
+.spotform{display:grid;gap:8px;background:var(--soft);padding:12px;border-left:4px solid var(--brand)}
+.spotform input,.spotform textarea,.spotform select,.cmpctl select{font:inherit;background:var(--panel);color:var(--ink);border:1px solid var(--line);border-radius:2px;padding:8px 10px;width:100%;box-sizing:border-box}
+.spotform textarea{min-height:70px;resize:vertical}
+.spotform .row{display:flex;gap:8px;flex-wrap:wrap}
+.spotnotes{margin:0;font-size:14px;color:var(--muted);white-space:pre-line}
+.now{background:var(--panel);border:1px solid var(--brand);border-top:4px solid var(--brand);padding:14px 16px;display:grid;gap:10px}
+.now h3{margin:0;font-size:20px;font-weight:600;color:var(--brand)}
+.now .rank{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.now .rank li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:8px 10px;background:var(--soft);align-items:center}
+.now .rank li:first-child{background:var(--chip);border-left:4px solid var(--brand)}
+.now .rank b{font-size:16px}
+.now .rank span{font-size:14px;color:var(--muted)}
+.now .facts2{margin:0;padding-left:18px;display:grid;gap:3px;font-size:15px}
+.now .warn{color:var(--danger);font-weight:600}
+.cmpctl{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:14px 0}
+.cmpctl label{display:grid;gap:4px;font-size:14px;font-weight:600}
+.cmpwrap{overflow-x:auto;border:1px solid var(--line)}
+.cmp{min-width:520px;font-size:14px}
+.cmp td,.cmp th{padding:8px 10px;vertical-align:top}
+.cmp td button{all:unset;cursor:pointer;display:grid;gap:2px;width:100%}
+.cmp td button:focus-visible{outline:2px solid var(--buoy)}
+.cmp td.best{background:var(--chip)!important;box-shadow:inset 3px 0 0 var(--brand)}
+.cmp .lv{display:flex;gap:2px}.cmp .lv i{width:12px;height:5px;border-radius:2px;background:var(--line)}.cmp .lv i.on{background:var(--brand)}
+.cmp .wk td:first-child{font-weight:600}
+.picks{display:grid;gap:6px;margin:0;padding:0;list-style:none}
+.picks li{padding:8px 12px;background:var(--soft);border-left:4px solid var(--brand);font-size:15px}
+.spotcards .card .acts{display:flex;gap:6px;flex-wrap:wrap}
 .note{font-size:14.5px;background:var(--chip);border-left:4px solid var(--brand);border-radius:2px;padding:9px 12px;margin:0}
 
 /* semana */
@@ -201,6 +236,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
     </a>
     <nav aria-label="Secciones">
       <a href="#planificador" data-v="planificador">Planificador</a>
+      <a href="#puestos" data-v="puestos">Mis puestos</a>
       <a href="#especies" data-v="especies">Especies</a>
       <a href="#cebos" data-v="cebos">Cebos</a>
       <a href="#normativa" data-v="normativa">Tallas y licencias</a>
@@ -234,6 +270,14 @@ footer .in{display:grid;gap:6px;max-width:1180px}
         <p class="small" style="margin:0">Límites oficiales dibujados en Galicia: Os Miñarzos, Ría de Cedeira e Illas Atlánticas. Toca una zona para ver sus normas.</p>
         <div class="place"><b id="placeName">–</b><span class="zone" id="zoneTag">–</span></div>
         <div class="place"><span id="placeRef">–</span></div>
+        <p class="spotnotes" id="spotNotes" hidden></p>
+        <div class="spotbar"><button type="button" class="btn sm" id="saveSpot">★ Guardar puesto</button><div class="spotchips" id="spotChips" aria-label="Mis puestos"></div></div>
+        <form class="spotform" id="spotForm" hidden>
+          <label class="f" for="spName">Nombre del puesto<input id="spName" maxlength="60" required placeholder="Ej.: Piedra del congrio, Miño"></label>
+          <label class="f" for="spNotesIn">Notas (fondo, acceso, dónde engancha…)<textarea id="spNotesIn" maxlength="600" placeholder="Fondo de piedra a 20 m; bajar por la escalera del paseo; engancha a la izquierda"></textarea></label>
+          <label class="f" for="spSp">Especie habitual<select id="spSp"></select></label>
+          <div class="row"><button type="submit" class="btn primary sm" id="spSave">Guardar</button><button type="button" class="btn sm" id="spCancel">Cancelar</button></div>
+        </form>
         <label class="f" for="stSel">O elige un puerto
           <select id="stSel"></select>
         </label>
@@ -243,8 +287,11 @@ footer .in{display:grid;gap:6px;max-width:1180px}
     <div class="side">
       <div class="ctrl">
         <label class="f" for="fecha">Día<input type="date" id="fecha"></label>
+        <button type="button" class="btn primary" id="nowBtn">Salgo ahora</button>
       </div>
       <div class="chips" role="group" aria-label="Especie" id="spChips"></div>
+
+      <section class="now" id="nowBox" hidden aria-live="polite"></section>
 
       <div class="verdict" aria-live="polite">
         <div class="eyebrow" id="vk" style="grid-column:1/-1">Mejor ventana</div>
@@ -298,6 +345,35 @@ footer .in{display:grid;gap:6px;max-width:1180px}
         <div class="week" id="week"></div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- MIS PUESTOS -->
+<section class="view read" id="v-puestos" hidden>
+  <div class="eyebrow">Tus sitios</div>
+  <h1 class="ptitle">Mis puestos</h1>
+  <p class="lead">Compara tus puestos para los próximos 7 días y mira dónde y a qué hora te conviene ir. Los puestos se guardan en este navegador; usa la copia de seguridad para pasarlos a otro móvil u ordenador.</p>
+  <div class="cmpctl">
+    <label for="cmpSp">Comparar con<select id="cmpSp"></select></label>
+  </div>
+  <div class="sect" style="margin-top:6px">
+    <h2>Dónde ir</h2>
+    <ul class="picks" id="picks"></ul>
+  </div>
+  <div class="sect">
+    <h2>Próximos 7 días</h2>
+    <div class="cmpwrap"><table class="cmp" id="cmp"></table></div>
+    <p class="small" style="margin-top:6px">Cada casilla: valoración, mejor ventana y especie. Resaltado, el mejor puesto de cada día. Toca una casilla para abrirla en el planificador. El parte de mar y viento cuenta solo para los días que cubre la previsión.</p>
+  </div>
+  <div class="sect">
+    <h2>Tus puestos</h2>
+    <div class="cards spotcards" id="spotList"></div>
+  </div>
+  <div class="sect">
+    <h2>Copia de seguridad</h2>
+    <p class="small" style="margin:0 0 8px">Descarga tus puestos en un archivo y cárgalo en otro dispositivo.</p>
+    <div class="actions"><button type="button" class="btn" id="spExport">Descargar copia</button><label class="btn" for="spImport" style="cursor:pointer">Cargar copia<input type="file" id="spImport" accept=".json,application/json" hidden></label></div>
+    <p class="small" id="spMsg" style="margin-top:6px" aria-live="polite"></p>
   </div>
 </section>
 
@@ -782,7 +858,7 @@ function compute(ymd,place,sp,wx){
   const coef=coefFor(mid+12*H), month=+ymd.slice(5,7);
   const coefF=(1-w)*.95+w*sp.coef(coef);
   const day=best.v*sp.season[month-1]*coefF;
-  return {tz,mid,start,end,ex,sun,mev,best,second,coef,month,day,sr,w,st,wx,ymd,il:illum(best.mid.t),ilNoon:illum(mid+12*H),ph:phaseName(mid+12*H)};
+  return {S,coefF,tz,mid,start,end,ex,sun,mev,best,second,coef,month,day,sr,w,st,wx,ymd,il:illum(best.mid.t),ilNoon:illum(mid+12*H),ph:phaseName(mid+12*H)};
 }
 const level=d=>d>.9?5:d>.76?4:d>.6?3:d>.42?2:1;
 const LVL=["","Floja","Regular","Buena","Muy buena","Excelente"];
@@ -792,13 +868,142 @@ const fishSvg=on=>`<svg viewBox="0 0 22 13" aria-hidden="true"><path d="M1 6.5C4
 const state={place:null,sp:"congrio",ymd:null};
 function km(a,b,c,d){const dl=(c-a)*R,dn=(d-b)*R;return 2*6371*Math.asin(Math.sqrt(Math.sin(dl/2)**2+Math.cos(a*R)*Math.cos(c*R)*Math.sin(dn/2)**2));}
 function nearestStation(lat,lon){let b=null,bd=1e9;for(const s of STATIONS){const d=km(lat,lon,s.lat,s.lon);if(d<bd){bd=d;b=s;}}return [b,bd];}
+function makePlace(lat,lon,label){const [st,d]=nearestStation(lat,lon);return {lat,lon,label:label||`Punto ${lat.toFixed(2)}, ${lon.toFixed(2)}`,st,dist:d,zone:zoneOf(lat,lon)};}
 function setPlace(lat,lon,label,focus){
-  const [st,d]=nearestStation(lat,lon), zone=zoneOf(lat,lon);
-  state.place={lat,lon,label:label||`Punto ${lat.toFixed(2)}, ${lon.toFixed(2)}`,st,dist:d,zone};
+  const zone=zoneOf(lat,lon);
+  state.place=makePlace(lat,lon,label);
   store.set("place",JSON.stringify({lat,lon,label:state.place.label}));
   const avail=SP.filter(s=>s.zones.includes(zone));
   if(!avail.some(s=>s.id===state.sp))state.sp=avail[0].id;
-  drawChips();renderPlan();drawMarker(focus);
+  drawChips();renderPlan();drawMarker(focus);renderSpotBar();
+}
+
+/* ===== mis puestos ===== */
+let SPOTS=[];
+try{SPOTS=JSON.parse(store.get("puestos")||"[]");if(!Array.isArray(SPOTS))SPOTS=[];}catch(e){SPOTS=[];}
+SPOTS=SPOTS.filter(x=>x&&typeof x.lat==="number"&&typeof x.lon==="number"&&x.name);
+function saveSpots(){store.set("puestos",JSON.stringify(SPOTS));}
+const sameSpot=(x,p)=>Math.abs(x.lat-p.lat)<1e-4&&Math.abs(x.lon-p.lon)<1e-4;
+const curSpot=()=>state.place?SPOTS.find(x=>sameSpot(x,state.place)):null;
+function spOptions(zone,selected,withNone){return (withNone?`<option value="">Sin especie fija</option>`:"")+SP.filter(s=>!zone||s.zones.includes(zone)).map(s=>`<option value="${s.id}"${s.id===selected?" selected":""}>${s.name}</option>`).join("");}
+function renderSpotBar(){
+  const cs=curSpot();
+  $("saveSpot").textContent=cs?"✎ Editar puesto":"★ Guardar puesto";
+  $("spotNotes").hidden=!(cs&&cs.notes);$("spotNotes").textContent=cs&&cs.notes?cs.notes:"";
+  $("spotChips").innerHTML=SPOTS.map((x,i)=>`<button type="button" id="spc-${i}" data-i="${i}" aria-pressed="${state.place&&sameSpot(x,state.place)}">${esc(x.name)}</button>`).join("");
+  $("spotChips").querySelectorAll("button").forEach(b=>b.onclick=()=>goSpot(SPOTS[+b.dataset.i]));
+}
+function goSpot(x,ymd){
+  if(x.sp&&SP.some(s=>s.id===x.sp&&s.zones.includes(zoneOf(x.lat,x.lon))))state.sp=x.sp;
+  if(ymd){state.ymd=ymd;$("fecha").value=ymd;}
+  setPlace(x.lat,x.lon,x.name,true);
+}
+function openSpotForm(){
+  const cs=curSpot(),P=state.place;
+  $("spName").value=cs?cs.name:(/^Punto /.test(P.label)?"":P.label);
+  $("spNotesIn").value=cs?cs.notes||"":"";
+  $("spSp").innerHTML=spOptions(P.zone,cs?cs.sp:state.sp,true);
+  $("spotForm").hidden=false;$("spName").focus();
+}
+function submitSpot(ev){ev.preventDefault();
+  const name=$("spName").value.trim();if(!name){$("spName").focus();return;}
+  const P=state.place,cs=curSpot(),rec={name,notes:$("spNotesIn").value.trim(),sp:$("spSp").value||null,lat:P.lat,lon:P.lon};
+  if(cs)Object.assign(cs,rec);else SPOTS.push({id:Date.now().toString(36),...rec});
+  saveSpots();state.place.label=name;store.set("place",JSON.stringify({lat:P.lat,lon:P.lon,label:name}));
+  $("spotForm").hidden=true;renderSpotBar();renderPlan();
+}
+
+/* comparador: próximos 7 días por puesto */
+const todayYmd=()=>fmt("Europe/Madrid","ymd").format(new Date());
+function spotSpecies(x,place,mode){
+  const avail=SP.filter(s=>s.zones.includes(place.zone));
+  if(mode==="__spot")return avail.find(s=>s.id===x.sp)||avail.find(s=>s.id===state.sp)||avail[0];
+  return avail.find(s=>s.id===mode)||null;
+}
+function renderCompare(){
+  const sel=$("cmpSp");
+  if(!sel.options.length){sel.innerHTML=`<option value="__spot">La especie de cada puesto</option>`+SP.map(s=>`<option value="${s.id}">${s.name}</option>`).join("");sel.onchange=renderCompare;}
+  if(!SPOTS.length){
+    $("picks").innerHTML=`<li>Aún no tienes puestos. En el planificador, toca tu sitio en el mapa y pulsa «★ Guardar puesto».</li>`;
+    $("cmp").innerHTML="";$("spotList").innerHTML="";return;}
+  const mode=sel.value||"__spot", base=todayYmd(), days=[...Array(7)].map((_,i)=>addDays(base,i));
+  const res=SPOTS.map(x=>{const place=makePlace(x.lat,x.lon,x.name),sp=spotSpecies(x,place,mode);
+    const e=WX[wxKey(place,base)];if(!e)loadWx(place,base).then(()=>{if(location.hash==="#puestos")renderCompare();});
+    const wx=e&&e.d?e.d:null;
+    return {x,place,sp,cells:days.map(ymd=>sp?compute(ymd,place,sp,wx):null)};});
+  const H2=`<thead><tr><th>Día</th>${res.map(o=>`<th>${esc(o.x.name)}</th>`).join("")}</tr></thead>`;
+  let rows="",picks=[];
+  days.forEach((ymd,di)=>{
+    const tz="Europe/Madrid",wd=fmt(tz,"wd").format(new Date(localMidnight(ymd,tz)+12*H)).replace(".","");
+    const scores=res.map(o=>o.cells[di]?o.cells[di].day:-1),bi=scores.indexOf(Math.max(...scores));
+    const isWk=[0,6].includes(new Date(ymd+"T12:00:00Z").getUTCDay());
+    rows+=`<tr class="${isWk?"wk":""}"><td>${wd} ${+ymd.slice(8)}</td>`+res.map((o,ci)=>{const r=o.cells[di];if(!r)return `<td>–</td>`;
+      const lv=level(r.day),hmz=t=>fmt(r.tz,"hm").format(new Date(t));
+      return `<td class="${ci===bi?"best":""}"><button type="button" data-c="${ci}" data-d="${ymd}" id="cell-${di}-${ci}"><span class="lv">${[1,2,3,4,5].map(i=>`<i class="${i<=lv?"on":""}"></i>`).join("")}</span><b>${LVL[lv]}</b><span>${hmz(r.best.a)}–${hmz(r.best.b)}${r.best.a>=r.mid+24*H?" (madrugada)":""}</span><span class="small">${o.sp.name}</span></button></td>`;}).join("")+`</tr>`;
+    if(bi>=0&&scores[bi]>=0&&(isWk||di<2)){const o=res[bi],r=o.cells[di],hmz=t=>fmt(r.tz,"hm").format(new Date(t));
+      picks.push(`<li><b>${di===0?"Hoy":di===1?"Mañana":wd.charAt(0).toUpperCase()+wd.slice(1)+" "+(+ymd.slice(8))}:</b> ${esc(o.x.name)}, ${o.sp.name.toLowerCase()} de ${hmz(r.best.a)} a ${hmz(r.best.b)}${r.best.a>=r.mid+24*H?" (ya de madrugada)":""} · ${LVL[level(r.day)]}</li>`);}
+  });
+  $("cmp").innerHTML=H2+`<tbody>${rows}</tbody>`;
+  $("cmp").querySelectorAll("td button").forEach(b=>b.onclick=()=>{const o=res[+b.dataset.c];if(o.sp)state.sp=o.sp.id;location.hash="#planificador";goSpot({...o.x,sp:o.sp?o.sp.id:o.x.sp},b.dataset.d);});
+  $("picks").innerHTML=picks.join("")||`<li>Sin datos.</li>`;
+  $("spotList").innerHTML=SPOTS.map((x,i)=>{const pz=makePlace(x.lat,x.lon,x.name);return `<article class="card"><h3>${esc(x.name)}</h3>
+    <div class="kv"><span>Zona</span><span>${ZONES[pz.zone].name} · marea de ${pz.st.name}</span><span>Especie</span><span>${x.sp?(SP.find(s=>s.id===x.sp)||{name:"–"}).name:"Sin especie fija"}</span>${x.notes?`<span>Notas</span><span style="white-space:pre-line">${esc(x.notes)}</span>`:""}</div>
+    <div class="acts"><button type="button" class="btn sm" data-go="${i}" id="go-${i}">Abrir en el planificador</button><button type="button" class="btn sm danger" data-del="${i}" id="del-${i}">Borrar</button></div></article>`;}).join("");
+  $("spotList").querySelectorAll("[data-go]").forEach(b=>b.onclick=()=>{location.hash="#planificador";goSpot(SPOTS[+b.dataset.go]);});
+  $("spotList").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{
+    if(b.dataset.confirm){SPOTS.splice(+b.dataset.del,1);saveSpots();renderSpotBar();renderCompare();return;}
+    b.dataset.confirm="1";b.textContent="¿Seguro? Toca otra vez para borrar";setTimeout(()=>{if(b.isConnected){delete b.dataset.confirm;b.textContent="Borrar";}},4000);});
+}
+function exportSpots(){const blob=new Blob([JSON.stringify({app:"costaycebo",v:1,puestos:SPOTS},null,1)],{type:"application/json"}),u=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=u;a.download=`mis-puestos-${todayYmd()}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);$("spMsg").textContent=`Copia descargada con ${SPOTS.length} puestos.`;}
+function importSpots(file){const fr=new FileReader();fr.onload=()=>{try{const d=JSON.parse(fr.result),arr=(d&&d.puestos)||d;if(!Array.isArray(arr))throw 0;
+    let n=0;for(const x of arr){if(!x||typeof x.lat!=="number"||typeof x.lon!=="number"||!x.name)continue;const ex=SPOTS.find(y=>sameSpot(y,x));
+      const rec={id:x.id||Date.now().toString(36)+n,name:String(x.name).slice(0,60),notes:String(x.notes||"").slice(0,600),sp:SP.some(s=>s.id===x.sp)?x.sp:null,lat:x.lat,lon:x.lon};
+      if(ex)Object.assign(ex,rec);else SPOTS.push(rec);n++;}
+    saveSpots();renderSpotBar();renderCompare();$("spMsg").textContent=`Cargados ${n} puestos.`;}
+  catch(e){$("spMsg").textContent="Ese archivo no es una copia de Mis puestos.";}};fr.readAsText(file);}
+
+/* ===== salgo ahora ===== */
+function bestFromNow(sp,P,now,wx){
+  const tz=ZONES[P.zone].tz,hr=+fmt(tz,"parts").formatToParts(new Date(now)).find(x=>x.type==="hour").value;
+  const ymdA=hr<6?addDays(fmt(tz,"ymd").format(new Date(now)),-1):fmt(tz,"ymd").format(new Date(now));
+  const rA=compute(ymdA,P,sp,wx),rB=compute(addDays(ymdA,1),P,sp,wx);
+  const S=rA.S.concat(rB.S.filter(x=>x.t>rA.end)).filter(x=>x.t>=now-10*MIN&&x.t<=now+5*H);
+  let best=null;
+  for(let i=0;i<S.length&&S[i].t<=now+2*H;i++){const w=S.slice(i,i+15);if(w.length<6)break;const v=w.reduce((a,x)=>a+x.s,0)/w.length;
+    if(!best||v>best.v)best={v,a:w[0].t,b:w[w.length-1].t+10*MIN,mid:w[Math.floor(w.length/2)]};}
+  if(!best)return null;
+  return {sp,r:rA,rB,...best,score:best.v*sp.season[rA.month-1]*rA.coefF};
+}
+function runNow(){
+  const P=state.place,now=Date.now(),tz=ZONES[P.zone].tz,base=fmt(tz,"ymd").format(new Date(now));
+  const e=WX[wxKey(P,base)];
+  if(!e){$("nowBox").hidden=false;$("nowBox").innerHTML=`<h3>Ahora en ${esc(P.label)}</h3><p class="wx-msg">Calculando con el parte…</p>`;loadWx(P,base).then(runNow);return;}
+  const wx=e.d;
+  const list=SP.filter(s=>s.zones.includes(P.zone)).map(sp=>bestFromNow(sp,P,now,wx)).filter(Boolean).sort((a,b)=>b.score-a.score);
+  const hm=t=>fmt(tz,"hm").format(new Date(t));
+  if(!list.length){$("nowBox").hidden=false;$("nowBox").innerHTML=`<h3>Ahora en ${esc(P.label)}</h3><p>No hay datos para ahora mismo.</p>`;return;}
+  const top=list[0],b=top.sp.bait(P.zone,top.r.month);
+  const ex=top.r.ex.concat(top.rB.ex).filter(x=>x.t>now).sort((a,b)=>a.t-b.t)[0];
+  const facts=[];
+  if(top.r.w<.25)facts.push("Aquí la marea apenas se nota: manda la luz.");
+  else if(ex)facts.push(`La marea ${ex.hi?"sube":"baja"}: ${ex.hi?"pleamar":"bajamar"} a las ${hm(ex.t)}, dentro de ${fmtDur((ex.t-now)/H)}.`);
+  const sun=top.r.sun;
+  facts.push(now<sun.rise?`Aún es de noche; amanece a las ${hm(sun.rise)}.`:now<sun.set?`Se pone el sol a las ${hm(sun.set)}, dentro de ${fmtDur((sun.set-now)/H)}.`:`Ya es de noche.`);
+  const x=wxAt(wx,now);
+  if(x&&(x.hs!=null||x.ws!=null))facts.push(`Ahora: ${x.hs!=null?`ola ${nf(x.hs)} m ${card(x.dir)}`:""}${x.hs!=null&&x.ws!=null?" · ":""}${x.ws!=null?`viento ${nf(x.ws,0)} km/h ${card(x.wd)} (rachas ${nf(x.wg,0)})`:""}.`);
+  const warn=[];
+  if(x&&x.hs!=null&&x.hs>=2.5)warn.push(`Mar fuerte (${nf(x.hs)} m): evita piedra baja y espigones batidos.`);
+  if(x&&x.wg!=null&&x.wg>=60)warn.push(`Rachas de ${nf(x.wg,0)} km/h.`);
+  const zi=zoneInfo(P.lat,P.lon);for(const f of zi.inside)if(KIND_PRI[f.properties.kind]===3)warn.push(`Estás en ${f.properties.zone}: prohibido pescar.`);
+  $("nowBox").hidden=false;
+  $("nowBox").innerHTML=`<h3>Ahora en ${esc(P.label)} · ${hm(now)}</h3>
+    <ol class="rank">${list.slice(0,3).map((o,i)=>`<li><b>${i+1}. ${o.sp.name}</b><span>${LVL[level(o.score)]}</span><span>${o.a<=now+10*MIN?"Desde ya":"Desde las "+hm(o.a)} hasta las ${hm(o.b)}</span></li>`).join("")}</ol>
+    <div><b>Cebo para ${top.sp.name.toLowerCase()}:</b> ${b.main}. También ${b.alt.slice(0,2).join(", ").toLowerCase()}.</div>
+    <ul class="facts2">${facts.map(t=>`<li>${t}</li>`).join("")}${warn.map(t=>`<li class="warn">${t}</li>`).join("")}</ul>
+    <div class="actions"><button type="button" class="btn primary sm" id="nowDetail">Ver el detalle de ${top.sp.name.toLowerCase()}</button><button type="button" class="btn sm" id="nowClose">Cerrar</button></div>`;
+  $("nowDetail").onclick=()=>{state.sp=top.sp.id;store.set("sp",top.sp.id);state.ymd=fmt(tz,"ymd").format(new Date(top.a));$("fecha").value=state.ymd;drawChips();renderPlan();$("vk").scrollIntoView({behavior:"smooth",block:"start"});};
+  $("nowClose").onclick=()=>{$("nowBox").hidden=true;};
 }
 
 /* ===== mapa (Leaflet + IGN) ===== */
@@ -1053,10 +1258,12 @@ function renderStatic(){
 function bestLight(s){const e=Object.entries(s.light).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>=.85).map(x=>x[0]);return e.join(", ").replace(/^./,c=>c.toUpperCase());}
 
 /* ===== rutas ===== */
-const VIEWS=["planificador","especies","cebos","normativa","mareas"];
+const VIEWS=["planificador","puestos","especies","cebos","normativa","mareas"];
 function route(){const h=location.hash.slice(1);const v=VIEWS.includes(h)?h:"planificador";
   VIEWS.forEach(x=>{$("v-"+x).hidden=x!==v;});
   document.querySelectorAll("nav a").forEach(a=>{if(a.dataset.v===v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current");});
+  if(v==="puestos")renderCompare();
+  if(v==="planificador"&&LM)setTimeout(()=>LM.invalidateSize(),0);
   if(v!=="planificador")window.scrollTo(0,0);}
 
 /* ===== init ===== */
@@ -1075,12 +1282,18 @@ function initSelect(){
   svg.innerHTML=s;})();
 buildMap();initSelect();renderStatic();
 $("icsBtn").addEventListener("click",downloadIcs);
+$("saveSpot").addEventListener("click",()=>{if($("spotForm").hidden)openSpotForm();else $("spotForm").hidden=true;});
+$("spCancel").addEventListener("click",()=>{$("spotForm").hidden=true;});
+$("spotForm").addEventListener("submit",submitSpot);
+$("nowBtn").addEventListener("click",runNow);
+$("spExport").addEventListener("click",exportSpots);
+$("spImport").addEventListener("change",e=>{if(e.target.files[0])importSpots(e.target.files[0]);e.target.value="";});
 const savedSp=store.get("sp");if(savedSp&&SP.some(s=>s.id===savedSp))state.sp=savedSp;
 state.ymd=fmt("Europe/Madrid","ymd").format(new Date());$("fecha").value=state.ymd;
 $("fecha").addEventListener("change",()=>{if($("fecha").value){state.ymd=$("fecha").value;renderPlan();}});
 let pl=null;try{pl=JSON.parse(store.get("place")||"null");}catch(e){}
 if(pl&&typeof pl.lat==="number")setPlace(pl.lat,pl.lon,pl.label);else setPlace(43.353,-8.205,"Miño (ría de Betanzos)");
 window.addEventListener("hashchange",route);route();
-window.__t={baitFor,BAITS,zoneInfo,LM:()=>LM,compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
+window.__t={SPOTS:()=>SPOTS,runNow,renderCompare,bestFromNow,baitFor,BAITS,zoneInfo,LM:()=>LM,compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
 })();
 </script>
