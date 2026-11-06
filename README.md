@@ -24,7 +24,9 @@ wrangler.jsonc         Configuración del Worker de Cloudflare
 
 1. Edita `src/index.src.html`.
 2. Genera la página: `python build.py`
-3. Commit y push. Cloudflare publica `public/` automáticamente.
+3. Commit y push. Cloudflare Pages publica `public/` automáticamente en https://costaycebo.pages.dev/.
+
+La dirección pública, el título y la descripción para compartir están en `src/site.json`. `public/og.png` es la imagen que sale al compartir el enlace.
 
 Para probar en local basta con abrir `public/index.html` en el navegador.
 
