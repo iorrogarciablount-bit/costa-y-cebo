@@ -590,16 +590,35 @@ async function getJSON(url){const r=await fetch(url);let j=null;try{j=await r.js
 function loadWx(place,base){
   const k=wxKey(place,base);if(WX[k])return WX[k].p;
   const sd=addDays(base,-1), ed=addDays(base,7), ll=`latitude=${place.lat.toFixed(3)}&longitude=${place.lon.toFixed(3)}`;
-  const mu=`https://marine-api.open-meteo.com/v1/marine?${ll}&hourly=wave_height,wave_direction,wave_period,swell_wave_height,swell_wave_period,swell_wave_direction,sea_surface_temperature&timeformat=unixtime&start_date=${sd}&end_date=${ed}`;
   const fu=`https://api.open-meteo.com/v1/forecast?${ll}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl&wind_speed_unit=kmh&timeformat=unixtime&start_date=${sd}&end_date=${ed}`;
-  const p=Promise.allSettled([getJSON(mu),getJSON(fu)]).then(([m,f])=>{
-    const d={ok:false,marine:null,fc:null,err:null};
-    if(m.status==="fulfilled"&&m.value&&m.value.hourly)d.marine=m.value.hourly;
+  const p=Promise.allSettled([getMarine(place,sd,ed),getJSON(fu)]).then(([m,f])=>{
+    const d={ok:false,marine:null,mdist:null,fc:null,err:null};
+    if(m.status==="fulfilled"&&m.value){d.marine=m.value.hourly;d.mdist=m.value.dist;}
     if(f.status==="fulfilled"&&f.value&&f.value.hourly)d.fc=f.value.hourly;
     d.ok=!!(d.marine||d.fc);
     if(!d.ok)d.err=(f.reason&&f.reason.message)||(m.reason&&m.reason.message)||"sin datos";
     WX[k].d=d;return d;});
   WX[k]={p,d:null};return p;
+}
+/* El modelo de oleaje no tiene datos en rías y puertos (celdas de tierra): se prueba el punto
+   y un anillo de puntos mar adentro en una sola llamada, y se queda el más cercano con datos. */
+const MVARS="wave_height,wave_direction,wave_period,swell_wave_height,swell_wave_period,swell_wave_direction,sea_surface_temperature";
+function marineCandidates(place){
+  const c=[[place.lat,place.lon]], k=Math.cos(place.lat*R);
+  for(const d of [.08,.16,.3,.5])for(let a=0;a<360;a+=45){c.push([place.lat+d*Math.cos(a*R),place.lon+d*Math.sin(a*R)/k]);}
+  return c;
+}
+function validShare(h){if(!h||!h.wave_height)return 0;const v=h.wave_height;let n=0;for(const x of v)if(x!=null)n++;return v.length?n/v.length:0;}
+async function getMarine(place,sd,ed){
+  const c=marineCandidates(place);
+  const lat=c.map(x=>x[0].toFixed(3)).join(","), lon=c.map(x=>x[1].toFixed(3)).join(",");
+  for(const model of ["",`&models=ncep_gfswave025`]){
+    let res;try{res=await getJSON(`https://marine-api.open-meteo.com/v1/marine?latitude=${lat}&longitude=${lon}&hourly=${MVARS}&timeformat=unixtime&start_date=${sd}&end_date=${ed}${model}`);}catch(e){continue;}
+    const arr=Array.isArray(res)?res:[res];let best=null;
+    arr.forEach((r,i)=>{if(!r||validShare(r.hourly)<.5)return;const q=c[i]||[r.latitude,r.longitude];const d=km(place.lat,place.lon,q[0],q[1]);if(!best||d<best.dist)best={hourly:r.hourly,dist:d};});
+    if(best)return best;
+  }
+  throw new Error("sin datos de oleaje cerca");
 }
 function wxAt(wx,t){
   if(!wx||!wx.ok)return null;
@@ -773,7 +792,7 @@ function renderWx(r,hm,loading){
     <div><span>Rachas</span><b>${nf(x.wg,0)} km/h</b></div>
     <div><span>Presión</span><b>${nf(x.p,0)} hPa${tr}</b></div>
     <div><span>Agua</span><b>${nf(x.sst)} °C</b></div>
-  </div>`+wxTable(r,hm);
+  </div>`+(wx.marine&&wx.mdist>3?`<p class="wx-msg" style="margin:0 0 8px">Oleaje del punto de mar abierto más cercano con datos, a ${Math.round(wx.mdist)} km. Dentro de la ría la ola será menor.</p>`:wx.marine?"":`<p class="wx-msg" style="margin:0 0 8px">No hay datos de oleaje para esta zona; se muestra solo el viento.</p>`)+wxTable(r,hm);
 }
 function wxTable(r,hm){
   let rows="";
@@ -789,9 +808,10 @@ function renderAlerts(r,sp,P,hm){
   for(let t=a;t<=b;t+=H){const x=wxAt(r.wx,t);if(!x)continue;
     if(x.hs!=null)hsMax=Math.max(hsMax??0,x.hs);if(x.per!=null&&x.hs!=null&&x.hs>=1.2)perMax=Math.max(perMax??0,x.per);
     if(x.wg!=null)wgMax=Math.max(wgMax??0,x.wg);if(x.ws!=null)wsMax=Math.max(wsMax??0,x.ws);}
+  const off=r.wx&&r.wx.mdist>3?` en mar abierto (a ${Math.round(r.wx.mdist)} km); dentro de la ría llegará menos, pero en las puntas expuestas no`:"";
   if(hsMax!=null){
-    if(hsMax>=2.5)A.push(["alto","Mar fuerte",`Hasta ${nf(hsMax)} m en la ventana. No pesques en piedra baja ni en espigones batidos por la mar.`]);
-    else if(hsMax>=1.8)A.push(["medio","Mar movida",`Hasta ${nf(hsMax)} m. Mantente lejos del borde en piedra y no le des la espalda al mar.`]);}
+    if(hsMax>=2.5)A.push(["alto","Mar fuerte",`Hasta ${nf(hsMax)} m${off}. No pesques en piedra baja ni en espigones batidos por la mar.`]);
+    else if(hsMax>=1.8)A.push(["medio","Mar movida",`Hasta ${nf(hsMax)} m${off}. Mantente lejos del borde en piedra y no le des la espalda al mar.`]);}
   if(perMax!=null&&perMax>=13)A.push(["medio","Mar de fondo de periodo largo",`Olas de ${nf(perMax,0)} s: llegan series mucho más grandes que la media sin avisar.`]);
   if(wgMax!=null&&wgMax>=60)A.push(["alto","Rachas muy fuertes",`Hasta ${nf(wgMax,0)} km/h. Lances y equilibrio comprometidos en piedra y espigón.`]);
   else if(wsMax!=null&&wsMax>=35)A.push(["medio","Viento fuerte",`${nf(wsMax,0)} km/h de media en la ventana.`]);
