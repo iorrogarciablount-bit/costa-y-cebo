@@ -1,6 +1,6 @@
 /* Service worker de Costa y Cebo: permite usar la web sin conexión.
    La versión la pone build.py; al cambiar, se descarta la caché antigua de la página. */
-const VERSION = "7f1c7bc63e34";
+const VERSION = "de329c5f5077";
 const CORE = "core-" + VERSION;
 const TILES = "tiles-v1";
 const FONTS = "fonts-v1";
