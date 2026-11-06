@@ -6,6 +6,9 @@ Planificador de pesca recreativa desde costa para toda España: eliges un punto 
 
 ```
 public/index.html      Página publicada (generada, no editar a mano)
+public/sw.js           Service worker para usarla sin conexión (generado)
+public/manifest.webmanifest, public/icons/  Datos e iconos de la app instalable
+src/sw.src.js          Fuente del service worker
 src/index.src.html     Código fuente de la página (HTML, CSS y JS)
 src/data/tp.js         Predictor armónico de mareas (@neaps/tide-predictor, empaquetado)
 src/data/stations.json Constantes armónicas de 45 mareógrafos españoles

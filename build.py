@@ -28,11 +28,20 @@ reset = ("<style>\n:root{color-scheme:light;padding-top:env(safe-area-inset-top,
          "[hidden]{display:none!important}\n</style>\n")
 doc = ("<!doctype html>\n<html lang=\"es\">\n<head>\n<meta charset=\"utf-8\">\n"
        "<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,viewport-fit=cover\">\n"
+       "<meta name=\"theme-color\" content=\"#1b7cc0\">\n"
+       "<link rel=\"manifest\" href=\"manifest.webmanifest\">\n"
+       "<link rel=\"icon\" href=\"icons/icon-192.png\" type=\"image/png\">\n"
+       "<link rel=\"apple-touch-icon\" href=\"icons/apple-touch-icon.png\">\n"
+       "<meta name=\"apple-mobile-web-app-capable\" content=\"yes\">\n"
        "<meta name=\"description\" content=\"Planificador de pesca desde costa en España: mejor hora, cebo, "
        "mareas, parte de mar, solunar, tallas y licencias.\">\n"
        + reset + head + "\n</head>\n<body>\n" + body + "\n</body>\n</html>\n")
 
+import hashlib
 os.makedirs(os.path.join(here, "public"), exist_ok=True)
+version = hashlib.sha256(doc.encode("utf-8")).hexdigest()[:12]
+with open(os.path.join(here, "public", "sw.js"), "w", encoding="utf-8") as f:
+    f.write(read(src, "sw.src.js").replace("__VERSION__", version))
 with open(os.path.join(here, "public", "index.html"), "w", encoding="utf-8") as f:
     f.write(doc)
-print("public/index.html:", len(doc.encode("utf-8")), "bytes")
+print("public/index.html:", len(doc.encode("utf-8")), "bytes · sw", version)
