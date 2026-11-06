@@ -291,6 +291,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
   </div>
 </header>
 
+<div class="offline gut" id="moved" hidden><div class="in"><b>Nueva dirección:</b> <a id="movedLink" href="#"></a>. Si tienes puestos guardados, descárgalos en Mis puestos → Copia de seguridad y cárgalos en la nueva dirección: cada dirección guarda sus propios datos.</div></div>
 <div class="offline gut" id="offline" hidden><div class="in">Sin conexión: mareas, sol, luna, cebos, reservas y tus puestos siguen funcionando. El parte es el último que se guardó.</div></div>
 <main class="gut">
 <div class="in">
@@ -526,6 +527,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
 (function(){
 "use strict";
 const STATIONS=/*STATIONS*/;
+const SITE=/*SITE*/;
 const ZONES_GJ=/*ZONES*/;
 const COAST=/*COAST*/;
 const R=Math.PI/180, H=3600000, MIN=60000;
@@ -1505,6 +1507,7 @@ function setNight(on){document.documentElement.toggleAttribute("data-night",fals
   if(state.place){drawMarker();renderPlan();}}
 $("nightBtn").addEventListener("click",()=>setNight($("nightBtn").getAttribute("aria-pressed")!=="true"));
 if(store.get("night")==="1")setNight(true);
+if(SITE.old.includes(location.hostname)){$("moved").hidden=false;$("movedLink").href=SITE.url;$("movedLink").textContent=SITE.url.replace(/^https:\/\/|\/$/g,"");}
 function netState(){$("offline").hidden=navigator.onLine!==false;}
 window.addEventListener("online",()=>{netState();for(const k in WX)if(WX[k].d&&WX[k].d.stale)delete WX[k];if(state.place)renderPlan();});
 window.addEventListener("offline",netState);netState();
