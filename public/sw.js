@@ -1,11 +1,11 @@
 /* Service worker de Costa y Cebo: permite usar la web sin conexión.
    La versión la pone build.py; al cambiar, se descarta la caché antigua de la página. */
-const VERSION = "71ccaa470b84";
+const VERSION = "8efaab8d1ec1";
 const CORE = "core-" + VERSION;
 const TILES = "tiles-v1";
 const FONTS = "fonts-v1";
 const MAX_TILES = 400;
-const CORE_FILES = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png",
+const CORE_FILES = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/favicon-32.png", "./og.png",
   "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.js"];
 
 self.addEventListener("install", e => {
