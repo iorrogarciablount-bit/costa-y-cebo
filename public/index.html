@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="description" content="Planificador de pesca desde costa en España: mejor hora, cebo, mareas, solunar, tallas y licencias.">
+<meta name="description" content="Planificador de pesca desde costa en España: mejor hora, cebo, mareas, parte de mar, solunar, tallas y licencias.">
 <style>
 :root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 body{margin:0}
@@ -20,7 +20,7 @@ img{max-width:100%}
   --bg:#ffffff; --panel:#ffffff; --ink:#3a3f44; --muted:#6b7680; --line:#d9e2ea;
   --sea:#d9ebf6; --sea-line:#1b7cc0; --land:#f7f6f1; --land-other:#e9ebec; --land-stroke:#7d8d99;
   --tide:#1b7cc0; --tide-soft:#1b7cc01f; --night:#1d2b3612; --buoy:#1b7cc0; --buoy-soft:#1b7cc024; --mark:#e2551d;
-  --solmaj:#5a7d2a4d; --solmin:#5a7d2a24; --good:#2f7d32; --warn:#a8720c; --chip:#eaf3fa; --soft:#f3f7fa;
+  --solmaj:#5a7d2a4d; --solmin:#5a7d2a24; --good:#2f7d32; --warn:#a8720c; --chip:#eaf3fa; --soft:#f3f7fa; --res:#b0246c; --res-soft:#b0246c1a; --danger:#b3261e; --danger-soft:#b3261e14; --caution:#9a6700; --caution-soft:#f0b4291f;
   --f-display:"Open Sans","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --f-body:"Open Sans","Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
   --f-mono:"Open Sans","Segoe UI",Roboto,Arial,sans-serif;
@@ -30,13 +30,13 @@ img{max-width:100%}
   --bg:#0b141c; --panel:#111e29; --ink:#e3ebf1; --muted:#97a8b5; --line:#24384a;
   --sea:#12324a; --sea-line:#5fb0e6; --land:#2b3238; --land-other:#1b2229; --land-stroke:#7f8f9b;
   --tide:#5fb0e6; --tide-soft:#5fb0e626; --night:#00000047; --buoy:#5fb0e6; --buoy-soft:#5fb0e62e; --mark:#ff7a3c;
-  --solmaj:#9bc46a55; --solmin:#9bc46a26; --good:#62c06a; --warn:#e0ad45; --chip:#16293a; --soft:#0f1a24; color-scheme:dark}}
+  --solmaj:#9bc46a55; --solmin:#9bc46a26; --good:#62c06a; --warn:#e0ad45; --chip:#16293a; --soft:#0f1a24; --res:#ff79b8; --res-soft:#ff79b81f; --danger:#ff8a80; --danger-soft:#ff8a801a; --caution:#f2c14e; --caution-soft:#f2c14e1a; color-scheme:dark}}
 :root[data-theme="dark"]{
   --brand:#4aa6e0; --brand-dark:#0b3d63; --brand-ink:#ffffff; --head:#0f1a24; --panelblue:#16608f; --deep:#082f3d;
   --bg:#0b141c; --panel:#111e29; --ink:#e3ebf1; --muted:#97a8b5; --line:#24384a;
   --sea:#12324a; --sea-line:#5fb0e6; --land:#2b3238; --land-other:#1b2229; --land-stroke:#7f8f9b;
   --tide:#5fb0e6; --tide-soft:#5fb0e626; --night:#00000047; --buoy:#5fb0e6; --buoy-soft:#5fb0e62e; --mark:#ff7a3c;
-  --solmaj:#9bc46a55; --solmin:#9bc46a26; --good:#62c06a; --warn:#e0ad45; --chip:#16293a; --soft:#0f1a24; color-scheme:dark}
+  --solmaj:#9bc46a55; --solmin:#9bc46a26; --good:#62c06a; --warn:#e0ad45; --chip:#16293a; --soft:#0f1a24; --res:#ff79b8; --res-soft:#ff79b81f; --danger:#ff8a80; --danger-soft:#ff8a801a; --caution:#f2c14e; --caution-soft:#f2c14e1a; color-scheme:dark}
 html,body{background:var(--bg);color:var(--ink)}
 body{font-family:var(--f-body);font-size:16px;line-height:1.55}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--head)}
@@ -90,6 +90,7 @@ h1,h2,h3{text-wrap:balance}
 .zone{display:inline-block;font-size:13px;font-weight:600;padding:2px 9px;border-radius:3px;background:var(--chip);color:var(--brand)}
 select{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:9px 10px;min-height:42px;max-width:100%}
 .side{display:grid;gap:18px;min-width:0}
+.side>*{min-width:0}
 .ctrl{display:flex;flex-wrap:wrap;gap:12px;align-items:end}
 label.f{display:grid;gap:4px;font-size:14px;font-weight:600;color:var(--ink)}
 input[type=date]{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-height:42px;font-size:16px}
@@ -119,6 +120,29 @@ dl.facts{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 12px;font-
 dl.facts dt{color:var(--muted);font-size:14.5px}
 dl.facts dd{margin:0;font-size:14.5px;font-weight:600}
 .why{margin:0;padding-left:18px;display:grid;gap:4px}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--brand);color:var(--brand);border-radius:2px;padding:8px 14px;min-height:40px;font-size:15px;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--chip)}
+.btn svg{width:16px;height:16px}
+.wx-sum{display:flex;flex-wrap:wrap;gap:8px 18px;margin-bottom:10px}
+.wx-sum div{display:grid;gap:0}
+.wx-sum span{font-size:13px;color:var(--muted)}
+.wx-sum b{font-size:18px;font-weight:600;font-variant-numeric:tabular-nums;display:flex;align-items:center;gap:5px}
+.arr{width:15px;height:15px;flex:none;color:var(--brand)}
+.wxt{overflow-x:auto;border:1px solid var(--line)}
+.wxt table{min-width:460px;font-size:14px}
+.wxt td,.wxt th{padding:6px 9px;white-space:nowrap}
+.wxt td.win{background:var(--buoy-soft)!important}
+.wx-msg{font-size:14.5px;color:var(--muted);margin:0}
+.src{font-size:12.5px;color:var(--muted);margin-top:6px}
+.blk ul.alerts{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.alerts li{padding:9px 12px 9px 14px;border-left:4px solid var(--brand);background:var(--chip);font-size:15px}
+.alerts li.alto{border-left-color:var(--danger);background:var(--danger-soft)}
+.alerts li.medio{border-left-color:var(--caution);background:var(--caution-soft)}
+.alerts li.res{border-left-color:var(--res);background:var(--res-soft)}
+.alerts b{display:block;font-weight:600}
+.maplegend{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.maplegend i{display:inline-block;width:12px;height:12px;border-radius:50%;vertical-align:-2px;margin-right:5px}
 .note{font-size:14.5px;background:var(--chip);border-left:4px solid var(--brand);border-radius:2px;padding:9px 12px;margin:0}
 
 /* semana */
@@ -200,6 +224,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
       <div class="maphead"><h2>Elige tu zona</h2><span class="small">Toca cerca de la costa</span></div>
       <svg id="map" role="img" aria-label="Mapa de la costa española"></svg>
       <div class="mapfoot">
+        <div class="maplegend"><span><i style="background:var(--sea-line)"></i>Mareógrafo</span><span><i style="border:2px dashed var(--res)"></i>Reserva marina o zona protegida (posición aproximada)</span></div>
         <div class="place"><b id="placeName">–</b><span class="zone" id="zoneTag">–</span></div>
         <div class="place"><span id="placeRef">–</span></div>
         <label class="f" for="stSel">O elige un puerto
@@ -219,6 +244,11 @@ footer .in{display:grid;gap:6px;max-width:1180px}
         <div class="window" id="win">--:-- – --:--</div>
         <div class="rating"><span class="eyebrow">Jornada</span><b id="rateTxt">–</b><div class="fishes" id="fishes"></div></div>
         <p class="sub" id="alt"></p>
+      </div>
+
+      <div class="actions" aria-label="Añadir al calendario">
+        <a class="btn" id="gcal" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 6h13M5 1v3M11 1v3" stroke="currentColor" stroke-width="1.4"/></svg>Google Calendar</a>
+        <button class="btn" type="button" id="icsBtn"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0l-3-3m3 3l3-3M2.5 12.5h11" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>Calendario del móvil (.ics)</button>
       </div>
 
       <div class="chart">
@@ -243,6 +273,13 @@ footer .in{display:grid;gap:6px;max-width:1180px}
           <h3>El día</h3>
           <dl class="facts" id="facts"></dl>
         </div>
+      </div>
+
+      <div class="blk"><h3>Seguridad</h3><ul class="alerts" id="alerts"></ul></div>
+
+      <div class="blk"><h3>Parte de mar y viento</h3>
+        <div id="wxBox"><p class="wx-msg">Cargando el parte…</p></div>
+        <div class="src">Parte: <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (CC BY 4.0). Previsión de modelo, no observación: mira también el parte de AEMET.</div>
       </div>
 
       <div class="blk"><h3>Por qué esa hora</h3><ul class="why" id="why"></ul></div>
@@ -294,6 +331,12 @@ footer .in{display:grid;gap:6px;max-width:1180px}
   </div>
 
   <div class="sect">
+    <h2>Reservas marinas y zonas protegidas</h2>
+    <p class="small" style="margin:0 0 10px">En estas zonas la pesca recreativa está prohibida en parte de su superficie y regulada en el resto (zonas, artes, épocas o autorización previa). Los círculos del mapa marcan la posición aproximada, no los límites legales. Antes de pescar cerca, consulta la normativa y la cartografía oficial de cada una.</p>
+    <div class="lic" id="resList"></div>
+  </div>
+
+  <div class="sect">
     <h2>Licencia desde tierra por comunidad</h2>
     <p class="small" style="margin:0 0 10px">La licencia la expide la comunidad costera donde pescas. Muchas reconocen las de otras comunidades, pero no todas: compruébalo antes de viajar.</p>
     <div class="lic" id="licList"></div>
@@ -323,6 +366,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
 </main>
 <footer class="gut"><div class="in">
   <div>Mareas astronómicas orientativas. No usar para navegación. Consulta las tablas oficiales de Puertos del Estado y el parte de AEMET.</div>
+  <div>Parte de mar y viento: <a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:inherit">Open-Meteo</a>, datos con licencia <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color:inherit">CC BY 4.0</a>, uso no comercial.</div>
   <div>Constantes de marea: TICON-4 (Hart-Davis, Dettmering y Seitz, 2025, <a href="https://doi.org/10.17882/109129" target="_blank" rel="noopener" style="color:inherit">doi:10.17882/109129</a>), a través de la <a href="https://github.com/openwatersio/tide-database" target="_blank" rel="noopener" style="color:inherit">base de datos Neaps</a>, con licencia <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener" style="color:inherit">CC BY-NC 4.0</a>. Costa: Natural Earth.</div>
 </div></footer>
 
@@ -525,12 +569,79 @@ const BAITS=[
  {n:"Lapa y burgado",for:"Vieja, sargo (Canarias)",how:"Sin concha, por la parte dura del pie.",keep:"Se cogen en el momento; respeta las vedas y tallas de marisqueo de Canarias."}
 ];
 
+/* ===== reservas marinas y zonas protegidas (posición aproximada) ===== */
+const MAPA_RM="https://www.mapa.gob.es/es/pesca/temas/proteccion-recursos-pesqueros/reservas-marinas-de-espana/";
+const RES=[
+ {n:"Cabo de Gata-Níjar",t:"Reserva marina (Estado)",lat:36.85,lon:-2.05,r:16,u:MAPA_RM+"cabo-de-gata-nijar"},
+ {n:"Cabo de Palos-Islas Hormigas",t:"Reserva marina (Estado)",lat:37.65,lon:-0.65,r:5,u:MAPA_RM+"cabo-de-palos-islas-hormigas"},
+ {n:"Cabo Tiñoso",t:"Reserva marina (Estado)",lat:37.535,lon:-1.11,r:4,u:MAPA_RM+"cabo-tinoso"},
+ {n:"Isla de Tabarca",t:"Reserva marina (Estado)",lat:38.165,lon:-0.475,r:4,u:MAPA_RM+"isla-de-tabarca"},
+ {n:"Islas Columbretes",t:"Reserva marina (Estado)",lat:39.90,lon:0.685,r:6,u:MAPA_RM+"islas-columbretes"},
+ {n:"Masía Blanca",t:"Reserva marina (Estado)",lat:41.175,lon:1.52,r:1.5,u:MAPA_RM+"masia-blanca"},
+ {n:"Levante de Mallorca-Cala Rajada",t:"Reserva marina (Estado y Govern balear)",lat:39.70,lon:3.47,r:6,u:MAPA_RM+"levante-de-mallorca-cala-rajada"},
+ {n:"Isla Dragonera",t:"Reserva marina (Estado y Govern balear)",lat:39.585,lon:2.32,r:3,u:MAPA_RM+"isla-dragonera"},
+ {n:"Isla de Alborán",t:"Reserva marina (Estado)",lat:35.94,lon:-3.035,r:6,u:MAPA_RM+"isla-de-alboran"},
+ {n:"Isla Graciosa e islotes del norte de Lanzarote",t:"Reserva marina (Estado y Canarias)",lat:29.26,lon:-13.50,r:10,u:MAPA_RM+"isla-graciosa"},
+ {n:"Isla de La Palma",t:"Reserva marina (Estado y Canarias)",lat:28.53,lon:-17.90,r:5,u:MAPA_RM+"isla-de-la-palma"},
+ {n:"La Restinga-Mar de las Calmas",t:"Reserva marina (Estado y Canarias)",lat:27.66,lon:-17.99,r:5,u:MAPA_RM+"la-restinga"},
+ {n:"Os Miñarzos (Lira)",t:"Reserva marina de interés pesquero (Galicia)",lat:42.80,lon:-9.13,r:5,u:null},
+ {n:"Ría de Cedeira",t:"Reserva marina de interés pesquero (Galicia)",lat:43.66,lon:-8.06,r:3,u:null},
+ {n:"Islas Cíes",t:"Parque Nacional Illas Atlánticas",lat:42.22,lon:-8.905,r:4,u:null},
+ {n:"Isla de Ons",t:"Parque Nacional Illas Atlánticas",lat:42.38,lon:-8.935,r:4,u:null},
+ {n:"Isla de Sálvora",t:"Parque Nacional Illas Atlánticas",lat:42.47,lon:-9.01,r:3,u:null},
+ {n:"Isla de Cortegada",t:"Parque Nacional Illas Atlánticas",lat:42.625,lon:-8.785,r:1.5,u:null},
+ {n:"Archipiélago de Cabrera",t:"Parque Nacional",lat:39.15,lon:2.94,r:8,u:null},
+ {n:"Illes Medes",t:"Parque Natural del Montgrí, les Medes i el Baix Ter",lat:42.047,lon:3.222,r:1.5,u:null},
+ {n:"Cap de Creus",t:"Parque Natural (zona marina)",lat:42.32,lon:3.31,r:6,u:null}
+];
+function nearReserve(lat,lon){let best=null;for(const z of RES){const d=km(lat,lon,z.lat,z.lon);if(d<=z.r+3&&(!best||d-z.r<best.d-best.z.r))best={z,d};}return best;}
+
+/* ===== parte de mar y viento (Open-Meteo) ===== */
+const WX={};
+const WAVE={lubina:[.8,2,.75,.55],sargo:[.6,1.8,.85,.6],dorada:[.2,1,.95,.6],congrio:[0,1.5,1,.7],corvina:[.5,1.5,.85,.65],herrera:[.3,1,.85,.55],vieja:[0,1,1,.6],calamar:[0,.8,1,.55],choco:[0,.8,1,.6]};
+function waveF(sp,h){if(h==null)return 1;const [lo,hi,low,high]=WAVE[sp.id]||[0,1.5,1,.7];
+  if(h<lo)return low+(1-low)*(h/lo);if(h<=hi)return 1;return Math.max(high,1-(1-high)*((h-hi)/1.5));}
+function windF(ws,wg){if(ws==null)return 1;let f=ws>45?.6:ws>30?.8:ws>22?.93:1;if(wg!=null&&wg>60)f=Math.min(f,.6);return f;}
+const PRESS_UP=["lubina","sargo","dorada","corvina"];
+function pressF(sp,dp){if(dp==null||!PRESS_UP.includes(sp.id))return 1;return dp<-2?1.06:dp>3?.96:1;}
+function ymdUTC(ms){return new Date(ms).toISOString().slice(0,10);}
+function wxKey(place,base){return place.lat.toFixed(2)+","+place.lon.toFixed(2)+","+base;}
+async function getJSON(url){const r=await fetch(url);let j=null;try{j=await r.json();}catch(e){}if(!r.ok)throw new Error((j&&j.reason)||("HTTP "+r.status));return j;}
+function loadWx(place,base){
+  const k=wxKey(place,base);if(WX[k])return WX[k].p;
+  const sd=addDays(base,-1), ed=addDays(base,7), ll=`latitude=${place.lat.toFixed(3)}&longitude=${place.lon.toFixed(3)}`;
+  const mu=`https://marine-api.open-meteo.com/v1/marine?${ll}&hourly=wave_height,wave_direction,wave_period,swell_wave_height,swell_wave_period,swell_wave_direction,sea_surface_temperature&timeformat=unixtime&start_date=${sd}&end_date=${ed}`;
+  const fu=`https://api.open-meteo.com/v1/forecast?${ll}&hourly=temperature_2m,precipitation_probability,wind_speed_10m,wind_direction_10m,wind_gusts_10m,pressure_msl&wind_speed_unit=kmh&timeformat=unixtime&start_date=${sd}&end_date=${ed}`;
+  const p=Promise.allSettled([getJSON(mu),getJSON(fu)]).then(([m,f])=>{
+    const d={ok:false,marine:null,fc:null,err:null};
+    if(m.status==="fulfilled"&&m.value&&m.value.hourly)d.marine=m.value.hourly;
+    if(f.status==="fulfilled"&&f.value&&f.value.hourly)d.fc=f.value.hourly;
+    d.ok=!!(d.marine||d.fc);
+    if(!d.ok)d.err=(f.reason&&f.reason.message)||(m.reason&&m.reason.message)||"sin datos";
+    WX[k].d=d;return d;});
+  WX[k]={p,d:null};return p;
+}
+function wxAt(wx,t){
+  if(!wx||!wx.ok)return null;
+  const pick=(src,name,dt=0)=>{if(!src||!src[name]||!src.time)return null;const i=Math.round((t/1000+dt*3600-src.time[0])/3600);const v=src[name][i];return (i>=0&&i<src[name].length&&v!=null)?v:null;};
+  const o={hs:pick(wx.marine,"wave_height"),dir:pick(wx.marine,"wave_direction"),per:pick(wx.marine,"wave_period"),
+    sw:pick(wx.marine,"swell_wave_height"),swp:pick(wx.marine,"swell_wave_period"),swd:pick(wx.marine,"swell_wave_direction"),
+    sst:pick(wx.marine,"sea_surface_temperature"),ws:pick(wx.fc,"wind_speed_10m"),wd:pick(wx.fc,"wind_direction_10m"),
+    wg:pick(wx.fc,"wind_gusts_10m"),p:pick(wx.fc,"pressure_msl"),pp:pick(wx.fc,"precipitation_probability"),ta:pick(wx.fc,"temperature_2m")};
+  const p6=pick(wx.fc,"pressure_msl",-6);o.dp=(o.p!=null&&p6!=null)?o.p-p6:null;
+  return Object.values(o).some(v=>v!=null)?o:null;
+}
+const CARD=["N","NE","E","SE","S","SO","O","NO"];
+const card=d=>d==null?"":CARD[Math.round(((d%360)+360)%360/45)%8];
+const arrow=d=>d==null?"":`<svg class="arr" viewBox="0 0 16 16" aria-hidden="true" style="transform:rotate(${d}deg)"><path d="M8 1.5v13M8 14.5l-4-4M8 14.5l4-4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>`;
+const nf=(v,d=1)=>v==null?"–":v.toFixed(d).replace(".",",");
+
 /* ===== cálculo del día ===== */
 function lightAt(s,t){
   if(t>=s.set-45*MIN&&t<=s.dusk+15*MIN)return"atardecer";
   if(t>=s.dawn-15*MIN&&t<=s.rise+45*MIN)return"amanecer";
   if(t>s.rise&&t<s.set)return"día";return"noche";}
-function compute(ymd,place,sp){
+function compute(ymd,place,sp,wx){
   const tz=ZONES[place.zone].tz, mid=localMidnight(ymd,tz), start=mid+6*H, end=mid+30*H;
   const st=place.st, p=predictor(st), sr=springRange(st), w=Math.max(0,Math.min(1,(sr-.3)/1.4));
   const ex=p.getExtremesPrediction({start:new Date(start-14*H),end:new Date(end+14*H)}).map(e=>({t:+e.time,h:e.level,hi:e.high}));
@@ -543,7 +654,8 @@ function compute(ymd,place,sp){
     let rh=0;if(highs.length){rh=highs.reduce((b,e)=>Math.abs(t-e.t)<Math.abs(b)?t-e.t:b,Infinity)/H;}
     let sol=1,solK=null;for(const e of mev){const d=Math.abs(t-e.t);if(e.k==="major"&&d<=60*MIN){sol=1.15;solK="mayor";break;}if(e.k==="minor"&&d<=30*MIN){sol=Math.max(sol,1.07);solK=solK||"menor";}}
     const tideT=(1-w)*.8+w*sp.tide(rh), moonT=(L==="noche"||L==="atardecer")?sp.moon(illum(t)):1;
-    S.push({t,L,rh,solK,s:sp.light[L]*tideT*moonT*sol});
+    const x=wx?wxAt(wx,t):null, wxT=x?waveF(sp,x.hs)*windF(x.ws,x.wg)*pressF(sp,x.dp):1;
+    S.push({t,L,rh,solK,x,s:sp.light[L]*tideT*moonT*sol*wxT});
   }
   const Wn=15,avg=[];for(let i=0;i+Wn<=S.length;i++){let a=0;for(let k=0;k<Wn;k++)a+=S[i+k].s;avg.push(a/Wn);}
   let bi=0;avg.forEach((v,i)=>{if(v>avg[bi])bi=i;});
@@ -553,7 +665,7 @@ function compute(ymd,place,sp){
   const coef=coefFor(mid+12*H), month=+ymd.slice(5,7);
   const coefF=(1-w)*.95+w*sp.coef(coef);
   const day=best.v*sp.season[month-1]*coefF;
-  return {tz,mid,start,end,ex,sun,mev,best,second,coef,month,day,sr,w,st,il:illum(best.mid.t),ilNoon:illum(mid+12*H),ph:phaseName(mid+12*H)};
+  return {tz,mid,start,end,ex,sun,mev,best,second,coef,month,day,sr,w,st,wx,ymd,il:illum(best.mid.t),ilNoon:illum(mid+12*H),ph:phaseName(mid+12*H)};
 }
 const level=d=>d>.9?5:d>.76?4:d>.6?3:d>.42?2:1;
 const LVL=["","Floja","Regular","Buena","Muy buena","Excelente"];
@@ -585,6 +697,8 @@ function buildMap(){
   const labels=[["CANTÁBRICO",-5.6,43.83],["ATLÁNTICO",-10.1,41.2],["MEDITERRÁNEO",1.5,37.6],["GOLFO DE CÁDIZ",-8.6,36.45]];
   for(const [t,lo,la] of labels){const [x,y]=proj(lo,la);s+=`<text x="${x}" y="${y}" font-size="11" letter-spacing="2" fill="var(--sea-line)" opacity=".75" font-family="Open Sans,Segoe UI,Arial,sans-serif">${t}</text>`;}
   for(const st of STATIONS){const [x,y]=proj(st.lat<30?st.lon:st.lon,st.lat,true);s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.6" fill="var(--sea-line)" opacity=".8"><title>${st.name}</title></circle>`;}
+  for(const z of RES){const [x,y]=proj(z.lon,z.lat);const rp=Math.max(3.5,z.r*(z.lat<30?MAP.CAN.K:MAP.K)/111);
+    s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${rp.toFixed(1)}" fill="var(--res-soft)" stroke="var(--res)" stroke-width="1.3" stroke-dasharray="3 2"><title>${z.n} · ${z.t}</title></circle>`;}
   s+=`<g id="marker"></g>`;
   svg.innerHTML=s;
   svg.addEventListener("click",ev=>{
@@ -611,7 +725,10 @@ function drawChips(){
 }
 function renderPlan(){
   const P=state.place;if(!P||!state.ymd)return;
-  const sp=SP.find(s=>s.id===state.sp), r=compute(state.ymd,P,sp), tz=r.tz;
+  const sp=SP.find(s=>s.id===state.sp), k=wxKey(P,state.ymd), wxe=WX[k];
+  const wx=wxe&&wxe.d?wxe.d:null;
+  if(!wxe){loadWx(P,state.ymd).then(()=>{if(state.place===P&&wxKey(state.place,state.ymd)===k)renderPlan();});}
+  const r=compute(state.ymd,P,sp,wx), tz=r.tz;
   const hm=t=>fmt(tz,"hm").format(new Date(t));
   $("placeName").textContent=P.label;
   $("zoneTag").textContent=ZONES[P.zone].name;
@@ -646,13 +763,97 @@ function renderPlan(){
   if(sp.id==="congrio"&&r.il>.8)why.push("Luna llena: el congrio entra más tarde y más desconfiado. Cebo grande y oloroso.");
   if(sp.id==="congrio"&&r.il<.2)why.push("Noche oscura: de las mejores para congrio.");
   if(sp.season[r.month-1]<.6)why.push(`No es su mejor época: ${sp.when.toLowerCase()}`);
+  if(m.x&&m.x.hs!=null){const f=waveF(sp,m.x.hs);
+    if(f>=.99)why.push(`El oleaje previsto (${nf(m.x.hs)} m) le va bien a esta especie.`);
+    else if(m.x.hs<(WAVE[sp.id]||[0])[0])why.push(`Mar muy en calma (${nf(m.x.hs)} m): ${sp.id==="lubina"?"a la lubina le gusta algo de espuma":"suele entrar peor"}.`);
+    else why.push(`Hay más mar de la que le gusta (${nf(m.x.hs)} m), por eso baja la puntuación.`);}
+  if(m.x&&m.x.dp!=null&&m.x.dp<-2&&PRESS_UP.includes(sp.id))why.push("La presión está bajando: suele activar al pescado.");
   $("why").innerHTML=why.map(x=>`<li>${x}</li>`).join("");
   const cal=ZONES[P.zone].cal, ti=TALLA_SP[sp.id];
   const tv=ti!=null?TALLAS[ti][CAL_IDX[cal]]:null;
   $("talla").textContent=tv&&tv!=="–"?`Talla mínima en ${CALS[cal]}: ${tv.replace("*","")} cm${sp.id==="lubina"&&cal==="CNW"?" (pesca recreativa)":""}. Cupo general en aguas exteriores: 5 kg por pescador y día.`
     :`Sin talla mínima estatal para ${sp.name.toLowerCase()} en ${CALS[cal]}; consulta la norma de tu comunidad. Cupo general en aguas exteriores: 5 kg por pescador y día.`;
   drawChart(r,hm);renderWeek(sp);
+  renderWx(r,hm,wxe&&!wxe.d);
+  renderAlerts(r,sp,P,hm);
+  setCalendar(r,sp,P,b,hm);
 }
+function renderWx(r,hm,loading){
+  const box=$("wxBox"), wx=r.wx;
+  if(loading&&!wx){box.innerHTML=`<p class="wx-msg">Cargando el parte…</p>`;return;}
+  const x=wxAt(wx,r.best.mid.t);
+  if(!wx||!wx.ok||!x){
+    const far=(localMidnight(r.ymd,r.tz)-Date.now())/864e5;
+    box.innerHTML=`<p class="wx-msg">${far>14?"El parte solo llega a unos 7–14 días vista. Vuelve a mirarlo más cerca de la fecha.":far<-2?"No hay parte para fechas pasadas.":"No se ha podido cargar el parte ahora mismo. La recomendación usa solo marea, luz y luna."}</p>`;return;}
+  const tr=x.dp==null?"":x.dp<-1.5?" ↓":x.dp>1.5?" ↑":" =";
+  box.innerHTML=`<div class="wx-sum">
+    <div><span>Oleaje</span><b>${nf(x.hs)} m ${arrow(x.dir)}${card(x.dir)}</b></div>
+    <div><span>Periodo</span><b>${nf(x.per,0)} s</b></div>
+    <div><span>Viento</span><b>${nf(x.ws,0)} km/h ${arrow(x.wd)}${card(x.wd)}</b></div>
+    <div><span>Rachas</span><b>${nf(x.wg,0)} km/h</b></div>
+    <div><span>Presión</span><b>${nf(x.p,0)} hPa${tr}</b></div>
+    <div><span>Agua</span><b>${nf(x.sst)} °C</b></div>
+  </div>`+wxTable(r,hm);
+}
+function wxTable(r,hm){
+  let rows="";
+  for(let t=r.start;t<=r.end-H;t+=3*H){const x=wxAt(r.wx,t);if(!x)continue;const inW=t+90*MIN>=r.best.a&&t-90*MIN<=r.best.b;const c=inW?' class="win"':"";
+    rows+=`<tr><td${c}>${hm(t)}</td><td${c}>${nf(x.hs)} m ${card(x.dir)}</td><td${c}>${nf(x.per,0)} s</td><td${c}>${nf(x.ws,0)} (${nf(x.wg,0)}) ${card(x.wd)}</td><td${c}>${x.pp==null?"–":x.pp+" %"}</td></tr>`;}
+  return rows?`<div class="wxt"><table><thead><tr><th>Hora</th><th>Ola</th><th>Periodo</th><th>Viento km/h (rachas)</th><th>Lluvia</th></tr></thead><tbody>${rows}</tbody></table></div>`:"";
+}
+
+/* ===== avisos de seguridad ===== */
+function renderAlerts(r,sp,P,hm){
+  const A=[], a=r.best.a, b=r.best.b;
+  let hsMax=null,perMax=null,wgMax=null,wsMax=null;
+  for(let t=a;t<=b;t+=H){const x=wxAt(r.wx,t);if(!x)continue;
+    if(x.hs!=null)hsMax=Math.max(hsMax??0,x.hs);if(x.per!=null&&x.hs!=null&&x.hs>=1.2)perMax=Math.max(perMax??0,x.per);
+    if(x.wg!=null)wgMax=Math.max(wgMax??0,x.wg);if(x.ws!=null)wsMax=Math.max(wsMax??0,x.ws);}
+  if(hsMax!=null){
+    if(hsMax>=2.5)A.push(["alto","Mar fuerte",`Hasta ${nf(hsMax)} m en la ventana. No pesques en piedra baja ni en espigones batidos por la mar.`]);
+    else if(hsMax>=1.8)A.push(["medio","Mar movida",`Hasta ${nf(hsMax)} m. Mantente lejos del borde en piedra y no le des la espalda al mar.`]);}
+  if(perMax!=null&&perMax>=13)A.push(["medio","Mar de fondo de periodo largo",`Olas de ${nf(perMax,0)} s: llegan series mucho más grandes que la media sin avisar.`]);
+  if(wgMax!=null&&wgMax>=60)A.push(["alto","Rachas muy fuertes",`Hasta ${nf(wgMax,0)} km/h. Lances y equilibrio comprometidos en piedra y espigón.`]);
+  else if(wsMax!=null&&wsMax>=35)A.push(["medio","Viento fuerte",`${nf(wsMax,0)} km/h de media en la ventana.`]);
+  if(r.w>=.25){
+    const lows=r.ex.filter(e=>!e.hi&&e.t>=a-2*H&&e.t<=b+H);
+    for(const lo of lows){
+      const hi=r.ex.find(e=>e.hi&&e.t>lo.t);if(!hi)continue;
+      const range=hi.h-lo.h, p=predictor(r.st);
+      let best=0,bt=lo.t;for(let t=lo.t;t<=hi.t-H;t+=10*MIN){const d=p.getWaterLevelAtTime({time:new Date(t+H)}).level-p.getWaterLevelAtTime({time:new Date(t)}).level;if(d>best){best=d;bt=t;}}
+      const dark=lo.t<r.sun.rise+30*MIN||lo.t>r.sun.set-30*MIN;
+      if(r.coef>=85||range>=3){
+        A.push([dark?"alto":"medio",`Bajamar viva a las ${hm(lo.t)}${dark?" con poca luz":""}`,`La marea sube ${nf(range)} m hasta la pleamar de las ${hm(hi.t)}, y ${nf(best*100,0)} cm en la hora más rápida (${hm(bt)}–${hm(bt+H)}). Si bajas a piedras que se descubren, vuelve a terreno seguro antes de las ${hm(lo.t+2*H)}.`]);}
+      else if(dark)A.push(["info",`Bajamar a las ${hm(lo.t)} de noche`,`Fíjate de día por dónde vuelves: con la subida algunos pasos se cortan.`]);
+    }
+  }
+  if(b>r.sun.set+30*MIN||a<r.sun.rise)A.push(["info","Parte de la jornada es de noche","Frontal con pilas de repuesto, ropa visible y el camino de vuelta visto de día. Avisa a alguien de dónde vas y a qué hora vuelves."]);
+  const nr=nearReserve(P.lat,P.lon);
+  if(nr)A.push(["res",`${nr.d<=nr.z.r?"Dentro o junto a":"Cerca de"}: ${nr.z.n}`,`${nr.z.t}. La pesca recreativa está prohibida o regulada en parte de la zona. Comprueba límites y normas antes de pescar.`,nr.z.u]);
+  if(!A.length)A.push(["info","Sin avisos especiales","Aun así, revisa el parte oficial antes de salir y no pesques solo en piedra de noche."]);
+  $("alerts").innerHTML=A.map(([l,t,d,u])=>`<li class="${l}"><b>${t}</b>${d}${u?` <a href="${u}" target="_blank" rel="noopener">Ver normativa</a>`:""}</li>`).join("");
+}
+
+/* ===== calendario ===== */
+let lastIcs=null;
+function setCalendar(r,sp,P,b,hm){
+  const z=t=>new Date(t).toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+  const title=`Pesca: ${sp.name} en ${P.label}`;
+  const x=wxAt(r.wx,r.best.mid.t);
+  const dayEx=r.ex.filter(e=>e.t>=r.best.a-6*H&&e.t<=r.best.b+6*H).map(e=>`${e.hi?"Pleamar":"Bajamar"} ${hm(e.t)} (${e.h.toFixed(1)} m)`).join(", ");
+  const desc=[`Mejor ventana ${hm(r.best.a)}–${hm(r.best.b)} · ${LVL[level(r.day)]}`,`Cebo: ${b.main}. Alternativas: ${b.alt.join(", ")}.`,`Montaje: ${b.rig}`,`Mareas: ${dayEx} · coeficiente ${r.coef}`,
+    x?`Parte: ola ${nf(x.hs)} m ${card(x.dir)}, viento ${nf(x.ws,0)} km/h ${card(x.wd)} (rachas ${nf(x.wg,0)})`:"",`Revisa el parte oficial antes de salir.`,location.href.split("#")[0]].filter(Boolean).join("\n");
+  const loc=`${P.label} (${P.lat.toFixed(4)}, ${P.lon.toFixed(4)})`;
+  $("gcal").href=`https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${z(r.best.a)}/${z(r.best.b)}&details=${encodeURIComponent(desc)}&location=${encodeURIComponent(loc)}`;
+  const esc=v=>v.replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\n/g,"\\n");
+  lastIcs={name:`pesca-${sp.id}-${r.ymd}.ics`,body:["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Costa y Cebo//ES","CALSCALE:GREGORIAN","BEGIN:VEVENT",
+    `UID:${r.best.a}-${sp.id}-${P.lat.toFixed(3)}@costaycebo`,`DTSTAMP:${z(Date.now())}`,`DTSTART:${z(r.best.a)}`,`DTEND:${z(r.best.b)}`,
+    `SUMMARY:${esc(title)}`,`DESCRIPTION:${esc(desc)}`,`LOCATION:${esc(loc)}`,`GEO:${P.lat.toFixed(5)};${P.lon.toFixed(5)}`,
+    "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:Jornada de pesca en 2 horas","TRIGGER:-PT2H","END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n")};
+}
+function downloadIcs(){if(!lastIcs)return;
+  const blob=new Blob([lastIcs.body],{type:"text/calendar;charset=utf-8"}),u=URL.createObjectURL(blob),a=document.createElement("a");
+  a.href=u;a.download=lastIcs.name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),4000);}
 function fmtDur(h){const mm=Math.round(h*60);return mm<60?`${mm} min`:`${Math.floor(mm/60)} h ${String(mm%60).padStart(2,"0")}`;}
 function drawChart(r,hm){
   const Wd=760,Ht=240,pl=34,pr=10,pt=26,pb=26,span=r.end-r.start;
@@ -679,7 +880,8 @@ function drawChart(r,hm){
 function renderWeek(sp){
   const box=$("week"),P=state.place,tz=ZONES[P.zone].tz;box.innerHTML="";
   const base=state.ymd;
-  for(let i=-1;i<6;i++){const ymd=addDays(base,i);const r=compute(ymd,P,sp);const lv=level(r.day);
+  const we=WX[wxKey(P,base)], wwx=we&&we.d?we.d:null;
+  for(let i=-1;i<6;i++){const ymd=addDays(base,i);const r=compute(ymd,P,sp,wwx);const lv=level(r.day);
     const b=document.createElement("button");b.type="button";b.id="wk-"+i;
     if(i===0)b.setAttribute("aria-current","date");
     const wd=fmt(tz,"wd").format(new Date(r.mid+12*H)).replace(".","");
@@ -700,6 +902,7 @@ function renderStatic(){
   $("baitCards").innerHTML=BAITS.map(b=>`<article class="card"><h3>${b.n}</h3><div class="kv"><span>Para</span><span>${b.for}</span><span>Cómo</span><span>${b.how}</span><span>Conservar</span><span>${b.keep}</span></div></article>`).join("");
   $("tallaTable").innerHTML=`<thead><tr><th>Especie</th>${Object.values(CALS).map(c=>`<th>${c}</th>`).join("")}</tr></thead><tbody>`+
     TALLAS.map(r=>`<tr><td>${r[0]}</td>${r.slice(1).map(v=>`<td class="n">${v==="–"?v:(/kg/.test(v)?v:v.replace("*","")+" cm"+(v.includes("*")?"*":""))}</td>`).join("")}</tr>`).join("")+`</tbody>`;
+  $("resList").innerHTML=RES.map(z=>`<div><b>${z.n}</b><span>${z.t}</span>${z.u?`<a href="${z.u}" target="_blank" rel="noopener">Ficha y normativa (MAPA)</a>`:`<span>Normativa: Xunta, Govern o parque correspondiente</span>`}</div>`).join("");
   $("licList").innerHTML=LIC.map(([n,w,u])=>`<div><b>${n}</b>${u?`<a href="${u}" target="_blank" rel="noopener">${w}</a>`:`<span>${w}</span>`}</div>`).join("");
 }
 function bestLight(s){const e=Object.entries(s.light).sort((a,b)=>b[1]-a[1]).filter(x=>x[1]>=.85).map(x=>x[0]);return e.join(", ").replace(/^./,c=>c.toUpperCase());}
@@ -726,13 +929,14 @@ function initSelect(){
   for(let i=0;i<70;i++){const x=rnd()*600,y=rnd()*360,w=6+rnd()*22;s+=`<path d="M${x.toFixed(0)},${y.toFixed(0)}q${(w/2).toFixed(0)},-3 ${w.toFixed(0)},0" fill="none" stroke="#fff" stroke-opacity="${(.15+rnd()*.35).toFixed(2)}" stroke-width="1.4" stroke-linecap="round"/>`;}
   svg.innerHTML=s;})();
 buildMap();initSelect();renderStatic();
+$("icsBtn").addEventListener("click",downloadIcs);
 const savedSp=store.get("sp");if(savedSp&&SP.some(s=>s.id===savedSp))state.sp=savedSp;
 state.ymd=fmt("Europe/Madrid","ymd").format(new Date());$("fecha").value=state.ymd;
 $("fecha").addEventListener("change",()=>{if($("fecha").value){state.ymd=$("fecha").value;renderPlan();}});
 let pl=null;try{pl=JSON.parse(store.get("place")||"null");}catch(e){}
 if(pl&&typeof pl.lat==="number")setPlace(pl.lat,pl.lon,pl.label);else setPlace(43.353,-8.205,"Miño (ría de Betanzos)");
 window.addEventListener("hashchange",route);route();
-window.__t={compute,SP,STATIONS,setPlace,zoneOf};
+window.__t={compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
 })();
 </script>
 
