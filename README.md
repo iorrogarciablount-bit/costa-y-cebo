@@ -1,5 +1,7 @@
 # Costa y Cebo
 
+**Estado: versión 0.1 alfa.** Funcionalidad completa para uso personal; pendiente de pulir la comodidad de uso.
+
 Planificador de pesca recreativa desde costa para toda España: eliges un punto en el mapa, el día y la especie, y te da la mejor ventana horaria, el cebo, la marea, el parte de mar y viento, avisos de seguridad, los periodos solunares y la talla mínima. La jornada se puede añadir al calendario.
 
 ## Estructura
@@ -30,6 +32,7 @@ Para probar en local basta con abrir `public/index.html` en el navegador.
 
 - **Mareas:** constantes armónicas TICON-4 (Hart-Davis, M., Dettmering, D., Seitz, F., 2025, SEANOE, https://doi.org/10.17882/109129), vía la base de datos Neaps (https://github.com/openwatersio/tide-database). Licencia **CC BY-NC 4.0**: uso no comercial y con atribución.
 - **Parte de mar y viento:** Open-Meteo (https://open-meteo.com), datos CC BY 4.0. La API es gratuita para uso no comercial; un uso comercial requiere plan de pago.
+- **Fondos:** EMODnet Bathymetry (capas `emodnet:mean_multicolour` y `emodnet:contours`, y profundidad por punto), propiedad de la UE, CC BY 4.0. Malla de ~100–250 m: aproximado junto a la costa.
 - **Predictor de mareas:** `@neaps/tide-predictor` (MIT).
 - **Mapa base y ortofoto:** Instituto Geográfico Nacional (IGN Base y PNOA), CC BY 4.0 scne.es. Mapa con Leaflet (BSD-2-Clause).
 - **Costa de respaldo:** Natural Earth (dominio público), vía `world-atlas`.
