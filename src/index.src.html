@@ -93,6 +93,12 @@ h1,h2,h3{text-wrap:balance}
 .leaflet-popup-content{font-size:14px;line-height:1.45;margin:12px 14px}
 .leaflet-popup-content b{color:var(--brand)}
 .mapbtns{display:flex;gap:6px;flex-wrap:wrap}
+.depthleg{background:#fff;border:1px solid var(--line);padding:4px;max-width:120px;max-height:160px;overflow:hidden;display:grid;gap:3px;font-size:12.5px;line-height:1.35;box-shadow:0 1px 4px #0002}
+.depthleg b{color:var(--brand);font-size:13.5px}
+.depthleg img{max-width:100%;margin-top:4px;background:#fff}
+.depthleg .sm{color:var(--muted)}
+.depthpop .leaflet-popup-content{margin:8px 12px;font-size:14px;text-align:center}
+.depthpop .leaflet-popup-content span{color:var(--muted);font-size:12px}
 .mapbtns button{background:var(--panel);border:1px solid var(--line);color:var(--brand);border-radius:2px;padding:6px 10px;font-size:14px;cursor:pointer;min-height:36px}
 .mapbtns button[aria-pressed="true"]{background:var(--brand);color:#fff;border-color:var(--brand)}
 .mapfoot{display:grid;gap:8px;padding:10px 14px 14px;border-top:1px solid var(--line)}
@@ -307,6 +313,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
       </div>
       <div id="map" role="application" aria-label="Mapa de la costa. Haz zoom y toca el punto donde vas a pescar."></div>
       <div class="mapfoot">
+        <p class="note" id="fondoHint" hidden></p>
         <div class="maplegend"><span><i style="background:var(--sea-line);border-radius:50%;width:10px;height:10px"></i>Mareógrafo</span><span><i style="background:var(--res-soft);border:2px solid var(--res)"></i>Reserva: pesca regulada</span><span><i style="background:var(--danger-soft);border:2px solid var(--danger)"></i>Prohibido pescar</span><span><i style="border:2px dashed var(--res);border-radius:50%;width:10px;height:10px"></i>Reserva sin límites dibujados</span></div>
         <p class="small" style="margin:0">Límites oficiales dibujados en Galicia: Os Miñarzos, Ría de Cedeira e Illas Atlánticas. Toca una zona para ver sus normas.</p>
         <div class="place"><b id="placeName">–</b><span class="zone" id="zoneTag">–</span></div>
@@ -810,16 +817,17 @@ function nearReserve(lat,lon){let best=null;for(const z of RES){if(z.mapped)cont
 
 /* ===== profundidad aproximada (EMODnet, malla de ~115 m) ===== */
 const DEPTH={};
+function getDepth(lat,lon){
+  const k=lat.toFixed(4)+","+lon.toFixed(4);
+  if(DEPTH[k])return DEPTH[k];
+  DEPTH[k]=fetch(`https://rest.emodnet-bathymetry.eu/depth_sample?geom=POINT(${lon.toFixed(5)}%20${lat.toFixed(5)})`)
+    .then(r=>r.ok?r.json():Promise.reject()).then(j=>{const v=j&&(j.avg??j.smoothed??j.mean);return typeof v==="number"?v:null;})
+    .catch(()=>{delete DEPTH[k];return undefined;});
+  return DEPTH[k];
+}
+const depthTxt=(v,long)=>v===undefined?"no disponible ahora":v===null?"sin dato":v>=0?"tierra o muy somero":`≈ ${Math.round(-v)} m`+(long?" (modelo de malla ~100–250 m; junto a la orilla, menos)":"");
 function showDepth(P){
-  const k=P.lat.toFixed(4)+","+P.lon.toFixed(4),put=t=>{const el=$("depthDd");if(el&&state.place===P)el.textContent=t;};
-  if(DEPTH[k]!==undefined){put(DEPTH[k]);return;}
-  fetch(`https://rest.emodnet-bathymetry.eu/depth_sample?geom=POINT(${P.lon.toFixed(5)}%20${P.lat.toFixed(5)})`).then(r=>r.ok?r.json():Promise.reject())
-    .then(j=>{const v=j&&(j.avg??j.smoothed??j.mean);let t;
-      if(typeof v!=="number")t="sin dato";
-      else if(v>=0)t="tierra o muy somero en el modelo: lanza mar adentro";
-      else t=`${Math.round(-v)} m (dato del modelo en una malla de ~100–250 m; en la orilla será menos)`;
-      DEPTH[k]=t;put(t);})
-    .catch(()=>{put("activa «Fondos» en el mapa para verlo");});
+  getDepth(P.lat,P.lon).then(v=>{const el=$("depthDd");if(el&&state.place===P)el.textContent=depthTxt(v,true);});
 }
 
 /* ===== zonas con límites oficiales ===== */
@@ -1114,10 +1122,23 @@ function buildMap(){
   $("vPen").onclick=()=>LM.fitBounds(VIEW_PEN);
   $("vCan").onclick=()=>LM.fitBounds(VIEW_CAN);
   const EMOD="https://ows.emodnet-bathymetry.eu/wms",EATTR='Fondos: <a href="https://emodnet.ec.europa.eu/en/bathymetry" target="_blank" rel="noopener">EMODnet Bathymetry</a> (CC BY 4.0)';
-  const fondo=L.layerGroup([
-    L.tileLayer.wms(EMOD,{layers:"emodnet:mean_multicolour",format:"image/png",transparent:true,opacity:.55,attribution:EATTR,maxZoom:19}),
-    L.tileLayer.wms(EMOD,{layers:"emodnet:contours",format:"image/png",transparent:true,opacity:.9,maxZoom:19})]);
-  $("vFondo").onclick=()=>{const on=$("vFondo").getAttribute("aria-pressed")!=="true";$("vFondo").setAttribute("aria-pressed",on);if(on)fondo.addTo(LM);else LM.removeLayer(fondo);};
+  const fColor=L.tileLayer.wms(EMOD,{layers:"emodnet:mean_multicolour",format:"image/png",transparent:true,opacity:.35,attribution:EATTR,maxZoom:19});
+  const fLines=L.tileLayer.wms(EMOD,{layers:"emodnet:contours",format:"image/png",transparent:true,opacity:1,attribution:EATTR,maxZoom:19});
+  const LEG=EMOD+"?SERVICE=WMS&REQUEST=GetLegendGraphic&VERSION=1.3.0&FORMAT=image/png&LAYER=emodnet:mean_multicolour";
+  const legend=L.control({position:"bottomleft"});
+  legend.onAdd=()=>{const d=L.DomUtil.create("div","depthleg");L.DomEvent.disableClickPropagation(d);return d;};
+  let fMode=0;
+  const FLBL=["Fondos","Fondos: líneas","Fondos: color"];
+  function setFondo(m){fMode=m;
+    [fColor,fLines].forEach(l=>LM.hasLayer(l)&&LM.removeLayer(l));
+    if(m>=1)fLines.addTo(LM);if(m===2)fColor.addTo(LM);
+    $("vFondo").textContent=FLBL[m];$("vFondo").setAttribute("aria-pressed",m>0);
+    if(m===2){legend.addTo(LM);legend.getContainer().innerHTML=`<img src="${LEG}" alt="Escala de profundidad" onerror="this.parentNode.remove()">`;}else legend.remove();
+    $("fondoHint").hidden=!m;
+    $("fondoHint").textContent=m===1?"Fondos: las líneas son isóbatas (igual profundidad). Toca el mapa para ver los metros de un punto. Otro toque en «Fondos» colorea la profundidad.":m===2?"Fondos: color más oscuro, más profundo. Toca el mapa para ver los metros de un punto. Otro toque en «Fondos» quita la capa.":"";}
+  $("vFondo").onclick=()=>setFondo((fMode+1)%3);
+  LM.on("click",e=>{if(!fMode)return;const ll=e.latlng,pop=L.popup({autoPan:false,closeButton:false,className:"depthpop"}).setLatLng(ll).setContent("Profundidad…").openOn(LM);
+    getDepth(ll.lat,ll.lng).then(v=>pop.setContent(`<b>${depthTxt(v)}</b><br><span>Modelo EMODnet</span>`));});
   $("vOrto").onclick=()=>{const on=$("vOrto").getAttribute("aria-pressed")!=="true";$("vOrto").setAttribute("aria-pressed",on);
     if(on){LM.removeLayer(baseMap);baseOrto.addTo(LM);}else{LM.removeLayer(baseOrto);baseMap.addTo(LM);}};
 }
