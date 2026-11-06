@@ -9,7 +9,8 @@ public/index.html      Página publicada (generada, no editar a mano)
 src/index.src.html     Código fuente de la página (HTML, CSS y JS)
 src/data/tp.js         Predictor armónico de mareas (@neaps/tide-predictor, empaquetado)
 src/data/stations.json Constantes armónicas de 45 mareógrafos españoles
-src/data/map.json      Línea de costa simplificada para el mapa
+src/data/zones.json    Límites oficiales de reservas y zonas protegidas (GeoJSON)
+src/data/coast.json    Costa simplificada de respaldo si no carga el mapa del IGN
 build.py               Une fuente y datos en public/index.html
 wrangler.jsonc         Configuración del Worker de Cloudflare
 ```
@@ -27,8 +28,9 @@ Para probar en local basta con abrir `public/index.html` en el navegador.
 - **Mareas:** constantes armónicas TICON-4 (Hart-Davis, M., Dettmering, D., Seitz, F., 2025, SEANOE, https://doi.org/10.17882/109129), vía la base de datos Neaps (https://github.com/openwatersio/tide-database). Licencia **CC BY-NC 4.0**: uso no comercial y con atribución.
 - **Parte de mar y viento:** Open-Meteo (https://open-meteo.com), datos CC BY 4.0. La API es gratuita para uso no comercial; un uso comercial requiere plan de pago.
 - **Predictor de mareas:** `@neaps/tide-predictor` (MIT).
-- **Línea de costa:** Natural Earth (dominio público), vía `world-atlas`.
+- **Mapa base y ortofoto:** Instituto Geográfico Nacional (IGN Base y PNOA), CC BY 4.0 scne.es. Mapa con Leaflet (BSD-2-Clause).
+- **Costa de respaldo:** Natural Earth (dominio público), vía `world-atlas`.
 - **Tallas mínimas:** RD 560/1995, RD 347/2011 y Reglamento (UE) 2019/1241. Orientativas; en aguas interiores manda la norma autonómica.
-- **Reservas marinas:** posición aproximada, no límites legales. Fichas oficiales en el MAPA y en cada comunidad.
+- **Reservas marinas:** límites oficiales de Os Miñarzos (Decreto 87/2007), Ría de Cedeira (Decreto 28/2009 y plan de gestión 2023) e Illas Atlánticas (coordenadas oficiales del Parque y Ley 15/2002). La ZEP I de Cedeira y los cierres por tierra son aproximados. El resto de reservas aparecen como punto hasta añadir sus límites.
 
 Las mareas son astronómicas y el parte es una previsión de modelo: orientativos, no usar para navegación.
