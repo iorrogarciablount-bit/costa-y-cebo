@@ -3,6 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#1b7cc0">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="description" content="Planificador de pesca desde costa en España: mejor hora, cebo, mareas, parte de mar, solunar, tallas y licencias.">
 <style>
 :root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
@@ -37,6 +42,20 @@ img{max-width:100%}
   --sea:#12324a; --sea-line:#5fb0e6; --land:#2b3238; --land-other:#1b2229; --land-stroke:#7f8f9b;
   --tide:#5fb0e6; --tide-soft:#5fb0e626; --night:#00000047; --buoy:#5fb0e6; --buoy-soft:#5fb0e62e; --mark:#ff7a3c;
   --solmaj:#9bc46a55; --solmin:#9bc46a26; --good:#62c06a; --warn:#e0ad45; --chip:#16293a; --soft:#0f1a24; --res:#ff79b8; --res-soft:#ff79b81f; --danger:#ff8a80; --danger-soft:#ff8a801a; --caution:#f2c14e; --caution-soft:#f2c14e1a; color-scheme:dark}
+/* Modo noche: rojo tenue sobre negro para no perder la visión nocturna */
+:root[data-night="1"]{
+  --brand:#e04a3a; --brand-dark:#3a0b07; --brand-ink:#ff8a7a; --head:#060101; --panelblue:#2a0705; --deep:#120302;
+  --bg:#000000; --panel:#0a0202; --ink:#d9483a; --muted:#9c3328; --line:#3a0e0a;
+  --sea:#120403; --sea-line:#a8352a; --land:#1b0605; --land-other:#0e0302; --land-stroke:#6e2219;
+  --tide:#e04a3a; --tide-soft:#e04a3a22; --night:#00000066; --buoy:#e04a3a; --buoy-soft:#e04a3a26; --mark:#ff6a55;
+  --solmaj:#b0302455; --solmin:#b0302428; --good:#d9483a; --warn:#d9483a; --chip:#1a0504; --soft:#0f0302;
+  --res:#ff6a55; --res-soft:#ff6a551f; --danger:#ff7060; --danger-soft:#ff70601f; --caution:#d9483a; --caution-soft:#d9483a1a; color-scheme:dark}
+:root[data-night="1"] .leaflet-tile-pane{filter:grayscale(1) brightness(.5) sepia(1) hue-rotate(-50deg) saturate(5) brightness(.6)}
+:root[data-night="1"] .hero-sea svg{filter:grayscale(1) sepia(1) hue-rotate(-50deg) saturate(3) brightness(.4)}
+:root[data-night="1"] .chips button[aria-pressed="true"],:root[data-night="1"] .btn.primary,:root[data-night="1"] th{color:#000}
+:root[data-night="1"] .hero-panel{color:#ff8a7a}
+:root[data-night="1"] .tool[aria-pressed="true"]{background:var(--chip);color:var(--brand);border-color:var(--brand)}
+:root[data-night="1"] input[type=checkbox]{filter:brightness(.6)}
 html,body{background:var(--bg);color:var(--ink)}
 body{font-family:var(--f-body);font-size:16px;line-height:1.55}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--head)}
@@ -196,6 +215,18 @@ dl.facts dd{margin:0;font-size:14.5px;font-weight:600}
 .picks{display:grid;gap:6px;margin:0;padding:0;list-style:none}
 .picks li{padding:8px 12px;background:var(--soft);border-left:4px solid var(--brand);font-size:15px}
 .spotcards .card .acts{display:flex;gap:6px;flex-wrap:wrap}
+.tools{display:flex;gap:6px;align-items:center}
+.tool{display:inline-flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--line);color:var(--brand);border-radius:2px;padding:6px 10px;font-size:14px;cursor:pointer;min-height:36px}
+.tool svg{width:16px;height:16px}
+.tool[aria-pressed="true"]{background:var(--brand);color:var(--bg);border-color:var(--brand)}
+@media (max-width:760px){.tools{margin-left:auto}}
+.offline{background:var(--caution-soft);border-bottom:1px solid var(--caution);color:var(--ink);font-size:14px;padding:6px 0}
+.blk ul.check{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.check li label{display:flex;gap:10px;align-items:flex-start;padding:7px 10px;background:var(--soft);cursor:pointer;font-size:15px}
+.check li input{width:18px;height:18px;margin-top:2px;accent-color:var(--brand);flex:none}
+.check li input:checked+span{text-decoration:line-through;color:var(--muted)}
+.check .grp{font-size:13px;font-weight:600;color:var(--muted);margin:8px 0 2px;padding:0;background:none;text-transform:uppercase;letter-spacing:.05em}
+.checkbar{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:6px}
 .note{font-size:14.5px;background:var(--chip);border-left:4px solid var(--brand);border-radius:2px;padding:9px 12px;margin:0}
 
 /* semana */
@@ -248,6 +279,10 @@ footer .in{display:grid;gap:6px;max-width:1180px}
       <svg viewBox="0 0 54 40" aria-hidden="true"><path d="M4 23c6-9 17-14 27-11 7 2 12 6 15 11-3 5-8 9-15 11-10 3-21-2-27-11z" fill="none" stroke="var(--brand)" stroke-width="2.2" stroke-linejoin="round"/><path d="M8 25c9 4 22 5 34-2" fill="none" stroke="var(--brand)" stroke-width="1.6" opacity=".6"/><path d="M46 23l7-7v14z" fill="none" stroke="var(--brand)" stroke-width="2.2" stroke-linejoin="round"/><path d="M22 3c3 4 3 8 0 11" fill="none" stroke="var(--brand)" stroke-width="1.6" stroke-linecap="round"/><circle cx="14" cy="21" r="1.6" fill="var(--brand)"/></svg>
       <span class="wm">costa<i>y</i>cebo</span>
     </a>
+    <div class="tools">
+      <button type="button" class="tool" id="installBtn" hidden><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v8m0 0l-3-3m3 3l3-3M2.5 13.5h11" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Instalar</button>
+      <button type="button" class="tool" id="nightBtn" aria-pressed="false" title="Pantalla en rojo tenue para pescar de noche"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M13.5 10.2A6 6 0 0 1 5.8 2.5a6 6 0 1 0 7.7 7.7z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Modo noche</button>
+    </div>
     <nav aria-label="Secciones">
       <a href="#planificador" data-v="planificador">Planificador</a>
       <a href="#puestos" data-v="puestos">Mis puestos</a>
@@ -259,6 +294,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
   </div>
 </header>
 
+<div class="offline gut" id="offline" hidden><div class="in">Sin conexión: mareas, sol, luna, cebos, reservas y tus puestos siguen funcionando. El parte es el último que se guardó.</div></div>
 <main class="gut">
 <div class="in">
 
@@ -345,6 +381,11 @@ footer .in{display:grid;gap:6px;max-width:1180px}
       </div>
 
       <div class="blk"><h3>Seguridad</h3><ul class="alerts" id="alerts"></ul></div>
+
+      <div class="blk"><h3>Qué llevar</h3>
+        <div class="checkbar"><span class="small" id="checkCount"></span><button type="button" class="btn sm" id="checkReset">Desmarcar todo</button></div>
+        <ul class="check" id="checklist"></ul>
+      </div>
 
       <div class="blk"><h3>Parte de mar y viento</h3>
         <div id="wxBox"><p class="wx-msg">Cargando el parte…</p></div>
@@ -463,6 +504,7 @@ footer .in{display:grid;gap:6px;max-width:1180px}
 </div>
 </main>
 <footer class="gut"><div class="in">
+  <div id="iosHint" hidden>En iPhone: pulsa Compartir y luego «Añadir a pantalla de inicio» para usarla como app, también sin conexión.</div>
   <div>Mareas astronómicas orientativas. No usar para navegación. Consulta las tablas oficiales de Puertos del Estado y el parte de AEMET.</div>
   <div>Parte de mar y viento: <a href="https://open-meteo.com/" target="_blank" rel="noopener" style="color:inherit">Open-Meteo</a>, datos con licencia <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener" style="color:inherit">CC BY 4.0</a>, uso no comercial.</div>
   <div>Constantes de marea: TICON-4 (Hart-Davis, Dettmering y Seitz, 2025, <a href="https://doi.org/10.17882/109129" target="_blank" rel="noopener" style="color:inherit">doi:10.17882/109129</a>), a través de la <a href="https://github.com/openwatersio/tide-database" target="_blank" rel="noopener" style="color:inherit">base de datos Neaps</a>, con licencia <a href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank" rel="noopener" style="color:inherit">CC BY-NC 4.0</a>. Costa: Natural Earth.</div>
@@ -801,6 +843,10 @@ function pressF(sp,dp){if(dp==null||!PRESS_UP.includes(sp.id))return 1;return dp
 function ymdUTC(ms){return new Date(ms).toISOString().slice(0,10);}
 function wxKey(place,base){return place.lat.toFixed(2)+","+place.lon.toFixed(2)+","+base;}
 async function getJSON(url){const r=await fetch(url);let j=null;try{j=await r.json();}catch(e){}if(!r.ok)throw new Error((j&&j.reason)||("HTTP "+r.status));return j;}
+/* El último parte de cada sitio se guarda en el navegador para poder verlo sin conexión. */
+function saveWxLocal(k,d){try{const idx=JSON.parse(localStorage.getItem("wx:index")||"[]").filter(x=>x!==k);idx.push(k);
+  while(idx.length>8)localStorage.removeItem(idx.shift());localStorage.setItem(k,JSON.stringify(d));localStorage.setItem("wx:index",JSON.stringify(idx));}catch(e){}}
+function loadWxLocal(k){try{const d=JSON.parse(localStorage.getItem(k)||"null");return d&&d.ok?d:null;}catch(e){return null;}}
 function loadWx(place,base){
   const k=wxKey(place,base);if(WX[k])return WX[k].p;
   const sd=addDays(base,-1), ed=addDays(base,7), ll=`latitude=${place.lat.toFixed(3)}&longitude=${place.lon.toFixed(3)}`;
@@ -810,7 +856,9 @@ function loadWx(place,base){
     if(m.status==="fulfilled"&&m.value){d.marine=m.value.hourly;d.mdist=m.value.dist;}
     if(f.status==="fulfilled"&&f.value&&f.value.hourly)d.fc=f.value.hourly;
     d.ok=!!(d.marine||d.fc);
-    if(!d.ok)d.err=(f.reason&&f.reason.message)||(m.reason&&m.reason.message)||"sin datos";
+    const sk="wx:"+place.lat.toFixed(2)+","+place.lon.toFixed(2);
+    if(d.ok){d.saved=Date.now();saveWxLocal(sk,d);}
+    else{const old=loadWxLocal(sk);if(old){old.stale=true;WX[k].d=old;return old;}d.err=(f.reason&&f.reason.message)||(m.reason&&m.reason.message)||"sin datos";}
     WX[k].d=d;return d;});
   WX[k]={p,d:null};return p;
 }
@@ -1125,6 +1173,7 @@ function renderPlan(){
   renderWx(r,hm,wxe&&!wxe.d);
   renderAlerts(r,sp,P,hm);
   setCalendar(r,sp,P,b,hm);
+  renderChecklist(r,sp,P,b);
 }
 function renderWx(r,hm,loading){
   const box=$("wxBox"), wx=r.wx;
@@ -1134,7 +1183,8 @@ function renderWx(r,hm,loading){
     const far=(localMidnight(r.ymd,r.tz)-Date.now())/864e5;
     box.innerHTML=`<p class="wx-msg">${far>14?"El parte solo llega a unos 7–14 días vista. Vuelve a mirarlo más cerca de la fecha.":far<-2?"No hay parte para fechas pasadas.":"No se ha podido cargar el parte ahora mismo. La recomendación usa solo marea, luz y luna."}</p>`;return;}
   const tr=x.dp==null?"":x.dp<-1.5?" ↓":x.dp>1.5?" ↑":" =";
-  box.innerHTML=`<div class="wx-sum">
+  const stale=wx.stale&&wx.saved?`<p class="wx-msg" style="margin:0 0 8px"><b>Sin conexión:</b> parte guardado el ${new Date(wx.saved).toLocaleString("es-ES",{weekday:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})}.</p>`:"";
+  box.innerHTML=stale+`<div class="wx-sum">
     <div><span>Oleaje</span><b>${nf(x.hs)} m ${arrow(x.dir)}${card(x.dir)}</b></div>
     <div><span>Periodo</span><b>${nf(x.per,0)} s</b></div>
     <div><span>Viento</span><b>${nf(x.ws,0)} km/h ${arrow(x.wd)}${card(x.wd)}</b></div>
@@ -1148,6 +1198,55 @@ function wxTable(r,hm){
   for(let t=r.start;t<=r.end-H;t+=3*H){const x=wxAt(r.wx,t);if(!x)continue;const inW=t+90*MIN>=r.best.a&&t-90*MIN<=r.best.b;const c=inW?' class="win"':"";
     rows+=`<tr><td${c}>${hm(t)}</td><td${c}>${nf(x.hs)} m ${card(x.dir)}</td><td${c}>${nf(x.per,0)} s</td><td${c}>${nf(x.ws,0)} (${nf(x.wg,0)}) ${card(x.wd)}</td><td${c}>${x.pp==null?"–":x.pp+" %"}</td></tr>`;}
   return rows?`<div class="wxt"><table><thead><tr><th>Hora</th><th>Ola</th><th>Periodo</th><th>Viento km/h (rachas)</th><th>Lluvia</th></tr></thead><tbody>${rows}</tbody></table></div>`:"";
+}
+
+/* ===== qué llevar ===== */
+const RODS={congrio:"Caña de fondo potente (4–4,5 m, 150–250 g) y carrete con buen freno",corvina:"Caña de fondo potente (4–4,5 m) y carrete grande con mucho freno",
+  lubina:"Caña de 4–4,5 m de acción media, o de spinning si vas con vivo",sargo:"Caña de roca o surfcasting ligera (4 m) con puntera sensible",
+  dorada:"Caña de surfcasting ligera y carrete con freno suave",herrera:"Caña de surfcasting ligera con puntera sensible",vieja:"Caña ligera de roca, corta y rápida",
+  calamar:"Caña de egi (2,4–2,7 m) con trenzado fino",choco:"Caña de egi (2,4–2,7 m) con trenzado fino"};
+const FRESH=["sardina","caballa","navaja","gusana","coreana","tita","mejillon","gamba","cefalopodo","cangrejo"];
+const ELASTIC=["sardina","navaja","mejillon","cangrejo","tita","potera"];
+function checklistItems(r,sp,P,b){
+  const G=[];const add=(g,id,t)=>{let x=G.find(y=>y.g===g);if(!x){x={g,items:[]};G.push(x);}x.items.push({id,t});};
+  add("Papeles","lic","Licencia de pesca recreativa y DNI");
+  add("Equipo","rod",RODS[sp.id]||"Caña y carrete");
+  add("Equipo","rig","Montaje: "+b.rig.split(" · ").slice(0,2).join(", "));
+  add("Equipo","rep",sp.id==="calamar"||sp.id==="choco"?"Jibioneras de repuesto (se enganchan en el fondo)":"Bajos ya montados y plomos de repuesto (en piedra se pierden)");
+  const baits=[b.main,...b.alt.slice(0,1)].map(t=>({t,k:baitFor(t)}));
+  baits.forEach((x,i)=>add("Cebo","bait"+i,x.t));
+  const ids=baits.map(x=>x.k&&x.k.id);
+  if(ids.some(id=>ELASTIC.includes(id)))add("Cebo","elas","Hilo elástico para atar el cebo");
+  if(ids.some(id=>FRESH.includes(id)))add("Cebo","cool","Nevera pequeña con hielo para el cebo");
+  if(ids.includes("vivo"))add("Cebo","vivo","Aparejo de plumillas (sabiki) y cubo con aireador para el vivo");
+  const night=r.best.b>r.sun.set+30*MIN||r.best.a<r.sun.rise;
+  if(night){add("Noche","front","Frontal con luz roja y pilas de repuesto");add("Noche","star","Luz química o cascabel para la puntera");add("Noche","refl","Ropa con algo reflectante");add("Noche","bat","Móvil cargado y batería externa");}
+  let pp=0,ta=null,hs=0,ws=0;
+  for(let t=r.best.a;t<=r.best.b;t+=H){const x=wxAt(r.wx,t);if(!x)continue;pp=Math.max(pp,x.pp||0);if(x.ta!=null)ta=ta==null?x.ta:Math.min(ta,x.ta);hs=Math.max(hs,x.hs||0);ws=Math.max(ws,x.ws||0);}
+  if(pp>=40)add("Ropa","rain",`Chubasquero (probabilidad de lluvia ${pp} %)`);
+  if(ta!=null&&ta<12)add("Ropa","warm",`Ropa de abrigo: ${nf(ta,0)} °C en la ventana`);
+  else if(night)add("Ropa","warm","Ropa de abrigo: de noche refresca junto al mar");
+  add("Ropa","shoe",hs>=1.8?"Calzado con suela de agarre: hay mar y la piedra estará mojada":"Calzado con suela de agarre para la piedra");
+  if(ws>=25)add("Equipo","lead",`Plomos más pesados: viento de ${nf(ws,0)} km/h`);
+  add("Útiles","tools","Cuchillo, tijeras y alicates o sacaanzuelos");
+  const cal=ZONES[P.zone].cal,ti=TALLA_SP[sp.id],tv=ti!=null?TALLAS[ti][CAL_IDX[cal]]:null;
+  add("Útiles","meter",tv&&tv!=="–"&&!/kg/.test(tv)?`Medidor: talla mínima de ${sp.name.toLowerCase()} ${tv.replace("*","")} cm`:"Medidor para las tallas mínimas");
+  add("Útiles","rag","Trapo, cubo y bolsa para llevarte la basura");
+  add("Útiles","food","Agua y algo de comer");
+  if(zoneInfo(P.lat,P.lon).inside.length)add("Papeles","rules","Normas de la reserva marina leídas (zonas y horarios)");
+  return G;
+}
+function checkKey(r,sp,P){return "chk:"+P.lat.toFixed(3)+","+P.lon.toFixed(3)+":"+r.ymd+":"+sp.id;}
+function renderChecklist(r,sp,P,b){
+  const G=checklistItems(r,sp,P,b),key=checkKey(r,sp,P);let done={};
+  try{done=JSON.parse(localStorage.getItem(key)||"{}");}catch(e){}
+  let n=0,c=0;
+  $("checklist").innerHTML=G.map(g=>`<li class="grp">${g.g}</li>`+g.items.map(it=>{n++;if(done[it.id])c++;return `<li><label><input type="checkbox" id="ck-${it.id}" data-id="${it.id}"${done[it.id]?" checked":""}><span>${esc(it.t)}</span></label></li>`;}).join("")).join("");
+  const count=()=>{const t=$("checklist").querySelectorAll("input").length,k=$("checklist").querySelectorAll("input:checked").length;$("checkCount").textContent=k===t?"Todo listo":`${k} de ${t} preparado`;};
+  count();
+  $("checklist").querySelectorAll("input").forEach(el=>el.onchange=()=>{done[el.dataset.id]=el.checked;if(!el.checked)delete done[el.dataset.id];
+    try{localStorage.setItem(key,JSON.stringify(done));}catch(e){}count();});
+  $("checkReset").onclick=()=>{try{localStorage.removeItem(key);}catch(e){}renderChecklist(r,sp,P,b);};
 }
 
 /* ===== avisos de seguridad ===== */
@@ -1302,6 +1401,23 @@ function initSelect(){
   svg.innerHTML=s;})();
 buildMap();initSelect();renderStatic();
 $("icsBtn").addEventListener("click",downloadIcs);
+function setNight(on){document.documentElement.toggleAttribute("data-night",false);if(on)document.documentElement.setAttribute("data-night","1");
+  $("nightBtn").setAttribute("aria-pressed",on);store.set("night",on?"1":"0");
+  const tc=document.querySelector('meta[name="theme-color"]');if(tc)tc.content=on?"#000000":"#1b7cc0";
+  if(LM&&LM.eachLayer)LM.eachLayer(l=>{if(l.setStyle&&l.feature)l.setStyle(zoneStyle(l.feature));});
+  if(state.place){drawMarker();renderPlan();}}
+$("nightBtn").addEventListener("click",()=>setNight($("nightBtn").getAttribute("aria-pressed")!=="true"));
+if(store.get("night")==="1")setNight(true);
+function netState(){$("offline").hidden=navigator.onLine!==false;}
+window.addEventListener("online",()=>{netState();for(const k in WX)if(WX[k].d&&WX[k].d.stale)delete WX[k];if(state.place)renderPlan();});
+window.addEventListener("offline",netState);netState();
+let installEvt=null;
+window.addEventListener("beforeinstallprompt",e=>{e.preventDefault();installEvt=e;$("installBtn").hidden=false;});
+$("installBtn").addEventListener("click",async()=>{if(!installEvt)return;installEvt.prompt();try{await installEvt.userChoice;}catch(e){}installEvt=null;$("installBtn").hidden=true;});
+window.addEventListener("appinstalled",()=>{$("installBtn").hidden=true;});
+const isIOS=/iphone|ipad|ipod/i.test(navigator.userAgent),standalone=window.matchMedia&&matchMedia("(display-mode: standalone)").matches||navigator.standalone;
+if(isIOS&&!standalone)$("iosHint").hidden=false;
+if("serviceWorker" in navigator&&(location.protocol==="https:"||location.hostname==="localhost"))window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));
 $("saveSpot").addEventListener("click",()=>{if($("spotForm").hidden)openSpotForm();else $("spotForm").hidden=true;});
 $("spCancel").addEventListener("click",()=>{$("spotForm").hidden=true;});
 $("spotForm").addEventListener("submit",submitSpot);
@@ -1314,7 +1430,7 @@ $("fecha").addEventListener("change",()=>{if($("fecha").value){state.ymd=$("fech
 let pl=null;try{pl=JSON.parse(store.get("place")||"null");}catch(e){}
 if(pl&&typeof pl.lat==="number")setPlace(pl.lat,pl.lon,pl.label);else setPlace(43.353,-8.205,"Miño (ría de Betanzos)");
 window.addEventListener("hashchange",route);route();
-window.__t={SPOTS:()=>SPOTS,runNow,renderCompare,bestFromNow,baitFor,BAITS,zoneInfo,LM:()=>LM,compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
+window.__t={setNight,checklistItems,SPOTS:()=>SPOTS,runNow,renderCompare,bestFromNow,baitFor,BAITS,zoneInfo,LM:()=>LM,compute,SP,STATIONS,setPlace,zoneOf,WX,state,lastIcs:()=>lastIcs};
 })();
 </script>
 
